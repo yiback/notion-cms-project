@@ -1,0 +1,307 @@
+# TIL Garden MVP PRD
+
+## 🎯 핵심 정보
+
+**목적**: Notion을 CMS로 활용하여 개발자가 학습 내용을 기록하고 공유하는 마이크로 블로그
+**사용자**: 학습 내용을 체계적으로 기록하고 포트폴리오로 활용하려는 개발자
+
+## 🚶 사용자 여정
+
+```
+1. 메인 페이지 (/)
+   ↓ [최신 TIL 목록 자동 로딩]
+
+2. 카테고리 필터링 (선택)
+   [전체] → 모든 TIL 표시
+   [AWS] → AWS 관련 TIL만 표시
+   [Database] → Database 관련 TIL만 표시
+   [AI] → AI 관련 TIL만 표시
+   ↓
+
+3. TIL 카드 클릭
+   ↓ [상세 페이지로 이동]
+
+4. TIL 상세 페이지 (/til/[slug])
+   - Notion 블록 렌더링된 본문 확인
+   - 참고 링크 클릭 (외부 사이트)
+   - 메타 정보 확인 (작성일, 카테고리, 태그)
+   ↓
+
+5. 완료
+   → 뒤로가기 버튼 → 메인 페이지
+   → 카테고리 클릭 → 카테고리 페이지
+   → 홈 버튼 → 메인 페이지
+```
+
+## ⚡ 기능 명세
+
+### 1. MVP 핵심 기능
+
+| ID | 기능명 | 설명 | MVP 필수 이유 | 관련 페이지 |
+|----|--------|------|-------------|------------|
+| **F001** | Notion 데이터 연동 | Notion API를 통해 Published 상태의 TIL 목록 조회 | 핵심 콘텐츠 소스 연결 | 메인 페이지, 카테고리 페이지 |
+| **F002** | TIL 목록 표시 | 카드 형식으로 TIL 목록을 최신순 정렬하여 표시 | 사용자 첫 화면 핵심 가치 | 메인 페이지, 카테고리 페이지 |
+| **F003** | 카테고리 필터링 | 카테고리별로 TIL을 분류하여 조회 | 콘텐츠 탐색의 핵심 기능 | 메인 페이지, 카테고리 페이지 |
+| **F004** | TIL 상세 조회 | 개별 TIL의 전체 내용을 Notion 블록 형식으로 렌더링 | 콘텐츠 소비의 최종 목적 | TIL 상세 페이지 |
+| **F005** | 페이지네이션 | 목록을 페이지 단위로 나누어 표시 (10개씩) | 성능 최적화 및 사용성 | 메인 페이지, 카테고리 페이지 |
+
+### 2. MVP 필수 지원 기능
+
+| ID | 기능명 | 설명 | MVP 필수 이유 | 관련 페이지 |
+|----|--------|------|-------------|------------|
+| **F010** | 반응형 레이아웃 | 모바일/태블릿/데스크톱 모든 화면 크기 지원 | 다양한 디바이스 접근성 보장 | 모든 페이지 |
+| **F011** | 메타데이터 표시 | 작성일, 카테고리, 태그 정보 표시 | 콘텐츠 맥락 이해 | TIL 카드, TIL 상세 페이지 |
+| **F012** | 참고 링크 연결 | TIL에 포함된 외부 참고 링크 제공 | 학습 리소스 확장성 | TIL 상세 페이지 |
+| **F013** | 에러 처리 | Notion API 연결 실패 시 사용자 친화적 에러 메시지 | 안정적인 사용자 경험 | 모든 페이지 |
+
+### 3. MVP 이후 기능 (제외)
+
+- 검색 기능 (제목/내용 키워드 검색)
+- 댓글 및 소셜 기능
+- 다크 모드 전환
+- RSS 피드 생성
+- 조회수/좋아요 통계
+- 관련 TIL 추천 기능
+
+## 📱 메뉴 구조
+
+```
+📱 TIL Garden 내비게이션
+├── 🏠 홈
+│   └── 기능: F001, F002, F003, F005 (전체 TIL 목록 + 필터링)
+├── 🏷️ 카테고리 (드롭다운)
+│   ├── AWS → F003 (카테고리별 필터링)
+│   ├── Database → F003
+│   ├── DevOps → F003
+│   ├── AI → F003
+│   ├── Frontend → F003
+│   └── Backend → F003
+└── 📖 About
+    └── 기능: F011 (프로젝트 소개 및 Notion 연동 설명)
+
+🔗 페이지별 내비게이션
+├── TIL 상세 페이지
+│   ├── 🏠 홈으로
+│   ├── ← 뒤로가기
+│   └── 🏷️ 카테고리 클릭 → 해당 카테고리 페이지 이동
+└── 카테고리 페이지
+    └── 🏠 홈으로
+```
+
+---
+
+## 📄 페이지별 상세 기능
+
+### 메인 페이지 (/)
+
+> **구현 기능:** `F001`, `F002`, `F003`, `F005`, `F010`, `F011` | **메뉴 위치:** 홈
+
+| 항목 | 내용 |
+|------|------|
+| **역할** | 랜딩 페이지 겸 TIL 목록 허브, 사용자가 최신 학습 내용을 빠르게 탐색 |
+| **진입 경로** | 직접 접속 (루트 URL) 또는 모든 페이지의 홈 버튼 클릭 |
+| **사용자 행동** | TIL 카드 목록 스크롤, 카테고리 필터 선택, 특정 TIL 클릭하여 상세 페이지 이동 |
+| **주요 기능** | • Notion API를 통해 Published 상태의 TIL 자동 로딩<br>• 최신순 정렬된 TIL 카드 리스트 (제목, 작성일, 카테고리, 태그 요약)<br>• 카테고리 필터 버튼 (전체/AWS/Database/AI 등)<br>• 페이지네이션 (10개씩 표시, 이전/다음 버튼)<br>• **TIL 카드 클릭** → 상세 페이지 이동 |
+| **다음 이동** | TIL 클릭 → TIL 상세 페이지, 카테고리 클릭 → 카테고리 페이지 |
+
+---
+
+### 카테고리 페이지 (/category/[name])
+
+> **구현 기능:** `F001`, `F002`, `F003`, `F005`, `F010`, `F011` | **인증:** 불필요
+
+| 항목 | 내용 |
+|------|------|
+| **역할** | 특정 카테고리(AWS, Database 등)에 속한 TIL만 필터링하여 표시 |
+| **진입 경로** | 메인 페이지 또는 TIL 상세 페이지의 카테고리 버튼 클릭 |
+| **사용자 행동** | 선택한 카테고리의 TIL 목록 확인, 원하는 TIL 클릭 |
+| **주요 기능** | • URL 파라미터(category name)에 따른 Notion 필터링 쿼리<br>• 해당 카테고리 TIL 카드 리스트 (메인과 동일 형식)<br>• 페이지네이션 (10개씩)<br>• 현재 카테고리 이름 표시 (헤더)<br>• **홈으로 버튼** |
+| **다음 이동** | TIL 클릭 → TIL 상세 페이지, 홈 버튼 → 메인 페이지 |
+
+---
+
+### TIL 상세 페이지 (/til/[slug])
+
+> **구현 기능:** `F004`, `F010`, `F011`, `F012` | **인증:** 불필요
+
+| 항목 | 내용 |
+|------|------|
+| **역할** | 개별 TIL의 전체 본문을 Notion 블록 형식으로 상세 표시 |
+| **진입 경로** | 메인 페이지 또는 카테고리 페이지의 TIL 카드 클릭 |
+| **사용자 행동** | TIL 본문 읽기, 참고 링크 클릭, 카테고리/태그 확인 후 관련 페이지 이동 |
+| **주요 기능** | • Notion Block API를 통한 본문 렌더링 (제목, 텍스트, 코드 블록, 이미지, 리스트 등)<br>• 메타 정보 표시 (작성일, 카테고리, 태그)<br>• 참고 링크 표시 및 외부 링크 연결<br>• 카테고리 클릭 시 해당 카테고리 페이지로 이동<br>• **뒤로가기/홈 버튼** |
+| **다음 이동** | 뒤로가기 → 이전 페이지, 홈 버튼 → 메인 페이지, 카테고리 클릭 → 카테고리 페이지 |
+
+---
+
+### About 페이지 (/about)
+
+> **구현 기능:** `F011` | **인증:** 불필요
+
+| 항목 | 내용 |
+|------|------|
+| **역할** | TIL Garden 프로젝트 소개 및 Notion CMS 활용 방법 설명 |
+| **진입 경로** | 메인 메뉴의 About 링크 클릭 |
+| **사용자 행동** | 프로젝트 배경, 기술 스택, Notion 연동 방법 확인 |
+| **주요 기능** | • 프로젝트 소개 텍스트<br>• Notion CMS 선택 이유 설명<br>• 기술 스택 소개<br>• **홈으로 버튼** |
+| **다음 이동** | 홈 버튼 → 메인 페이지 |
+
+---
+
+## 🗄️ 데이터 모델
+
+### Notion Database (TIL 데이터베이스)
+
+| 필드 | 설명 | 타입/관계 |
+|------|------|----------|
+| id | Notion 페이지 고유 ID | UUID (Notion 자동 생성) |
+| Title | TIL 제목 | Title |
+| Date | 작성일 | Date |
+| Category | 분류 카테고리 | Select (AWS, Database, DevOps, AI, Frontend, Backend) |
+| Tags | 세부 태그 | Multi-select |
+| Reference | 참고 링크 URL | URL |
+| Status | 공개 상태 | Select (Draft, Published) |
+| Slug | URL용 슬러그 | Rich Text (수동 입력, URL 친화적 문자열) |
+
+### TypeScript Interface (프론트엔드)
+
+| 필드 | 설명 | 타입/관계 |
+|------|------|----------|
+| id | TIL 고유 ID | string |
+| title | 제목 | string |
+| date | 작성일 | string (ISO 8601 형식) |
+| category | 카테고리 | string |
+| tags | 태그 배열 | string[] |
+| reference | 참고 링크 | string (nullable) |
+| slug | URL 슬러그 | string |
+| blocks | Notion 블록 내용 | NotionBlock[] (상세 페이지용) |
+
+---
+
+## 🛠️ 기술 스택 (최신 버전)
+
+### 🎨 프론트엔드 프레임워크
+
+- **Next.js 15.5.3** (App Router) - React 풀스택 프레임워크
+- **TypeScript 5.6+** - 타입 안전성 보장
+- **React 19.1.0** - UI 라이브러리 (최신 동시성 기능)
+
+### 🎨 스타일링 & UI
+
+- **TailwindCSS v4** (설정파일 없는 새로운 엔진) - 유틸리티 CSS 프레임워크
+- **shadcn/ui** (new-york style) - 고품질 React 컴포넌트 라이브러리
+- **Lucide React** - 아이콘 라이브러리
+
+### 🗄️ CMS & 데이터
+
+- **Notion API** (@notionhq/client) - Headless CMS 역할
+- **Notion SDK for JavaScript** - Notion 블록 렌더링
+
+### 🚀 배포 & 호스팅
+
+- **Vercel** - Next.js 15 최적화 배포 플랫폼
+- **Environment Variables** (Vercel 환경변수)
+  - `NOTION_API_KEY` - Notion Integration Token
+  - `NOTION_DATABASE_ID` - TIL 데이터베이스 ID
+
+### 📦 패키지 관리
+
+- **npm** - 의존성 관리
+
+---
+
+## 🔧 Notion 설정 가이드
+
+### 1. Notion Integration 생성
+
+1. [Notion Developers](https://www.notion.so/my-integrations)에서 새 Integration 생성
+2. Integration Token 복사 → `.env.local`에 `NOTION_API_KEY` 저장
+3. Capabilities: Read content 권한만 필요
+
+### 2. Notion 데이터베이스 생성
+
+**필수 속성 구조:**
+
+```
+Database Name: TIL Database
+Properties:
+  - Title (Title 타입) - 기본 제공
+  - Date (Date 타입)
+  - Category (Select 타입)
+    Options: AWS, Database, DevOps, AI, Frontend, Backend
+  - Tags (Multi-select 타입)
+  - Reference (URL 타입)
+  - Status (Select 타입)
+    Options: Draft, Published
+  - Slug (Text 타입)
+```
+
+### 3. Integration 연결
+
+1. 생성한 데이터베이스 페이지 우측 상단 `...` 클릭
+2. `Add connections` → 생성한 Integration 선택
+3. 데이터베이스 ID 복사 (URL의 마지막 32자리) → `.env.local`에 `NOTION_DATABASE_ID` 저장
+
+---
+
+## 📋 구현 체크리스트
+
+### Phase 1: 환경 설정
+- [ ] Next.js 15 프로젝트 생성
+- [ ] `@notionhq/client` 설치
+- [ ] Notion Integration 생성 및 API 키 발급
+- [ ] Notion 데이터베이스 생성 (위 속성 구조)
+- [ ] `.env.local` 환경 변수 설정
+
+### Phase 2: Notion API 연동
+- [ ] Notion Client 초기화 (`lib/notion.ts`)
+- [ ] TIL 목록 조회 함수 구현 (Published 필터링)
+- [ ] 카테고리별 필터링 쿼리 구현
+- [ ] 개별 TIL 상세 조회 함수 구현
+- [ ] Notion 블록 → HTML 변환 유틸리티
+
+### Phase 3: UI 컴포넌트 구현
+- [ ] TIL 카드 컴포넌트 (제목, 날짜, 카테고리, 태그)
+- [ ] 카테고리 필터 버튼 컴포넌트
+- [ ] 페이지네이션 컴포넌트
+- [ ] Notion 블록 렌더러 컴포넌트
+- [ ] 레이아웃 (Header, Footer)
+
+### Phase 4: 페이지 구현
+- [ ] 메인 페이지 (`app/page.tsx`)
+- [ ] 카테고리 페이지 (`app/category/[name]/page.tsx`)
+- [ ] TIL 상세 페이지 (`app/til/[slug]/page.tsx`)
+- [ ] About 페이지 (`app/about/page.tsx`)
+- [ ] 404 페이지
+
+### Phase 5: 최적화 & 배포
+- [ ] SEO 메타태그 설정 (각 페이지)
+- [ ] Open Graph 이미지 설정
+- [ ] 반응형 레이아웃 검증 (모바일/태블릿/데스크톱)
+- [ ] Vercel 배포
+- [ ] Vercel 환경변수 설정
+- [ ] 프로덕션 테스트
+
+---
+
+## 🎯 성공 지표
+
+### 기술적 목표
+- Notion API 응답 시간 3초 이내
+- Lighthouse 성능 점수 90점 이상
+- 모든 화면 크기에서 정상 렌더링
+
+### 사용자 경험 목표
+- 메인 페이지 로딩 시간 2초 이내
+- 카테고리 필터링 즉시 반영
+- Notion 블록 렌더링 오류 0건
+
+---
+
+## 📚 참고 자료
+
+- [Notion API 공식 문서](https://developers.notion.com/)
+- [Next.js 15 문서](https://nextjs.org/docs)
+- [React 19 릴리스 노트](https://react.dev/blog/2024/12/05/react-19)
+- [TailwindCSS v4 문서](https://tailwindcss.com/docs)
+- [shadcn/ui 컴포넌트](https://ui.shadcn.com/)
