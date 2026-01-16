@@ -1,6 +1,12 @@
 # 🤖 Claude Code 개발 지침
 
-**claude-nextjs-starters**는 Next.js 15.5.3 + React 19 기반 모던 웹 애플리케이션 스타터 템플릿입니다.
+**TIL Garden**은 Notion을 CMS로 활용한 개발자 TIL(Today I Learned) 마이크로 블로그입니다.
+Next.js 15.5.3 + React 19 + Notion API 기반으로 구축되었습니다.
+
+## Project Context
+
+- PRD 문서: @docs/PRD.md
+- 개발 로드맵: @docs/ROADMAP.md
 
 ## 🛠️ 핵심 기술 스택
 
