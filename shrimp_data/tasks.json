@@ -1,434 +1,351 @@
 {
   "tasks": [
     {
-      "id": "bc804424-da1c-4c5d-bbdf-a7a3d31f21a1",
-      "name": "Task 004-1: 더미 데이터 유틸리티 구현",
-      "description": "Phase 3 API 연동 전까지 UI 개발에 사용할 더미 데이터 생성 유틸리티를 구현합니다. TIL, TILDetail, NotionBlock 타입에 맞는 샘플 데이터를 생성합니다.",
-      "notes": "types/til.ts와 types/notion.ts의 타입을 정확히 따라야 합니다. 카테고리는 CATEGORIES 상수를 활용하세요.",
-      "status": "pending",
+      "id": "2d3e2b85-b18d-470b-b9bf-2488cf2aaf4f",
+      "name": "Task 015-1: 사이트 전역 메타데이터 및 OG 기본값 설정",
+      "description": "layout.tsx에 사이트 전역 SEO 메타데이터를 확장합니다. keywords, author, openGraph 기본값, twitter 카드 설정을 추가합니다.",
+      "notes": "metadataBase는 환경변수로 설정하거나 하드코딩 가능. 배포 후 실제 URL로 변경 필요.",
+      "status": "completed",
       "dependencies": [],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T08:05:00.841Z",
       "relatedFiles": [
         {
-          "path": "src/lib/mock-data.ts",
-          "type": "CREATE",
-          "description": "더미 데이터 생성 유틸리티"
-        },
-        {
-          "path": "src/types/til.ts",
-          "type": "REFERENCE",
-          "description": "TIL, TILDetail 타입 참조"
-        },
-        {
-          "path": "src/types/notion.ts",
-          "type": "REFERENCE",
-          "description": "NotionBlock 타입 참조"
-        },
-        {
-          "path": "src/types/category.ts",
-          "type": "REFERENCE",
-          "description": "CATEGORIES 상수 참조"
+          "path": "src/app/layout.tsx",
+          "type": "TO_MODIFY",
+          "description": "전역 메타데이터 확장",
+          "lineStart": 17,
+          "lineEnd": 21
         }
       ],
-      "implementationGuide": "1. src/lib/mock-data.ts 파일 생성\\n2. generateMockTIL(overrides?) 함수 구현 - TIL 객체 생성\\n3. generateMockTILList(count, category?) 함수 구현 - 목록 생성\\n4. MOCK_NOTION_BLOCKS 상수 정의 - 다양한 블록 타입 샘플\\n5. getMockTILDetail(slug) 함수 구현 - 상세 데이터 조회\\n\\n인터페이스:\\n- generateMockTIL(overrides?: Partial<TIL>): TIL\\n- generateMockTILList(count: number, category?: TILCategory): TIL[]\\n- getMockTILDetail(slug: string): TILDetail | null",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. generateMockTILList(10) 호출 시 10개의 유효한 TIL 객체 반환\\n3. 모든 카테고리가 골고루 분포\\n4. 날짜가 ISO 8601 형식\\n5. slug가 URL 친화적 문자열",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+      "implementationGuide": "1. src/app/layout.tsx의 metadata 객체 확장\\n2. metadataBase 설정 (프로덕션 URL)\\n3. openGraph 기본값 설정 (siteName, locale, type)\\n4. twitter 카드 메타데이터 추가\\n5. keywords 배열 추가\\n\\npseudocode:\\nexport const metadata: Metadata = {\\n  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),\\n  title: { default: 'TIL Garden', template: '%s | TIL Garden' },\\n  description: '...',\\n  keywords: ['TIL', 'Today I Learned', '개발', 'Notion CMS'],\\n  authors: [{ name: 'TIL Garden' }],\\n  openGraph: { siteName: 'TIL Garden', locale: 'ko_KR', type: 'website' },\\n  twitter: { card: 'summary_large_image' }\\n}",
+      "verificationCriteria": "1. npm run build 성공\\n2. 개발 서버에서 HTML head에 og:site_name, twitter:card 태그 확인\\n3. keywords 메타태그 렌더링 확인",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다.",
+      "summary": "사이트 전역 메타데이터 설정 완료. layout.tsx에 metadataBase, title template, keywords, authors, creator, openGraph (siteName, locale, type), twitter (card, title, description), robots 설정 추가. 빌드 성공 및 Playwright MCP를 통해 모든 메타태그 렌더링 확인 완료.",
+      "completedAt": "2026-01-18T08:05:00.840Z"
     },
     {
-      "id": "e8e85475-85c1-439e-848b-357201792d53",
-      "name": "Task 004-2: TIL 카드 컴포넌트 구현",
-      "description": "TIL 목록에서 사용할 카드 컴포넌트를 구현합니다. shadcn/ui Card와 Badge를 활용하여 제목, 날짜, 카테고리, 태그를 표시합니다.",
-      "notes": "호버 효과 추가. 카테고리 뱃지 클릭 시 해당 카테고리 페이지로 이동 가능하도록 Link 적용.",
-      "status": "pending",
+      "id": "0a710677-bd69-4b42-9012-1d02a2c71931",
+      "name": "Task 015-2: 동적 페이지 generateMetadata 개선",
+      "description": "TIL 상세 페이지와 카테고리 페이지의 generateMetadata를 개선하여 OG 메타데이터와 상세 설명을 추가합니다.",
+      "notes": "TIL 본문을 description으로 사용할 경우 블록에서 텍스트 추출 유틸리티 필요",
+      "status": "completed",
       "dependencies": [
         {
-          "taskId": "bc804424-da1c-4c5d-bbdf-a7a3d31f21a1"
+          "taskId": "2d3e2b85-b18d-470b-b9bf-2488cf2aaf4f"
         }
       ],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T08:07:50.891Z",
       "relatedFiles": [
         {
-          "path": "src/components/til/til-card.tsx",
-          "type": "CREATE",
-          "description": "TIL 카드 컴포넌트"
+          "path": "src/app/til/[slug]/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "TIL 상세 페이지 메타데이터 개선",
+          "lineStart": 64,
+          "lineEnd": 84
         },
         {
-          "path": "src/components/ui/card.tsx",
-          "type": "REFERENCE",
-          "description": "shadcn Card 컴포넌트"
+          "path": "src/app/category/[name]/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "카테고리 페이지 메타데이터 개선",
+          "lineStart": 52,
+          "lineEnd": 74
         },
         {
-          "path": "src/components/ui/badge.tsx",
-          "type": "REFERENCE",
-          "description": "shadcn Badge 컴포넌트"
-        },
-        {
-          "path": "src/types/til.ts",
-          "type": "REFERENCE",
-          "description": "TILCardData 타입"
+          "path": "src/app/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "메인 페이지에 generateMetadata 추가"
         }
       ],
-      "implementationGuide": "1. src/components/til/til-card.tsx 생성\\n2. Props: TILCardData (id, title, date, category, tags, slug)\\n3. Card, CardHeader, CardContent 사용\\n4. Badge로 카테고리 표시 (variant=secondary)\\n5. 태그는 작은 Badge로 표시 (variant=outline)\\n6. Link로 /til/[slug] 연결\\n7. 날짜 포맷: YYYY년 M월 D일\\n\\n인터페이스:\\ninterface TILCardProps { til: TILCardData }\\nexport function TILCard({ til }: TILCardProps): JSX.Element",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 카드에 제목, 날짜, 카테고리, 태그 모두 표시\\n3. 카드 클릭 시 /til/[slug]로 이동\\n4. 카테고리 뱃지 클릭 시 /category/[slug]로 이동\\n5. 호버 시 시각적 피드백",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+      "implementationGuide": "1. src/app/til/[slug]/page.tsx의 generateMetadata 개선\\n   - og:title, og:description, og:type: article 추가\\n   - TIL 본문 첫 부분을 description으로 활용 (선택)\\n2. src/app/category/[name]/page.tsx의 generateMetadata 개선\\n   - og:title, og:description 추가\\n3. src/app/page.tsx에 generateMetadata 추가 (현재 없음)\\n\\npseudocode:\\nexport async function generateMetadata({ params }): Promise<Metadata> {\\n  const til = await getTILBySlug(slug)\\n  return {\\n    title: til.title,\\n    description: `${til.category} 카테고리의 TIL`,\\n    openGraph: {\\n      title: til.title,\\n      description: '...',\\n      type: 'article',\\n      publishedTime: til.date,\\n      tags: til.tags\\n    }\\n  }\\n}",
+      "verificationCriteria": "1. TIL 상세 페이지에서 og:type=article, og:published_time 확인\\n2. 카테고리 페이지에서 og:title에 카테고리명 포함 확인\\n3. npm run build 성공",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다.",
+      "summary": "동적 페이지 generateMetadata 개선 완료. TIL 상세 페이지: og:type=article, article:published_time, article:tag 추가. 카테고리 페이지: og:title에 카테고리명 포함, og:type=website 설정. 양 페이지 모두 twitter 카드 메타데이터 추가. 빌드 및 Playwright 검증 완료.",
+      "completedAt": "2026-01-18T08:07:50.890Z"
     },
     {
-      "id": "5dbbdd39-6bf3-44cf-8355-9667e838d40f",
-      "name": "Task 004-3: 카테고리 필터 컴포넌트 구현",
-      "description": "메인 페이지와 카테고리 페이지에서 사용할 카테고리 필터 버튼 그룹을 구현합니다.",
-      "notes": "접근성을 위해 aria-pressed 속성 추가. 버튼 그룹에 role=group 적용.",
-      "status": "pending",
+      "id": "0c7abeb7-0f6b-43ce-a914-43a24f4252e4",
+      "name": "Task 015-3: sitemap.ts 및 robots.ts 생성",
+      "description": "Next.js App Router의 sitemap.ts와 robots.ts를 생성하여 검색 엔진 크롤링을 최적화합니다.",
+      "notes": "sitemap 생성 시 Notion API 호출 발생, 빌드 시간에 영향. revalidate 설정 고려.",
+      "status": "completed",
       "dependencies": [],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T08:10:06.996Z",
       "relatedFiles": [
         {
-          "path": "src/components/til/category-filter.tsx",
+          "path": "src/app/sitemap.ts",
           "type": "CREATE",
-          "description": "카테고리 필터 컴포넌트"
+          "description": "동적 사이트맵 생성"
         },
         {
-          "path": "src/components/ui/button.tsx",
-          "type": "REFERENCE",
-          "description": "shadcn Button 컴포넌트"
-        },
-        {
-          "path": "src/types/category.ts",
-          "type": "REFERENCE",
-          "description": "CATEGORIES 상수 및 타입"
+          "path": "src/app/robots.ts",
+          "type": "CREATE",
+          "description": "robots.txt 생성"
         }
       ],
-      "implementationGuide": "1. src/components/til/category-filter.tsx 생성 ('use client' 필요)\\n2. Props: currentCategory?: TILCategorySlug, onCategoryChange: (slug: TILCategorySlug | null) => void\\n3. CATEGORIES 상수로 버튼 동적 생성\\n4. '전체' 버튼 + 6개 카테고리 버튼\\n5. 현재 선택된 카테고리는 variant=default, 나머지는 variant=outline\\n6. 반응형: 모바일에서는 가로 스크롤, 데스크톱에서는 wrap\\n\\n인터페이스:\\ninterface CategoryFilterProps {\\n  currentCategory?: TILCategorySlug | null\\n  onCategoryChange: (slug: TILCategorySlug | null) => void\\n}",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 전체 + 6개 카테고리 버튼 렌더링\\n3. 클릭 시 onCategoryChange 콜백 호출\\n4. 현재 선택 카테고리 시각적 구분\\n5. 모바일에서 가로 스크롤 동작",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+      "implementationGuide": "1. src/app/sitemap.ts 생성\\n   - Notion API로 Published TIL 목록 조회\\n   - 정적 페이지 (/, /about) + 동적 페이지 (/til/[slug], /category/[name]) 포함\\n2. src/app/robots.ts 생성\\n   - sitemap URL 명시\\n   - User-agent: * Allow: /\\n\\npseudocode (sitemap.ts):\\nimport { getTILList } from '@/lib/notion'\\nimport { CATEGORIES } from '@/types'\\n\\nexport default async function sitemap(): Promise<MetadataRoute.Sitemap> {\\n  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://til-garden.vercel.app'\\n  const { items } = await getTILList({ pageSize: 100 })\\n  \\n  const staticPages = [\\n    { url: baseUrl, lastModified: new Date() },\\n    { url: `${baseUrl}/about`, lastModified: new Date() }\\n  ]\\n  \\n  const tilPages = items.map(til => ({\\n    url: `${baseUrl}/til/${til.slug}`,\\n    lastModified: new Date(til.date)\\n  }))\\n  \\n  const categoryPages = CATEGORIES.map(cat => ({\\n    url: `${baseUrl}/category/${cat.slug}`,\\n    lastModified: new Date()\\n  }))\\n  \\n  return [...staticPages, ...tilPages, ...categoryPages]\\n}",
+      "verificationCriteria": "1. /sitemap.xml 접근 시 XML 형식 사이트맵 표시\\n2. 모든 TIL 및 카테고리 URL 포함 확인\\n3. /robots.txt 접근 시 sitemap URL 포함 확인\\n4. npm run build 성공",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다.",
+      "summary": "sitemap.ts 및 robots.ts 생성 완료. sitemap.xml: 정적 페이지(/, /about), 카테고리 페이지(6개), TIL 페이지 포함. 각 URL에 lastmod, changefreq, priority 설정. robots.txt: User-Agent *, Allow /, Disallow /api/ 및 /_next/, Sitemap URL 포함. 빌드 및 Playwright 검증 완료.",
+      "completedAt": "2026-01-18T08:10:06.994Z"
     },
     {
-      "id": "7c8cdd68-9190-4ea8-8813-690044ad25ad",
-      "name": "Task 004-4: 페이지네이션 컴포넌트 구현",
-      "description": "TIL 목록 하단에 사용할 페이지네이션 컴포넌트를 구현합니다.",
-      "notes": "totalPages가 1이면 컴포넌트를 렌더링하지 않음. 접근성을 위해 aria-label 적용.",
-      "status": "pending",
+      "id": "2a7377c5-35b3-4ec9-a0c3-8aaa015d95ca",
+      "name": "Task 016-1: 글로벌 에러 바운더리 구현",
+      "description": "app/error.tsx를 생성하여 런타임 에러를 사용자 친화적으로 처리합니다.",
+      "notes": "error.tsx는 반드시 'use client' 지시어 필요. Header/Footer 포함 여부는 레이아웃 구조에 따라 결정.",
+      "status": "completed",
       "dependencies": [],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T08:11:19.347Z",
       "relatedFiles": [
         {
-          "path": "src/components/til/pagination.tsx",
+          "path": "src/app/error.tsx",
           "type": "CREATE",
-          "description": "페이지네이션 컴포넌트"
+          "description": "글로벌 에러 바운더리"
         },
         {
-          "path": "src/components/ui/button.tsx",
+          "path": "src/app/not-found.tsx",
           "type": "REFERENCE",
-          "description": "shadcn Button 컴포넌트"
+          "description": "스타일 참조"
         }
       ],
-      "implementationGuide": "1. src/components/til/pagination.tsx 생성 ('use client' 필요)\\n2. Props: currentPage: number, totalPages: number, onPageChange: (page: number) => void\\n3. 이전/다음 버튼 + 페이지 번호 버튼\\n4. 페이지 수가 많으면 말줄임(...) 표시\\n5. 첫 페이지/마지막 페이지에서 해당 버튼 비활성화\\n6. ChevronLeft, ChevronRight 아이콘 사용\\n\\n인터페이스:\\ninterface PaginationProps {\\n  currentPage: number\\n  totalPages: number\\n  onPageChange: (page: number) => void\\n}",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 현재 페이지 시각적 구분\\n3. 이전/다음 버튼 올바른 동작\\n4. 첫/마지막 페이지에서 버튼 비활성화\\n5. totalPages=1일 때 렌더링 안함",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+      "implementationGuide": "1. src/app/error.tsx 생성 ('use client' 필수)\\n2. 에러 메시지 표시 및 재시도 버튼 제공\\n3. 기존 not-found.tsx 스타일과 일관성 유지\\n4. reset 함수를 통한 재시도 기능 구현\\n\\npseudocode:\\n'use client'\\nimport { useEffect } from 'react'\\nimport { Button } from '@/components/ui/button'\\n\\nexport default function Error({ error, reset }: { error: Error; reset: () => void }) {\\n  useEffect(() => {\\n    console.error(error)\\n  }, [error])\\n  \\n  return (\\n    <div className=\"flex min-h-screen flex-col items-center justify-center\">\\n      <h1 className=\"text-4xl font-bold\">오류가 발생했습니다</h1>\\n      <p className=\"text-muted-foreground mt-2\">잠시 후 다시 시도해주세요</p>\\n      <Button onClick={reset} className=\"mt-6\">다시 시도</Button>\\n    </div>\\n  )\\n}",
+      "verificationCriteria": "1. 의도적 에러 발생 시 error.tsx 렌더링 확인\\n2. 재시도 버튼 클릭 시 페이지 리로드 확인\\n3. npm run build 성공",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다.",
+      "summary": "글로벌 에러 바운더리 구현 완료. 'use client' 지시어 적용, 에러 로깅(console.error), 재시도 버튼(reset), 홈 버튼 제공. not-found.tsx와 일관된 스타일 적용(Header, Footer, Container). 에러 다이제스트 표시 기능 포함. npm run build 성공.",
+      "completedAt": "2026-01-18T08:11:19.346Z"
     },
     {
-      "id": "629590c8-89c1-475c-bbb6-08f60ba5269b",
-      "name": "Task 004-5: 로딩 스켈레톤 컴포넌트 구현",
-      "description": "TIL 카드 로딩 상태를 표시할 스켈레톤 컴포넌트를 구현합니다.",
-      "notes": "실제 카드와 동일한 높이를 유지하여 레이아웃 시프트 방지.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "e8e85475-85c1-439e-848b-357201792d53"
-        }
-      ],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "id": "2c64ab96-9021-49fd-9bbe-9f9bd8b0faf5",
+      "name": "Task 016-2: 로딩 UI 구현",
+      "description": "app/loading.tsx 및 각 라우트별 loading.tsx를 생성하여 페이지 전환 시 로딩 상태를 표시합니다.",
+      "notes": "기존 스켈레톤 컴포넌트를 재사용하여 일관된 로딩 경험 제공",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T08:12:39.392Z",
       "relatedFiles": [
+        {
+          "path": "src/app/loading.tsx",
+          "type": "CREATE",
+          "description": "전역 로딩 UI"
+        },
+        {
+          "path": "src/app/category/[name]/loading.tsx",
+          "type": "CREATE",
+          "description": "카테고리 페이지 로딩 UI"
+        },
+        {
+          "path": "src/app/til/[slug]/loading.tsx",
+          "type": "CREATE",
+          "description": "TIL 상세 페이지 로딩 UI"
+        },
         {
           "path": "src/components/til/til-card-skeleton.tsx",
-          "type": "CREATE",
-          "description": "TIL 카드 스켈레톤"
-        },
-        {
-          "path": "src/components/ui/skeleton.tsx",
           "type": "REFERENCE",
-          "description": "shadcn Skeleton 컴포넌트"
-        },
-        {
-          "path": "src/components/til/til-card.tsx",
-          "type": "REFERENCE",
-          "description": "실제 카드 레이아웃 참조"
+          "description": "재사용할 스켈레톤 컴포넌트"
         }
       ],
-      "implementationGuide": "1. src/components/til/til-card-skeleton.tsx 생성\\n2. TIL 카드와 동일한 레이아웃의 스켈레톤\\n3. shadcn/ui Skeleton 컴포넌트 활용\\n4. 제목, 날짜, 카테고리, 태그 영역에 Skeleton 배치\\n5. TILCardListSkeleton(count: number) 함수도 제공\\n\\n인터페이스:\\nexport function TILCardSkeleton(): JSX.Element\\nexport function TILCardListSkeleton({ count }: { count: number }): JSX.Element",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 카드와 동일한 크기/레이아웃\\n3. 애니메이션 효과 동작\\n4. TILCardListSkeleton이 여러 스켈레톤 렌더링",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+      "implementationGuide": "1. src/app/loading.tsx 생성 (전역 로딩)\\n   - 기존 TILCardListSkeleton 재사용\\n2. src/app/category/[name]/loading.tsx 생성\\n3. src/app/til/[slug]/loading.tsx 생성 (TILDetailSkeleton 사용)\\n\\npseudocode:\\nimport { Container } from '@/components/layout/container'\\nimport { Header } from '@/components/layout/header'\\nimport { TILCardListSkeleton } from '@/components/til/til-card-skeleton'\\n\\nexport default function Loading() {\\n  return (\\n    <div className=\"flex min-h-screen flex-col\">\\n      <Header />\\n      <main className=\"flex-1\">\\n        <Container className=\"py-12\">\\n          <TILCardListSkeleton count={6} />\\n        </Container>\\n      </main>\\n    </div>\\n  )\\n}",
+      "verificationCriteria": "1. 페이지 전환 시 스켈레톤 로딩 UI 표시 확인\\n2. 각 라우트별 적절한 스켈레톤 렌더링 확인\\n3. npm run build 성공",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다.",
+      "summary": "로딩 UI 구현 완료. 전역 loading.tsx(메인 페이지용), category/[name]/loading.tsx(카테고리 페이지용), til/[slug]/loading.tsx(TIL 상세 페이지용) 생성. 기존 스켈레톤 컴포넌트(TILCardListSkeleton, TILDetailSkeleton, CategoryFilterSkeleton) 재사용. Header/Footer 포함하여 일관된 레이아웃 유지.",
+      "completedAt": "2026-01-18T08:12:39.391Z"
     },
     {
-      "id": "75d422b5-be8f-4ffd-9e44-7a59ecc8439e",
-      "name": "Task 005: 메인 페이지 UI 구현",
-      "description": "TIL 목록을 표시하는 메인 페이지 UI를 구현합니다. 카테고리 필터, TIL 카드 그리드, 페이지네이션을 통합합니다.",
-      "notes": "Phase 3에서 API 연동 시 쉽게 교체할 수 있도록 데이터 로딩 로직을 분리하세요.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "bc804424-da1c-4c5d-bbdf-a7a3d31f21a1"
-        },
-        {
-          "taskId": "e8e85475-85c1-439e-848b-357201792d53"
-        },
-        {
-          "taskId": "5dbbdd39-6bf3-44cf-8355-9667e838d40f"
-        },
-        {
-          "taskId": "7c8cdd68-9190-4ea8-8813-690044ad25ad"
-        }
-      ],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "id": "153f2644-d705-4939-b57d-8e127162b7f0",
+      "name": "Task 016-3: 404 페이지 개선",
+      "description": "not-found.tsx를 개선하여 사용자가 원하는 콘텐츠를 찾을 수 있도록 카테고리 링크와 안내 메시지를 추가합니다.",
+      "notes": "카테고리 상수(CATEGORIES)를 활용하여 동적으로 링크 생성",
+      "status": "in_progress",
+      "dependencies": [],
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T08:12:47.948Z",
       "relatedFiles": [
         {
-          "path": "src/app/page.tsx",
+          "path": "src/app/not-found.tsx",
           "type": "TO_MODIFY",
-          "description": "메인 페이지 수정"
-        },
-        {
-          "path": "src/components/til/til-card.tsx",
-          "type": "REFERENCE",
-          "description": "TIL 카드 컴포넌트"
-        },
-        {
-          "path": "src/components/til/category-filter.tsx",
-          "type": "REFERENCE",
-          "description": "카테고리 필터"
-        },
-        {
-          "path": "src/components/til/pagination.tsx",
-          "type": "REFERENCE",
-          "description": "페이지네이션"
-        },
-        {
-          "path": "src/lib/mock-data.ts",
-          "type": "REFERENCE",
-          "description": "더미 데이터"
-        }
-      ],
-      "implementationGuide": "1. src/app/page.tsx 수정\\n2. 클라이언트 상태: currentCategory, currentPage\\n3. generateMockTILList로 더미 데이터 로드\\n4. 레이아웃 구조:\\n   - 페이지 타이틀/설명\\n   - CategoryFilter 컴포넌트\\n   - TIL 카드 그리드 (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3)\\n   - Pagination 컴포넌트\\n5. 카테고리 필터링 로직 구현\\n6. 페이지네이션 로직 (10개씩)\\n\\n주의: 서버/클라이언트 컴포넌트 분리 고려",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. Playwright MCP 테스트:\\n   - browser_navigate로 / 접근\\n   - TIL 카드 그리드 표시 확인\\n   - 카테고리 필터 클릭 시 목록 변경\\n   - 페이지네이션 동작 확인\\n3. 반응형 그리드 레이아웃 동작",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
-    },
-    {
-      "id": "967858ad-4310-4363-93bc-9c13cdfedde1",
-      "name": "Task 006: 카테고리 페이지 UI 구현",
-      "description": "특정 카테고리의 TIL 목록을 표시하는 페이지를 구현합니다. 메인 페이지와 유사한 구조로 해당 카테고리만 필터링하여 표시합니다.",
-      "notes": "메인 페이지의 컴포넌트를 최대한 재사용하세요. 중복 코드를 피하기 위해 공통 로직은 훅이나 유틸리티로 분리할 수 있습니다.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "75d422b5-be8f-4ffd-9e44-7a59ecc8439e"
-        }
-      ],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
-      "relatedFiles": [
-        {
-          "path": "src/app/category/[name]/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "카테고리 페이지 수정"
-        },
-        {
-          "path": "src/components/til/til-card.tsx",
-          "type": "REFERENCE",
-          "description": "TIL 카드 재사용"
-        },
-        {
-          "path": "src/components/til/pagination.tsx",
-          "type": "REFERENCE",
-          "description": "페이지네이션 재사용"
+          "description": "404 페이지 개선"
         },
         {
           "path": "src/types/category.ts",
           "type": "REFERENCE",
-          "description": "카테고리 유틸리티"
+          "description": "카테고리 상수 참조"
         }
       ],
-      "implementationGuide": "1. src/app/category/[name]/page.tsx 수정\\n2. types/category.ts의 isValidCategorySlug, getCategoryBySlug 활용\\n3. 메인 페이지와 동일한 TIL 카드 그리드/페이지네이션 사용\\n4. 카테고리 헤더에 현재 카테고리 표시 (아이콘 + 이름 + 설명)\\n5. 다른 카테고리로 이동 가능한 CategoryFilter 포함\\n6. 해당 카테고리 TIL만 필터링하여 표시\\n\\n메타데이터: generateMetadata로 카테고리별 title/description 동적 생성",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. Playwright MCP 테스트:\\n   - /category/aws 접근 시 AWS 카테고리만 표시\\n   - 잘못된 카테고리 접근 시 404\\n   - 카테고리 헤더에 올바른 정보 표시\\n3. 메인 페이지와 일관된 UI",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+      "implementationGuide": "1. src/app/not-found.tsx 개선\\n   - 카테고리 바로가기 링크 추가\\n   - 메인 페이지 TIL 목록 안내\\n   - 시각적 개선 (아이콘, 애니메이션 등)\\n\\npseudocode:\\nimport { CATEGORIES } from '@/types'\\n\\nexport default function NotFound() {\\n  return (\\n    <div>\\n      {/* 기존 404 메시지 */}\\n      <div className=\"mt-8\">\\n        <p className=\"text-muted-foreground\">다음 카테고리에서 TIL을 찾아보세요:</p>\\n        <div className=\"mt-4 flex flex-wrap gap-2\">\\n          {CATEGORIES.map(cat => (\\n            <Link key={cat.id} href={`/category/${cat.slug}`}>\\n              <Badge>{cat.label}</Badge>\\n            </Link>\\n          ))}\\n        </div>\\n      </div>\\n    </div>\\n  )\\n}",
+      "verificationCriteria": "1. /non-existent-page 접근 시 개선된 404 페이지 표시\\n2. 카테고리 링크 클릭 시 해당 카테고리 페이지 이동\\n3. npm run build 성공",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다."
     },
     {
-      "id": "d6b486fd-24f6-4e20-84ff-b6d5663a46ac",
-      "name": "Task 007-1: Notion 블록 렌더러 기본 구현",
-      "description": "Notion 블록을 HTML로 렌더링하는 기본 컴포넌트를 구현합니다. paragraph, heading, list, quote, divider 블록을 지원합니다.",
-      "notes": "prose 클래스를 사용하여 타이포그래피 일관성 유지. NotionRichText의 annotations 처리 필수.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "bc804424-da1c-4c5d-bbdf-a7a3d31f21a1"
-        }
-      ],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
-      "relatedFiles": [
-        {
-          "path": "src/components/notion/notion-block-renderer.tsx",
-          "type": "CREATE",
-          "description": "Notion 블록 렌더러"
-        },
-        {
-          "path": "src/types/notion.ts",
-          "type": "REFERENCE",
-          "description": "NotionBlock 타입"
-        },
-        {
-          "path": "src/lib/mock-data.ts",
-          "type": "REFERENCE",
-          "description": "테스트용 더미 블록"
-        }
-      ],
-      "implementationGuide": "1. src/components/notion/notion-block-renderer.tsx 생성\\n2. NotionBlockRenderer({ blocks: NotionBlock[] }) 컴포넌트\\n3. 블록 타입별 렌더링 함수:\\n   - renderParagraph: <p> with RichText\\n   - renderHeading1/2/3: <h1/h2/h3>\\n   - renderBulletedList: <ul><li>\\n   - renderNumberedList: <ol><li>\\n   - renderQuote: <blockquote>\\n   - renderDivider: <hr>\\n4. RichText 렌더링: bold, italic, code, link 스타일 적용\\n5. 연속된 리스트 아이템 그룹화 로직\\n\\n인터페이스:\\ninterface NotionBlockRendererProps { blocks: NotionBlock[] }",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. paragraph, heading, list, quote, divider 블록 올바르게 렌더링\\n3. RichText 스타일(bold, italic, code, link) 적용\\n4. 연속 리스트 아이템 올바르게 그룹화",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
-    },
-    {
-      "id": "69d24bd9-6a4e-4aa5-b2a7-04d20ad1352c",
-      "name": "Task 007-2: Notion 코드/이미지 블록 렌더러 구현",
-      "description": "코드 블록과 이미지 블록 렌더링을 구현합니다. 코드 블록은 구문 강조를, 이미지는 캡션을 지원합니다.",
-      "notes": "코드 블록의 language 속성을 활용하여 언어 표시. 이미지는 외부 URL과 Notion 파일 URL 모두 지원해야 합니다.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "d6b486fd-24f6-4e20-84ff-b6d5663a46ac"
-        }
-      ],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
-      "relatedFiles": [
-        {
-          "path": "src/components/notion/notion-block-renderer.tsx",
-          "type": "TO_MODIFY",
-          "description": "코드/이미지 블록 추가"
-        },
-        {
-          "path": "src/types/notion.ts",
-          "type": "REFERENCE",
-          "description": "CodeBlock, ImageBlock 타입"
-        }
-      ],
-      "implementationGuide": "1. src/components/notion/notion-block-renderer.tsx에 추가\\n2. renderCode 함수:\\n   - <pre><code> 구조\\n   - language 표시 (우측 상단)\\n   - 복사 버튼 (선택)\\n   - 기본 스타일링 (배경, 패딩, 라운드)\\n3. renderImage 함수:\\n   - <figure><img><figcaption> 구조\\n   - next/image 사용 (Phase 4 최적화 대비)\\n   - caption 렌더링\\n   - 반응형 이미지 크기\\n\\n코드 하이라이팅은 Phase 4에서 추가 예정, 현재는 기본 스타일만 적용",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 코드 블록에 언어 표시\\n3. 코드 블록 스타일링 (배경, 폰트)\\n4. 이미지 렌더링 및 캡션 표시\\n5. 반응형 이미지 크기",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
-    },
-    {
-      "id": "9b3213c4-23b7-47b4-a94b-8bf6aa0894b3",
-      "name": "Task 007-3: TIL 상세 페이지 UI 통합",
-      "description": "TIL 상세 페이지에 NotionBlockRenderer를 통합하고 전체 UI를 완성합니다.",
-      "notes": "prose 클래스로 본문 타이포그래피 통일. javascript:history.back() 대신 useRouter 사용 권장.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "69d24bd9-6a4e-4aa5-b2a7-04d20ad1352c"
-        }
-      ],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
-      "relatedFiles": [
-        {
-          "path": "src/app/til/[slug]/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "TIL 상세 페이지 수정"
-        },
-        {
-          "path": "src/components/notion/notion-block-renderer.tsx",
-          "type": "REFERENCE",
-          "description": "블록 렌더러"
-        },
-        {
-          "path": "src/lib/mock-data.ts",
-          "type": "REFERENCE",
-          "description": "getMockTILDetail 함수"
-        }
-      ],
-      "implementationGuide": "1. src/app/til/[slug]/page.tsx 수정\\n2. getMockTILDetail(slug)로 더미 데이터 로드\\n3. 존재하지 않는 slug는 notFound() 호출\\n4. UI 구조:\\n   - 네비게이션 (홈, 뒤로가기)\\n   - 메타 정보 헤더 (제목, 날짜, 카테고리 Badge, 태그 목록)\\n   - NotionBlockRenderer로 본문 렌더링\\n   - 참고 링크 섹션 (reference가 있을 경우)\\n5. 카테고리 클릭 시 해당 카테고리 페이지로 이동\\n\\n메타데이터: generateMetadata로 제목 기반 title 설정",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. Playwright MCP 테스트:\\n   - /til/[valid-slug] 접근 시 상세 페이지 표시\\n   - /til/invalid-slug 접근 시 404\\n   - 모든 Notion 블록 타입 렌더링 확인\\n   - 카테고리/태그 클릭 동작\\n3. 참고 링크 외부 링크로 열림",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
-    },
-    {
-      "id": "e004bf38-1f5a-4056-aeb7-d02b74079250",
-      "name": "Task 008: About 페이지 UI 개선",
-      "description": "About 페이지의 UI를 개선하여 프로젝트 소개, 기술 스택, Notion CMS 활용 방법을 더 세련되게 표시합니다.",
-      "notes": "기존 TechCard 함수를 유지하되 shadcn/ui Card 컴포넌트로 개선. Lucide 아이콘 활용.",
+      "id": "8101e314-cbea-4c8e-ba94-9c5697d139b5",
+      "name": "Task 017-1: 이미지 최적화 설정",
+      "description": "next.config.ts에 remotePatterns를 설정하고 Notion 이미지 최적화를 활성화합니다.",
+      "notes": "Notion 이미지 URL은 시간 제한이 있어 캐싱에 주의 필요. file 타입 이미지는 expiry_time 확인.",
       "status": "pending",
       "dependencies": [],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T07:58:48.207Z",
       "relatedFiles": [
         {
-          "path": "src/app/about/page.tsx",
+          "path": "next.config.ts",
           "type": "TO_MODIFY",
-          "description": "About 페이지 개선"
+          "description": "remotePatterns 설정 추가"
         },
         {
-          "path": "src/components/ui/card.tsx",
-          "type": "REFERENCE",
-          "description": "Card 컴포넌트"
-        },
-        {
-          "path": "src/components/ui/badge.tsx",
-          "type": "REFERENCE",
-          "description": "Badge 컴포넌트"
+          "path": "src/components/notion/image-block.tsx",
+          "type": "TO_MODIFY",
+          "description": "unoptimized 제거 및 sizes 추가",
+          "lineStart": 31,
+          "lineEnd": 37
         }
       ],
-      "implementationGuide": "1. src/app/about/page.tsx 수정\\n2. TechCard 컴포넌트를 shadcn/ui Card로 리팩토링\\n3. UI 개선:\\n   - 프로젝트 소개: 아이콘 + 설명\\n   - 기술 스택: Card 그리드 + 아이콘/로고\\n   - Notion CMS: 단계별 설명 또는 다이어그램\\n   - 카테고리: Badge 컴포넌트로 표시\\n4. 시각적 요소 추가 (아이콘, 구분선 등)\\n5. 반응형 레이아웃 확인",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 기술 스택 Card 그리드 표시\\n3. 시각적으로 개선된 레이아웃\\n4. 반응형 디자인 동작\\n5. Playwright MCP로 /about 페이지 렌더링 확인",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+      "implementationGuide": "1. next.config.ts에 images.remotePatterns 추가\\n   - Notion S3 도메인 (*.amazonaws.com)\\n   - Notion 파일 도메인 (*.notion.so)\\n2. src/components/notion/image-block.tsx에서 unoptimized 제거\\n3. sizes 속성 추가로 반응형 이미지 최적화\\n\\npseudocode (next.config.ts):\\nimages: {\\n  remotePatterns: [\\n    { protocol: 'https', hostname: '**.amazonaws.com' },\\n    { protocol: 'https', hostname: '**.notion.so' },\\n    { protocol: 'https', hostname: 'www.notion.so' }\\n  ]\\n}\\n\\npseudocode (image-block.tsx):\\n<Image\\n  src={url}\\n  alt={caption || '이미지'}\\n  width={800}\\n  height={600}\\n  sizes=\"(max-width: 768px) 100vw, 800px\"\\n  className=\"h-auto w-full object-contain\"\\n  // unoptimized 제거\\n/>",
+      "verificationCriteria": "1. TIL 상세 페이지에서 이미지가 정상 로드되는지 확인\\n2. 개발자 도구 Network 탭에서 이미지 최적화 확인 (_next/image 경로)\\n3. npm run build 성공",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다."
     },
     {
-      "id": "d85e68d9-3072-4fae-b479-bf6cf5bbbc1b",
-      "name": "Task 009: 반응형 디자인 및 접근성 검증",
-      "description": "모든 페이지의 반응형 디자인을 검증하고 키보드 네비게이션 및 접근성을 개선합니다.",
-      "notes": "Playwright MCP의 browser_resize, browser_snapshot, browser_press_key(Tab) 활용. 발견된 문제는 즉시 수정하고 결과를 기록하세요.",
+      "id": "51c32df3-d8ae-49c2-a9a5-895bcca1f2ef",
+      "name": "Task 017-2: 번들 분석 및 최적화",
+      "description": "@next/bundle-analyzer를 설치하여 번들 사이즈를 분석하고 불필요한 의존성을 최적화합니다.",
+      "notes": "분석 결과를 바탕으로 dynamic import, tree-shaking 최적화 검토. lucide-react는 개별 아이콘 임포트로 이미 최적화됨.",
+      "status": "pending",
+      "dependencies": [],
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T07:58:48.207Z",
+      "relatedFiles": [
+        {
+          "path": "package.json",
+          "type": "TO_MODIFY",
+          "description": "devDependencies에 @next/bundle-analyzer 추가"
+        },
+        {
+          "path": "next.config.ts",
+          "type": "TO_MODIFY",
+          "description": "번들 분석기 설정 추가"
+        }
+      ],
+      "implementationGuide": "1. @next/bundle-analyzer 설치 (devDependencies)\\n2. next.config.ts에 분석기 설정 추가\\n3. ANALYZE=true npm run build 실행하여 분석\\n4. 큰 의존성 확인 및 최적화 방안 검토\\n\\npseudocode (next.config.ts):\\nconst withBundleAnalyzer = require('@next/bundle-analyzer')({\\n  enabled: process.env.ANALYZE === 'true'\\n})\\nmodule.exports = withBundleAnalyzer(nextConfig)\\n\\n분석 명령어:\\nANALYZE=true npm run build",
+      "verificationCriteria": "1. npm install 성공\\n2. ANALYZE=true npm run build 실행 시 분석 리포트 생성\\n3. 브라우저에서 번들 시각화 확인",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다."
+    },
+    {
+      "id": "66d90e29-9eb9-47a7-a35d-97cccf3ce7ee",
+      "name": "Task 017-3: Lighthouse 성능 테스트 및 최적화",
+      "description": "Lighthouse 테스트를 수행하고 성능 점수 90점 이상을 달성하기 위한 추가 최적화를 적용합니다.",
+      "notes": "개발 모드(npm run dev)에서는 성능이 낮음. 반드시 프로덕션 빌드로 테스트.",
       "status": "pending",
       "dependencies": [
         {
-          "taskId": "75d422b5-be8f-4ffd-9e44-7a59ecc8439e"
+          "taskId": "8101e314-cbea-4c8e-ba94-9c5697d139b5"
         },
         {
-          "taskId": "967858ad-4310-4363-93bc-9c13cdfedde1"
-        },
-        {
-          "taskId": "9b3213c4-23b7-47b4-a94b-8bf6aa0894b3"
-        },
-        {
-          "taskId": "e004bf38-1f5a-4056-aeb7-d02b74079250"
+          "taskId": "51c32df3-d8ae-49c2-a9a5-895bcca1f2ef"
         }
       ],
-      "createdAt": "2026-01-18T06:18:31.858Z",
-      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T07:58:48.207Z",
       "relatedFiles": [
         {
           "path": "src/app/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "필요시 반응형 수정"
+          "type": "REFERENCE",
+          "description": "메인 페이지 성능 확인"
         },
         {
-          "path": "src/app/category/[name]/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "필요시 반응형 수정"
-        },
-        {
-          "path": "src/app/til/[slug]/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "필요시 반응형 수정"
-        },
-        {
-          "path": "src/components/til/category-filter.tsx",
-          "type": "TO_MODIFY",
-          "description": "접근성 개선"
+          "path": "src/components/til/til-card-skeleton.tsx",
+          "type": "REFERENCE",
+          "description": "CLS 방지용 스켈레톤 확인"
         }
       ],
-      "implementationGuide": "1. Playwright MCP로 각 화면 크기 테스트:\\n   - 모바일 (375px): browser_resize(375, 667)\\n   - 태블릿 (768px): browser_resize(768, 1024)\\n   - 데스크톱 (1440px): browser_resize(1440, 900)\\n2. 확인 항목:\\n   - 그리드 레이아웃 반응형 전환\\n   - 카테고리 필터 가로 스크롤/래핑\\n   - 네비게이션 메뉴 반응형\\n   - 이미지/코드 블록 오버플로우 처리\\n3. 접근성 개선:\\n   - 모든 인터랙티브 요소 포커스 스타일 확인\\n   - aria-label, aria-pressed 적용\\n   - 스크린리더 테스트 (시맨틱 마크업)\\n4. 문제 발견 시 해당 컴포넌트 수정",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. Playwright MCP 테스트 결과 문서화\\n3. 모든 화면 크기에서 레이아웃 정상\\n4. Tab 키로 모든 인터랙티브 요소 접근 가능\\n5. 포커스 스타일 명확히 표시",
-      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+      "implementationGuide": "1. 개발 서버 빌드 후 Lighthouse 테스트 실행\\n2. 성능, 접근성, SEO, Best Practices 점수 확인\\n3. 문제점 식별 및 수정:\\n   - LCP: 히어로 이미지 priority 속성 확인\\n   - CLS: 스켈레톤 높이 고정\\n   - FID: JavaScript 최적화\\n4. 재테스트 후 90점 이상 확인\\n\\nLighthouse 테스트 방법:\\n1. npm run build && npm run start\\n2. Chrome DevTools > Lighthouse 탭\\n3. Mobile 모드로 테스트 실행",
+      "verificationCriteria": "1. Lighthouse Performance 점수 90점 이상\\n2. Lighthouse Accessibility 점수 90점 이상\\n3. Lighthouse SEO 점수 90점 이상\\n4. Core Web Vitals (LCP, CLS, FID) 모두 녹색",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다."
+    },
+    {
+      "id": "cef4189c-fb5c-417b-b751-75e2d30f168e",
+      "name": "Task 018-1: Vercel 배포 설정",
+      "description": "vercel.json을 생성하고 프로덕션 배포를 위한 설정을 구성합니다.",
+      "notes": "vercel.json은 선택사항. Vercel 대시보드에서도 설정 가능.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "0c7abeb7-0f6b-43ce-a914-43a24f4252e4"
+        }
+      ],
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T07:58:48.207Z",
+      "relatedFiles": [
+        {
+          "path": "vercel.json",
+          "type": "CREATE",
+          "description": "Vercel 배포 설정"
+        },
+        {
+          "path": "next.config.ts",
+          "type": "REFERENCE",
+          "description": "기존 Next.js 설정 참조"
+        }
+      ],
+      "implementationGuide": "1. 프로젝트 루트에 vercel.json 생성\\n2. 헤더 설정 (캐시 정책, 보안 헤더)\\n3. 리다이렉트 설정 (필요시)\\n4. 빌드 설정 확인\\n\\npseudocode (vercel.json):\\n{\\n  \"headers\": [\\n    {\\n      \"source\": \"/(.*)\",\\n      \"headers\": [\\n        { \"key\": \"X-Content-Type-Options\", \"value\": \"nosniff\" },\\n        { \"key\": \"X-Frame-Options\", \"value\": \"DENY\" },\\n        { \"key\": \"X-XSS-Protection\", \"value\": \"1; mode=block\" }\\n      ]\\n    }\\n  ]\\n}",
+      "verificationCriteria": "1. vercel.json 문법 오류 없음\\n2. npm run build 성공\\n3. Vercel CLI로 로컬 테스트 (vercel dev) 정상 동작",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다."
+    },
+    {
+      "id": "af673cb7-57ee-4520-aaa1-f1de768ab33f",
+      "name": "Task 018-2: 환경변수 문서화 및 프로덕션 빌드 테스트",
+      "description": "배포에 필요한 환경변수를 문서화하고 프로덕션 빌드를 테스트합니다.",
+      "notes": "실제 API 키는 Vercel 대시보드에서 설정. .env.local은 .gitignore에 포함되어 있음.",
+      "status": "pending",
+      "dependencies": [],
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T07:58:48.207Z",
+      "relatedFiles": [
+        {
+          "path": ".env.example",
+          "type": "CREATE",
+          "description": "환경변수 예시 파일"
+        },
+        {
+          "path": ".env.local",
+          "type": "REFERENCE",
+          "description": "현재 환경변수 참조 (커밋하지 않음)"
+        }
+      ],
+      "implementationGuide": "1. 환경변수 목록 정리 및 문서화\\n   - NOTION_API_KEY: Notion Integration Token\\n   - NOTION_DATABASE_ID: TIL 데이터베이스 ID\\n   - NEXT_PUBLIC_SITE_URL: 프로덕션 사이트 URL (선택)\\n2. .env.example 파일 생성 (값 없이 키만)\\n3. npm run build 실행하여 빌드 성공 확인\\n4. npm run start로 프로덕션 서버 테스트\\n\\npseudocode (.env.example):\\nNOTION_API_KEY=\\nNOTION_DATABASE_ID=\\nNEXT_PUBLIC_SITE_URL=",
+      "verificationCriteria": "1. .env.example 파일 생성 완료\\n2. npm run build 성공 (에러 없음)\\n3. npm run start 후 http://localhost:3000 정상 접근",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다."
+    },
+    {
+      "id": "55198230-1150-4cb9-9c4e-f830c251c014",
+      "name": "Task 018-3: Vercel Analytics 및 모니터링 설정",
+      "description": "Vercel Analytics를 설치하고 프로덕션 모니터링을 설정합니다.",
+      "notes": "Vercel Analytics는 Vercel 배포 시 자동 활성화. 로컬에서는 데이터 수집 안됨.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "af673cb7-57ee-4520-aaa1-f1de768ab33f"
+        }
+      ],
+      "createdAt": "2026-01-18T07:58:48.207Z",
+      "updatedAt": "2026-01-18T07:58:48.207Z",
+      "relatedFiles": [
+        {
+          "path": "package.json",
+          "type": "TO_MODIFY",
+          "description": "@vercel/analytics, @vercel/speed-insights 추가"
+        },
+        {
+          "path": "src/app/layout.tsx",
+          "type": "TO_MODIFY",
+          "description": "Analytics 컴포넌트 추가"
+        }
+      ],
+      "implementationGuide": "1. @vercel/analytics 패키지 설치\\n2. src/app/layout.tsx에 Analytics 컴포넌트 추가\\n3. (선택) @vercel/speed-insights 설치 및 추가\\n\\npseudocode:\\nimport { Analytics } from '@vercel/analytics/react'\\nimport { SpeedInsights } from '@vercel/speed-insights/next'\\n\\nexport default function RootLayout({ children }) {\\n  return (\\n    <html>\\n      <body>\\n        {children}\\n        <Analytics />\\n        <SpeedInsights />\\n      </body>\\n    </html>\\n  )\\n}",
+      "verificationCriteria": "1. npm install 성공\\n2. npm run build 성공\\n3. Vercel 배포 후 Analytics 대시보드에서 데이터 수집 확인",
+      "analysisResult": "TIL Garden Phase 4: 고급 기능 및 최적화 단계. SEO 최적화, 에러 처리, 성능 최적화, Vercel 배포 준비를 통해 프로덕션 수준의 완성도를 달성합니다. Next.js 15.5.3 App Router 패턴을 준수하고, 기존 컴포넌트(스켈레톤, 에러 핸들러)를 재사용합니다."
     }
   ]
 }

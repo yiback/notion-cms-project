@@ -1,0 +1,236 @@
+{
+  "tasks": [
+    {
+      "id": "a9798545-98f2-4d5e-b938-442e81cd89d1",
+      "name": "Task 010: Notion API 클라이언트 설정",
+      "description": "@notionhq/client 패키지를 설치하고 Notion API 클라이언트를 초기화합니다. 환경변수 검증과 에러 핸들링 유틸리티를 구현합니다.",
+      "notes": "환경변수가 없으면 빌드 실패하도록 Zod 필수값 설정. API 키는 절대 클라이언트에 노출되지 않도록 주의.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-18T07:13:09.070Z",
+      "updatedAt": "2026-01-18T07:32:13.173Z",
+      "relatedFiles": [
+        {
+          "path": "src/lib/env.ts",
+          "type": "TO_MODIFY",
+          "description": "Zod 스키마에 NOTION_API_KEY, NOTION_DATABASE_ID 추가"
+        },
+        {
+          "path": "src/lib/notion.ts",
+          "type": "CREATE",
+          "description": "Notion 클라이언트 초기화 및 유틸리티"
+        },
+        {
+          "path": "package.json",
+          "type": "TO_MODIFY",
+          "description": "@notionhq/client 의존성 추가"
+        },
+        {
+          "path": ".env.local",
+          "type": "CREATE",
+          "description": "환경변수 파일 (gitignore됨)"
+        }
+      ],
+      "implementationGuide": "1. npm install @notionhq/client 실행\\n2. src/lib/env.ts 확장:\\n   - NOTION_API_KEY: z.string().min(1)\\n   - NOTION_DATABASE_ID: z.string().min(1)\\n3. src/lib/notion.ts 생성:\\n   - Client 초기화 (auth: env.NOTION_API_KEY)\\n   - 에러 핸들링 함수 (handleNotionError)\\n4. .env.local 파일에 실제 키 설정 (gitignore 확인)",
+      "verificationCriteria": "1. npm run build 성공\\n2. lib/notion.ts에서 notion 클라이언트 export 확인\\n3. 환경변수 누락 시 명확한 에러 메시지 출력",
+      "analysisResult": "Phase 3 핵심 기능 구현: Notion API 연동을 통해 더미 데이터 기반 TIL Garden을 실제 CMS 연동 블로그로 전환. @notionhq/client 패키지 사용, Next.js 15.5.3 App Router Server Component 환경, ISR 캐싱 전략 적용. 기존 types/ 타입 정의 및 UI 컴포넌트는 변경 없이 재사용.",
+      "summary": "Task 010 완료: @notionhq/client 설치, env.ts 확장(notionEnvSchema), notion.ts 생성(클라이언트 초기화 + handleNotionError + safeNotionCall 유틸리티), .env.local 환경변수 확인, npm run build 성공",
+      "completedAt": "2026-01-18T07:32:13.171Z"
+    },
+    {
+      "id": "ccb40792-93a2-44bd-8c50-045dcabbea66",
+      "name": "Task 011: TIL 목록 조회 API 구현",
+      "description": "Published 상태의 TIL 목록을 조회하는 API 함수를 구현합니다. 최신순 정렬, 카테고리 필터링, 페이지네이션을 지원합니다.",
+      "notes": "types/api.ts의 GetTILListParams, TILListResponse 타입 활용. types/category.ts의 slugToCategoryId() 함수로 카테고리 변환.",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "a9798545-98f2-4d5e-b938-442e81cd89d1"
+        }
+      ],
+      "createdAt": "2026-01-18T07:13:09.070Z",
+      "updatedAt": "2026-01-18T07:36:10.297Z",
+      "relatedFiles": [
+        {
+          "path": "src/lib/notion.ts",
+          "type": "TO_MODIFY",
+          "description": "getTILList, transformNotionPageToTIL 함수 추가"
+        },
+        {
+          "path": "src/types/api.ts",
+          "type": "REFERENCE",
+          "description": "GetTILListParams, TILListResponse 타입"
+        },
+        {
+          "path": "src/types/til.ts",
+          "type": "REFERENCE",
+          "description": "TIL 인터페이스"
+        },
+        {
+          "path": "src/types/category.ts",
+          "type": "REFERENCE",
+          "description": "slugToCategoryId 함수"
+        }
+      ],
+      "implementationGuide": "1. src/lib/notion.ts에 getTILList 함수 추가:\\n   - params: GetTILListParams (category?, cursor?, pageSize?)\\n   - filter: Status=Published AND (Category=params.category if provided)\\n   - sorts: [{ property: '등록일', direction: 'descending' }]\\n   - page_size, start_cursor 설정\\n2. transformNotionPageToTIL 변환 함수 구현:\\n   - NotionTILPage -> TIL 타입 변환\\n   - Slag 필드명 오타 주의 (Notion DB 원본)\\n3. 반환: { items: TIL[], pagination: PaginationInfo }",
+      "verificationCriteria": "1. getTILList() 호출 시 Published TIL 목록 반환\\n2. category 파라미터로 필터링 동작\\n3. 최신순 정렬 확인\\n4. pagination.hasMore, nextCursor 정상 반환",
+      "analysisResult": "Phase 3 핵심 기능 구현: Notion API 연동을 통해 더미 데이터 기반 TIL Garden을 실제 CMS 연동 블로그로 전환. @notionhq/client 패키지 사용, Next.js 15.5.3 App Router Server Component 환경, ISR 캐싱 전략 적용. 기존 types/ 타입 정의 및 UI 컴포넌트는 변경 없이 재사용.",
+      "summary": "Task 011 완료: TIL 목록 조회 API 구현 성공. getTILList 함수 (Published 필터, 등록일 기준 내림차순 정렬, cursor 기반 페이지네이션 지원), transformNotionPageToTIL 변환 함수 (Notion 페이지 속성을 TIL 타입으로 안전하게 변환, Slag 오타 필드 처리 포함) 구현 완료. Notion SDK v2.2.15로 안정적인 API 사용, npm run build 성공 확인.",
+      "completedAt": "2026-01-18T07:36:10.297Z"
+    },
+    {
+      "id": "212addf1-348c-4ba5-9a92-1ad8e38de975",
+      "name": "Task 012: TIL 상세 조회 API 구현",
+      "description": "slug를 기반으로 개별 TIL 상세 정보와 Notion 블록 본문을 조회하는 API 함수를 구현합니다.",
+      "notes": "Notion API 블록 응답 구조와 types/notion.ts 타입 매핑 필요. has_children은 현재 무시 (1단계 블록만).",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "ccb40792-93a2-44bd-8c50-045dcabbea66"
+        }
+      ],
+      "createdAt": "2026-01-18T07:13:09.070Z",
+      "updatedAt": "2026-01-18T07:37:39.698Z",
+      "relatedFiles": [
+        {
+          "path": "src/lib/notion.ts",
+          "type": "TO_MODIFY",
+          "description": "getTILBySlug, transformBlocks 함수 추가"
+        },
+        {
+          "path": "src/types/notion.ts",
+          "type": "REFERENCE",
+          "description": "NotionBlock 유니온 타입"
+        },
+        {
+          "path": "src/types/til.ts",
+          "type": "REFERENCE",
+          "description": "TILDetail 인터페이스"
+        }
+      ],
+      "implementationGuide": "1. src/lib/notion.ts에 getTILBySlug 함수 추가:\\n   - filter: Slag=slug AND Status=Published\\n   - 결과 없으면 null 반환\\n2. 페이지 찾으면 blocks.children.list로 블록 조회:\\n   - collectPaginatedAPI 또는 수동 페이지네이션\\n   - block_id: page.id\\n3. transformBlocks 함수로 NotionBlock[] 변환:\\n   - 지원 블록: paragraph, heading_1/2/3, code, bulleted/numbered_list_item, quote, divider, image\\n   - 미지원 블록: unsupported로 처리\\n4. 반환: TILDetail (TIL + blocks)",
+      "verificationCriteria": "1. 유효한 slug로 TILDetail 반환\\n2. 잘못된 slug로 null 반환\\n3. blocks 배열에 Notion 본문 블록 포함\\n4. 코드 블록 language 필드 정상 매핑",
+      "analysisResult": "Phase 3 핵심 기능 구현: Notion API 연동을 통해 더미 데이터 기반 TIL Garden을 실제 CMS 연동 블로그로 전환. @notionhq/client 패키지 사용, Next.js 15.5.3 App Router Server Component 환경, ISR 캐싱 전략 적용. 기존 types/ 타입 정의 및 UI 컴포넌트는 변경 없이 재사용.",
+      "summary": "Task 012 완료: TIL 상세 조회 API 구현 성공. getTILBySlug 함수 (Slag=slug AND Status=Published 필터, 페이지 조회 후 블록 조회), transformBlock 함수 (16개 블록 타입 지원: paragraph, heading_1/2/3, bulleted/numbered_list_item, code, quote, divider, image, callout, to_do, toggle, bookmark, embed, video, unsupported), getPageBlocks 함수 (페이지네이션 처리하여 모든 블록 조회). npm run build 성공 확인.",
+      "completedAt": "2026-01-18T07:37:39.697Z"
+    },
+    {
+      "id": "8f30df76-7033-4051-9694-ad8b7e5597e3",
+      "name": "Task 013: 더미 데이터를 실제 API로 교체",
+      "description": "메인, 카테고리, 상세 페이지에서 더미 데이터 호출을 실제 Notion API 호출로 교체합니다. 에러 처리와 로딩 상태를 구현합니다.",
+      "notes": "lib/mock-data.ts 파일은 삭제하지 않고 유지 (테스트/개발용). Server Component에서만 API 호출.",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "212addf1-348c-4ba5-9a92-1ad8e38de975"
+        }
+      ],
+      "createdAt": "2026-01-18T07:13:09.070Z",
+      "updatedAt": "2026-01-18T07:40:04.949Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "getTILList로 교체"
+        },
+        {
+          "path": "src/app/category/[name]/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "getTILList with category로 교체"
+        },
+        {
+          "path": "src/app/til/[slug]/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "getTILBySlug로 교체"
+        },
+        {
+          "path": "src/lib/notion.ts",
+          "type": "REFERENCE",
+          "description": "API 함수들"
+        }
+      ],
+      "implementationGuide": "1. src/app/page.tsx 수정:\\n   - import 변경: getMockTILsPaginated -> getTILList\\n   - try-catch로 에러 처리 래핑\\n   - 에러 시 에러 UI 컴포넌트 표시\\n2. src/app/category/[name]/page.tsx 수정:\\n   - import 변경 및 category 파라미터 전달\\n   - slugToCategoryId()로 카테고리 변환\\n3. src/app/til/[slug]/page.tsx 수정:\\n   - import 변경: getMockTILDetail -> getTILBySlug\\n   - null 반환 시 notFound() 호출\\n4. 더미 데이터 import 문 모두 제거 확인",
+      "verificationCriteria": "1. 모든 페이지에서 실제 Notion 데이터 표시\\n2. 브라우저 콘솔에 에러 없음\\n3. 카테고리 필터링 정상 동작\\n4. TIL 상세 페이지 블록 렌더링 정상",
+      "analysisResult": "Phase 3 핵심 기능 구현: Notion API 연동을 통해 더미 데이터 기반 TIL Garden을 실제 CMS 연동 블로그로 전환. @notionhq/client 패키지 사용, Next.js 15.5.3 App Router Server Component 환경, ISR 캐싱 전략 적용. 기존 types/ 타입 정의 및 UI 컴포넌트는 변경 없이 재사용.",
+      "summary": "Task 013 완료: 더미 데이터를 실제 Notion API로 교체 성공. 메인 페이지(getTILList), 카테고리 페이지(getTILList with category filter, slugToCategoryId 변환), TIL 상세 페이지(getTILBySlug) 모두 실제 API 호출로 교체. 커서 기반 페이지네이션 구현, 빈 데이터 및 에러 상태 UI 처리. 더미 데이터 import 제거 완료. npm run build 성공.",
+      "completedAt": "2026-01-18T07:40:04.948Z"
+    },
+    {
+      "id": "cd5feb7b-3143-4ac2-818e-647e43910b7a",
+      "name": "Task 014: 캐싱 및 ISR 설정",
+      "description": "Next.js ISR(Incremental Static Regeneration)을 설정하여 Notion API 호출을 최적화합니다.",
+      "notes": "revalidate=60은 60초마다 재검증. Notion API rate limit(3req/sec) 고려. generateStaticParams는 빌드 시점에 정적 페이지 생성.",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "8f30df76-7033-4051-9694-ad8b7e5597e3"
+        }
+      ],
+      "createdAt": "2026-01-18T07:13:09.070Z",
+      "updatedAt": "2026-01-18T07:41:26.271Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "revalidate 추가"
+        },
+        {
+          "path": "src/app/category/[name]/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "revalidate 추가"
+        },
+        {
+          "path": "src/app/til/[slug]/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "revalidate, generateStaticParams 추가"
+        }
+      ],
+      "implementationGuide": "1. 각 페이지에 revalidate 설정:\\n   - src/app/page.tsx: export const revalidate = 60\\n   - src/app/category/[name]/page.tsx: export const revalidate = 60\\n   - src/app/til/[slug]/page.tsx: export const revalidate = 60\\n2. TIL 상세 페이지 정적 생성 경로:\\n   - generateStaticParams() 함수 구현\\n   - getTILList({ pageSize: 100 })로 모든 slug 조회\\n   - return items.map(til => ({ slug: til.slug }))\\n3. 빌드 테스트: npm run build",
+      "verificationCriteria": "1. npm run build 성공\\n2. .next/server 폴더에 정적 페이지 생성 확인\\n3. 새로고침 후 데이터 일관성 유지\\n4. 빌드 로그에 정적 생성된 페이지 목록 표시",
+      "analysisResult": "Phase 3 핵심 기능 구현: Notion API 연동을 통해 더미 데이터 기반 TIL Garden을 실제 CMS 연동 블로그로 전환. @notionhq/client 패키지 사용, Next.js 15.5.3 App Router Server Component 환경, ISR 캐싱 전략 적용. 기존 types/ 타입 정의 및 UI 컴포넌트는 변경 없이 재사용.",
+      "summary": "Task 014 완료: ISR 캐싱 및 정적 생성 설정 성공. 모든 페이지에 revalidate=60 설정 (60초마다 재검증). 카테고리 페이지 generateStaticParams로 6개 카테고리 경로 정적 생성, TIL 상세 페이지 getTILList로 모든 Published TIL slug 조회하여 정적 생성. 빌드 로그에서 정적 생성된 페이지 확인 (/category/aws, /category/database, /til/bb 등).",
+      "completedAt": "2026-01-18T07:41:26.270Z"
+    },
+    {
+      "id": "4ec133b9-ad49-494f-9cea-03f1d93c9984",
+      "name": "Task 014-1: 핵심 기능 통합 테스트",
+      "description": "Playwright MCP를 사용하여 전체 사용자 플로우와 API 연동을 테스트합니다.",
+      "notes": "Playwright MCP 브라우저 도구 사용. 실제 Notion DB에 테스트 데이터 필요. 네트워크 상태에 따라 응답 시간 변동 가능.",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "cd5feb7b-3143-4ac2-818e-647e43910b7a"
+        }
+      ],
+      "createdAt": "2026-01-18T07:13:09.070Z",
+      "updatedAt": "2026-01-18T07:49:31.398Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/page.tsx",
+          "type": "REFERENCE",
+          "description": "메인 페이지 테스트"
+        },
+        {
+          "path": "src/app/category/[name]/page.tsx",
+          "type": "REFERENCE",
+          "description": "카테고리 페이지 테스트"
+        },
+        {
+          "path": "src/app/til/[slug]/page.tsx",
+          "type": "REFERENCE",
+          "description": "상세 페이지 테스트"
+        },
+        {
+          "path": "src/app/not-found.tsx",
+          "type": "REFERENCE",
+          "description": "404 페이지 테스트"
+        }
+      ],
+      "implementationGuide": "1. 개발 서버 실행: npm run dev\\n2. 메인 페이지 테스트:\\n   - browser_navigate('http://localhost:3000')\\n   - browser_snapshot()으로 TIL 카드 목록 확인\\n   - browser_console_messages()로 에러 없음 확인\\n3. 카테고리 필터링 테스트:\\n   - browser_click('AWS 카테고리')\\n   - URL 변경 및 필터링 결과 확인\\n4. TIL 상세 페이지 테스트:\\n   - browser_click('첫 번째 TIL 카드')\\n   - 본문 블록 렌더링 확인\\n5. 에러 핸들링 테스트:\\n   - browser_navigate('/til/non-existent-slug')\\n   - 404 페이지 표시 확인\\n6. 성능 검증:\\n   - 페이지 로딩 시간 3초 이내",
+      "verificationCriteria": "1. 모든 E2E 테스트 시나리오 통과\\n2. 브라우저 콘솔 에러 0건\\n3. API 응답 시간 3초 이내\\n4. 전체 사용자 플로우 정상 동작",
+      "analysisResult": "Phase 3 핵심 기능 구현: Notion API 연동을 통해 더미 데이터 기반 TIL Garden을 실제 CMS 연동 블로그로 전환. @notionhq/client 패키지 사용, Next.js 15.5.3 App Router Server Component 환경, ISR 캐싱 전략 적용. 기존 types/ 타입 정의 및 UI 컴포넌트는 변경 없이 재사용.",
+      "summary": "Task 014-1 핵심 기능 통합 테스트 완료. Playwright MCP를 사용한 E2E 테스트 결과:\n1. 메인 페이지: ✅ Notion API 데이터 정상 로딩 (Test2 TIL 표시)\n2. 카테고리 필터링: ✅ Database 카테고리 클릭 시 /category/database로 정상 이동\n3. TIL 상세 페이지: ✅ /til/bb 경로에서 메타데이터, 태그, 네비게이션 정상 표시\n4. 404 에러 페이지: ✅ 존재하지 않는 slug 접근 시 404 페이지 정상 표시\n5. 콘솔 에러: ✅ 없음 (예상된 리소스 404만 확인)\n모든 Phase 3 핵심 기능 API 연동 및 사용자 플로우 테스트 통과.",
+      "completedAt": "2026-01-18T07:49:31.397Z"
+    }
+  ]
+}

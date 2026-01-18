@@ -6,16 +6,16 @@ AI Agent를 위한 프로젝트별 개발 규칙 문서입니다.
 
 ## 1. 프로젝트 개요
 
-| 항목 | 내용 |
-|------|------|
-| **프로젝트명** | TIL Garden |
-| **목적** | Notion CMS 기반 개발자 TIL(Today I Learned) 마이크로 블로그 |
-| **Framework** | Next.js 15.5.3 (App Router + Turbopack) |
-| **Runtime** | React 19.1.0 + TypeScript 5 |
-| **Styling** | TailwindCSS v4 + shadcn/ui (new-york style) |
-| **Forms** | React Hook Form + Zod + Server Actions |
-| **Icons** | Lucide React |
-| **CMS** | Notion API (@notionhq/client) |
+| 항목           | 내용                                                        |
+| -------------- | ----------------------------------------------------------- |
+| **프로젝트명** | TIL Garden                                                  |
+| **목적**       | Notion CMS 기반 개발자 TIL(Today I Learned) 마이크로 블로그 |
+| **Framework**  | Next.js 15.5.3 (App Router + Turbopack)                     |
+| **Runtime**    | React 19.1.0 + TypeScript 5                                 |
+| **Styling**    | TailwindCSS v4 + shadcn/ui (new-york style)                 |
+| **Forms**      | React Hook Form + Zod + Server Actions                      |
+| **Icons**      | Lucide React                                                |
+| **CMS**        | Notion API (@notionhq/client)                               |
 
 ---
 
@@ -51,13 +51,13 @@ docs/
 
 ### 컴포넌트 분류 규칙
 
-| 폴더 | 용도 | 예시 |
-|------|------|------|
-| `ui/` | shadcn/ui 기본 컴포넌트, 비즈니스 로직 없음 | button, card, input |
-| `layout/` | 페이지 구조 컴포넌트 | header, footer, container |
-| `navigation/` | 네비게이션 관련 | main-nav, mobile-nav, pagination |
-| `sections/` | 페이지 섹션 | hero, features, til-card |
-| `providers/` | Context 프로바이더 | theme-provider |
+| 폴더          | 용도                                        | 예시                             |
+| ------------- | ------------------------------------------- | -------------------------------- |
+| `ui/`         | shadcn/ui 기본 컴포넌트, 비즈니스 로직 없음 | button, card, input              |
+| `layout/`     | 페이지 구조 컴포넌트                        | header, footer, container        |
+| `navigation/` | 네비게이션 관련                             | main-nav, mobile-nav, pagination |
+| `sections/`   | 페이지 섹션                                 | hero, features, til-card         |
+| `providers/`  | Context 프로바이더                          | theme-provider                   |
 
 ### 파일 위치 결정 기준
 
@@ -72,15 +72,16 @@ docs/
 
 ### 파일 네이밍 규칙
 
-| 대상 | 규칙 | 올바른 예 | 잘못된 예 |
-|------|------|----------|----------|
-| 파일명 | kebab-case | `user-profile.tsx` | `userProfile.tsx`, `user_profile.tsx` |
-| 폴더명 | 소문자, kebab-case | `api-routes/` | `ApiRoutes/`, `api_routes/` |
-| 컴포넌트명 | PascalCase | `UserProfile` | `userProfile`, `user_profile` |
+| 대상       | 규칙               | 올바른 예          | 잘못된 예                             |
+| ---------- | ------------------ | ------------------ | ------------------------------------- |
+| 파일명     | kebab-case         | `user-profile.tsx` | `userProfile.tsx`, `user_profile.tsx` |
+| 폴더명     | 소문자, kebab-case | `api-routes/`      | `ApiRoutes/`, `api_routes/`           |
+| 컴포넌트명 | PascalCase         | `UserProfile`      | `userProfile`, `user_profile`         |
 
 ### Import 규칙
 
 **순서 (자동 정렬되나 수동 작성 시 준수):**
+
 1. 외부 라이브러리 (react, next)
 2. 내부 라이브러리 (@/ 경로)
 3. 상대 경로 (최소화)
@@ -97,12 +98,12 @@ import { Button } from '../../../components/ui/button'
 
 ### 경로 별칭 (필수 사용)
 
-| 별칭 | 실제 경로 |
-|------|----------|
-| `@/components` | `src/components` |
-| `@/lib` | `src/lib` |
-| `@/hooks` | `src/hooks` |
-| `@/ui` | `src/components/ui` |
+| 별칭           | 실제 경로           |
+| -------------- | ------------------- |
+| `@/components` | `src/components`    |
+| `@/lib`        | `src/lib`           |
+| `@/hooks`      | `src/hooks`         |
+| `@/ui`         | `src/components/ui` |
 
 ### Export 규칙
 
@@ -212,14 +213,14 @@ npm run build
 
 ### 개발 명령어
 
-| 명령어 | 용도 |
-|--------|------|
-| `npm run dev` | 개발 서버 실행 (Turbopack) |
-| `npm run build` | 프로덕션 빌드 |
-| `npm run lint` | ESLint 검사 |
-| `npm run lint:fix` | ESLint 자동 수정 |
-| `npm run format` | Prettier 포맷팅 |
-| `npm run typecheck` | TypeScript 타입 검사 |
+| 명령어              | 용도                       |
+| ------------------- | -------------------------- |
+| `npm run dev`       | 개발 서버 실행 (Turbopack) |
+| `npm run build`     | 프로덕션 빌드              |
+| `npm run lint`      | ESLint 검사                |
+| `npm run lint:fix`  | ESLint 자동 수정           |
+| `npm run format`    | Prettier 포맷팅            |
+| `npm run typecheck` | TypeScript 타입 검사       |
 
 ### 작업 완료 체크리스트
 
@@ -233,25 +234,25 @@ npm run build
 
 ### 동시 수정이 필요한 파일 조합
 
-| 작업 | 확인/수정 필요 파일 |
-|------|-------------------|
-| 전역 레이아웃 변경 | `src/app/layout.tsx`, `src/app/globals.css` |
-| 새 페이지 추가 | `src/app/[route]/page.tsx`, 네비게이션 컴포넌트 |
-| 타입 정의 추가 | `src/lib/types/`, 관련 컴포넌트 |
-| shadcn 컴포넌트 추가 | `src/components/ui/`, `components.json` (자동) |
-| 환경변수 추가 | `.env.local`, `src/lib/env.ts` |
+| 작업                 | 확인/수정 필요 파일                             |
+| -------------------- | ----------------------------------------------- |
+| 전역 레이아웃 변경   | `src/app/layout.tsx`, `src/app/globals.css`     |
+| 새 페이지 추가       | `src/app/[route]/page.tsx`, 네비게이션 컴포넌트 |
+| 타입 정의 추가       | `src/lib/types/`, 관련 컴포넌트                 |
+| shadcn 컴포넌트 추가 | `src/components/ui/`, `components.json` (자동)  |
+| 환경변수 추가        | `.env.local`, `src/lib/env.ts`                  |
 
 ### 참조 문서
 
-| 작업 유형 | 참조 문서 |
-|----------|----------|
-| 페이지 구조 | `@/docs/guides/project-structure.md` |
-| 컴포넌트 패턴 | `@/docs/guides/component-patterns.md` |
-| 스타일링 | `@/docs/guides/styling-guide.md` |
-| Next.js 규칙 | `@/docs/guides/nextjs-15.md` |
-| 폼 처리 | `@/docs/guides/forms-react-hook-form.md` |
-| 기능 요구사항 | `@/docs/PRD.md` |
-| 개발 진행 상황 | `@/docs/ROADMAP.md` |
+| 작업 유형      | 참조 문서                                |
+| -------------- | ---------------------------------------- |
+| 페이지 구조    | `@/docs/guides/project-structure.md`     |
+| 컴포넌트 패턴  | `@/docs/guides/component-patterns.md`    |
+| 스타일링       | `@/docs/guides/styling-guide.md`         |
+| Next.js 규칙   | `@/docs/guides/nextjs-15.md`             |
+| 폼 처리        | `@/docs/guides/forms-react-hook-form.md` |
+| 기능 요구사항  | `@/docs/PRD.md`                          |
+| 개발 진행 상황 | `@/docs/ROADMAP.md`                      |
 
 ---
 
@@ -309,22 +310,22 @@ npm run build
 
 ### 아키텍처 금지사항
 
-| 금지 항목 | 이유 |
-|----------|------|
-| Pages Router 사용 | App Router 전용 프로젝트 |
+| 금지 항목                              | 이유                      |
+| -------------------------------------- | ------------------------- |
+| Pages Router 사용                      | App Router 전용 프로젝트  |
 | `getServerSideProps`, `getStaticProps` | App Router에서 deprecated |
-| `pages/` 폴더 생성 | App Router 전용 |
+| `pages/` 폴더 생성                     | App Router 전용           |
 
 ### 코드 작성 금지사항
 
-| 금지 항목 | 대안 |
-|----------|------|
-| 상대 경로 import (`../../`) | 경로 별칭 사용 (`@/`) |
-| 인라인 스타일 (`style={{}}`) | TailwindCSS 클래스 사용 |
-| 하드코딩 색상 (`bg-white`) | 시맨틱 변수 (`bg-background`) |
-| 불필요한 'use client' | Server Component 유지 |
-| snake_case 파일명 | kebab-case 사용 |
-| 동기식 params 접근 | `await params` 사용 |
+| 금지 항목                    | 대안                          |
+| ---------------------------- | ----------------------------- |
+| 상대 경로 import (`../../`)  | 경로 별칭 사용 (`@/`)         |
+| 인라인 스타일 (`style={{}}`) | TailwindCSS 클래스 사용       |
+| 하드코딩 색상 (`bg-white`)   | 시맨틱 변수 (`bg-background`) |
+| 불필요한 'use client'        | Server Component 유지         |
+| snake_case 파일명            | kebab-case 사용               |
+| 동기식 params 접근           | `await params` 사용           |
 
 ### 스타일링 금지사항
 
@@ -444,15 +445,15 @@ import { Container } from '@/components/layout/container'
 
 ### TailwindCSS 시맨틱 색상
 
-| 변수 | 용도 |
-|------|------|
-| `bg-background` | 기본 배경 |
-| `text-foreground` | 기본 텍스트 |
-| `bg-primary` | 주요 색상 배경 |
+| 변수                      | 용도                |
+| ------------------------- | ------------------- |
+| `bg-background`           | 기본 배경           |
+| `text-foreground`         | 기본 텍스트         |
+| `bg-primary`              | 주요 색상 배경      |
 | `text-primary-foreground` | 주요 색상 위 텍스트 |
-| `text-muted-foreground` | 보조 텍스트 |
-| `border-border` | 테두리 색상 |
+| `text-muted-foreground`   | 보조 텍스트         |
+| `border-border`           | 테두리 색상         |
 
 ---
 
-*이 문서는 AI Agent가 TIL Garden 프로젝트를 개발할 때 따라야 할 규칙을 정의합니다.*
+_이 문서는 AI Agent가 TIL Garden 프로젝트를 개발할 때 따라야 할 규칙을 정의합니다._
