@@ -20,7 +20,12 @@ import {
 } from '@/components/til/til-card-skeleton'
 import { getTILList } from '@/lib/notion'
 import { toTILCardData } from '@/types/til'
-import { isValidCategorySlug, getCategoryBySlug, slugToCategoryId, CATEGORIES } from '@/types'
+import {
+  isValidCategorySlug,
+  getCategoryBySlug,
+  slugToCategoryId,
+  CATEGORIES,
+} from '@/types'
 import type { TILCategorySlug } from '@/types'
 
 /**
@@ -56,27 +61,43 @@ export async function generateMetadata({
 
   if (!isValidCategorySlug(name)) {
     return {
-      title: '카테고리를 찾을 수 없습니다 - TIL Garden',
+      title: '카테고리를 찾을 수 없습니다',
     }
   }
 
   const category = getCategoryBySlug(name)
   if (!category) {
     return {
-      title: '카테고리를 찾을 수 없습니다 - TIL Garden',
+      title: '카테고리를 찾을 수 없습니다',
     }
   }
 
+  const title = `${category.label} TIL 목록`
+  const description = `${category.description} 관련 TIL 목록입니다.`
+
   return {
-    title: `${category.label} - TIL Garden`,
-    description: `${category.description} 관련 TIL 목록입니다.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   }
 }
 
 /**
  * 카테고리 페이지 컴포넌트
  */
-export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: CategoryPageProps) {
   const { name } = await params
   const search = await searchParams
 
@@ -143,7 +164,9 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
               <TILCardList tils={cardData} />
             ) : (
               <div className="py-12 text-center">
-                <p className="text-muted-foreground">이 카테고리에 게시된 TIL이 없습니다.</p>
+                <p className="text-muted-foreground">
+                  이 카테고리에 게시된 TIL이 없습니다.
+                </p>
               </div>
             )}
           </Suspense>

@@ -15,15 +15,18 @@ interface ImageBlockRendererProps {
 /**
  * 이미지 블록 렌더러
  */
-export function ImageBlockRenderer({ block, className }: ImageBlockRendererProps) {
+export function ImageBlockRenderer({
+  block,
+  className,
+}: ImageBlockRendererProps) {
   const imageData = block.image
-  const url = imageData.type === 'external'
-    ? imageData.external.url
-    : imageData.file.url
+  const url =
+    imageData.type === 'external' ? imageData.external.url : imageData.file.url
 
-  const caption = imageData.caption.length > 0
-    ? getPlainTextFromRichText(imageData.caption)
-    : null
+  const caption =
+    imageData.caption.length > 0
+      ? getPlainTextFromRichText(imageData.caption)
+      : null
 
   return (
     <figure className={cn('my-6', className)}>
@@ -34,7 +37,8 @@ export function ImageBlockRenderer({ block, className }: ImageBlockRendererProps
           width={800}
           height={600}
           className="h-auto w-full object-contain"
-          unoptimized // Notion 이미지는 외부 URL이므로 최적화 비활성화
+          unoptimized={imageData.type === 'file'}
+          priority={false}
         />
       </div>
       {caption && (

@@ -71,15 +71,28 @@ export async function generateMetadata({
 
   if (!til) {
     return {
-      title: 'TIL을 찾을 수 없습니다 - TIL Garden',
+      title: 'TIL을 찾을 수 없습니다',
     }
   }
 
   const categoryInfo = getCategoryById(til.category)
+  const description = `${categoryInfo?.label || til.category} 카테고리의 TIL입니다. ${til.tags.length > 0 ? `태그: ${til.tags.join(', ')}` : ''}`
 
   return {
-    title: `${til.title} - TIL Garden`,
-    description: `${categoryInfo?.label || til.category} 카테고리의 TIL입니다.`,
+    title: til.title,
+    description,
+    openGraph: {
+      title: til.title,
+      description,
+      type: 'article',
+      publishedTime: til.date,
+      tags: til.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: til.title,
+      description,
+    },
   }
 }
 
@@ -123,11 +136,7 @@ export default async function TILDetailPage({ params }: TILDetailPageProps) {
             <header className="mb-8 space-y-4">
               {/* 카테고리 */}
               <div className="flex items-center gap-2">
-                <Badge
-                  variant="secondary"
-                  className="font-medium"
-                  asChild
-                >
+                <Badge variant="secondary" className="font-medium" asChild>
                   <Link
                     href={`/category/${categoryInfo?.slug}`}
                     title={categoryInfo?.description}
@@ -151,11 +160,7 @@ export default async function TILDetailPage({ params }: TILDetailPageProps) {
               {til.tags.length > 0 && (
                 <div className="flex flex-wrap items-center gap-2">
                   {til.tags.map(tag => (
-                    <Badge
-                      key={tag}
-                      variant="outline"
-                      className="font-normal"
-                    >
+                    <Badge key={tag} variant="outline" className="font-normal">
                       {tag}
                     </Badge>
                   ))}
@@ -180,10 +185,13 @@ export default async function TILDetailPage({ params }: TILDetailPageProps) {
                     href={til.reference}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:underline inline-flex items-center gap-1 break-all"
+                    className="text-primary inline-flex items-center gap-1 break-all hover:underline"
                   >
                     {til.reference}
-                    <ExternalLink className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
+                    <ExternalLink
+                      className="h-3.5 w-3.5 flex-shrink-0"
+                      aria-hidden="true"
+                    />
                   </a>
                 </div>
               </>
