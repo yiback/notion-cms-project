@@ -23,7 +23,11 @@ interface PaginationProps {
 /**
  * URL에 페이지 번호를 추가한 경로 생성
  */
-function createPageUrl(pathname: string, searchParams: URLSearchParams, page: number): string {
+function createPageUrl(
+  pathname: string,
+  searchParams: URLSearchParams,
+  page: number
+): string {
   const params = new URLSearchParams(searchParams)
   if (page === 1) {
     params.delete('page')
@@ -37,7 +41,10 @@ function createPageUrl(pathname: string, searchParams: URLSearchParams, page: nu
 /**
  * 페이지 번호 배열 생성 (생략 부호 포함)
  */
-function getPageNumbers(currentPage: number, totalPages: number): (number | 'ellipsis')[] {
+function getPageNumbers(
+  currentPage: number,
+  totalPages: number
+): (number | 'ellipsis')[] {
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, i) => i + 1)
   }
@@ -75,7 +82,11 @@ function getPageNumbers(currentPage: number, totalPages: number): (number | 'ell
 /**
  * TIL 목록 페이지네이션 컴포넌트
  */
-export function Pagination({ currentPage, totalPages, className }: PaginationProps) {
+export function Pagination({
+  currentPage,
+  totalPages,
+  className,
+}: PaginationProps) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -137,10 +148,7 @@ export function Pagination({ currentPage, totalPages, className }: PaginationPro
               asChild={!isCurrentPage}
               variant={isCurrentPage ? 'default' : 'outline'}
               size="icon"
-              className={cn(
-                'h-9 w-9',
-                isCurrentPage && 'pointer-events-none'
-              )}
+              className={cn('h-9 w-9', isCurrentPage && 'pointer-events-none')}
               aria-label={`페이지 ${pageNum}`}
               aria-current={isCurrentPage ? 'page' : undefined}
             >
@@ -182,7 +190,11 @@ export function Pagination({ currentPage, totalPages, className }: PaginationPro
 /**
  * 간단한 이전/다음 페이지네이션 (모바일용)
  */
-export function PaginationSimple({ currentPage, totalPages, className }: PaginationProps) {
+export function PaginationSimple({
+  currentPage,
+  totalPages,
+  className,
+}: PaginationProps) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 

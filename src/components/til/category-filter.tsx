@@ -36,10 +36,7 @@ export function CategoryFilter({
         asChild
         variant={!currentCategory ? 'default' : 'outline'}
         size="sm"
-        className={cn(
-          'transition-all',
-          !currentCategory && 'shadow-sm'
-        )}
+        className={cn('transition-all', !currentCategory && 'shadow-sm')}
       >
         <Link href="/" aria-current={!currentCategory ? 'page' : undefined}>
           전체
@@ -56,10 +53,7 @@ export function CategoryFilter({
             asChild
             variant={isActive ? 'default' : 'outline'}
             size="sm"
-            className={cn(
-              'transition-all',
-              isActive && 'shadow-sm'
-            )}
+            className={cn('transition-all', isActive && 'shadow-sm')}
           >
             <Link
               href={`/category/${category.slug}`}
@@ -92,7 +86,7 @@ export function CategoryFilterCompact({
         className={cn(
           'border-input bg-background ring-offset-background',
           'flex h-9 w-full rounded-md border px-3 py-1 text-sm',
-          'focus-visible:ring-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+          'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
           'disabled:cursor-not-allowed disabled:opacity-50'
         )}
         value={currentCategory || ''}

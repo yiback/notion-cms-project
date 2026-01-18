@@ -4,7 +4,12 @@ import { Footer } from '@/components/layout/footer'
 import { Header } from '@/components/layout/header'
 import { Container } from '@/components/layout/container'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/ui/card'
 import { CATEGORIES } from '@/types'
 
 export const metadata: Metadata = {
@@ -34,19 +39,17 @@ export default function AboutPage() {
             <h2 className="mb-4 text-2xl font-semibold">프로젝트 소개</h2>
             <div className="prose prose-neutral dark:prose-invert max-w-none">
               <p>
-                TIL Garden은 개발자가 매일 배운 것을 기록하고 공유하는
-                마이크로 블로그입니다. Notion을 CMS로 활용하여 간편하게
-                콘텐츠를 관리하고, Next.js를 통해 빠르고 SEO 친화적인
-                웹사이트로 제공합니다.
+                TIL Garden은 개발자가 매일 배운 것을 기록하고 공유하는 마이크로
+                블로그입니다. Notion을 CMS로 활용하여 간편하게 콘텐츠를
+                관리하고, Next.js를 통해 빠르고 SEO 친화적인 웹사이트로
+                제공합니다.
               </p>
             </div>
           </section>
 
           {/* Notion CMS 활용 */}
           <section className="mb-14">
-            <h2 className="mb-4 text-2xl font-semibold">
-              왜 Notion CMS인가?
-            </h2>
+            <h2 className="mb-4 text-2xl font-semibold">왜 Notion CMS인가?</h2>
             <div className="prose prose-neutral dark:prose-invert max-w-none">
               <ul>
                 <li>
@@ -54,8 +57,8 @@ export default function AboutPage() {
                   편리하게 콘텐츠 작성
                 </li>
                 <li>
-                  <strong>실시간 동기화</strong>: Notion에서 수정하면
-                  웹사이트에 자동 반영
+                  <strong>실시간 동기화</strong>: Notion에서 수정하면 웹사이트에
+                  자동 반영
                 </li>
                 <li>
                   <strong>무료</strong>: 별도의 CMS 비용 없이 Notion 무료
@@ -110,15 +113,11 @@ export default function AboutPage() {
               {CATEGORIES.map(category => (
                 <Card
                   key={category.id}
-                  className="transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
+                  className="hover:border-primary/50 hover:shadow-primary/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 >
                   <CardHeader>
-                    <CardTitle className="text-lg">
-                      {category.label}
-                    </CardTitle>
-                    <CardDescription>
-                      {category.description}
-                    </CardDescription>
+                    <CardTitle className="text-lg">{category.label}</CardTitle>
+                    <CardDescription>{category.description}</CardDescription>
                   </CardHeader>
                 </Card>
               ))}
@@ -146,7 +145,7 @@ function TechCard({
   description: string
 }) {
   return (
-    <div className="bg-card text-card-foreground rounded-lg border p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5">
+    <div className="bg-card text-card-foreground hover:border-primary/50 hover:shadow-primary/5 rounded-lg border p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       <h3 className="font-semibold">{title}</h3>
       <p className="text-muted-foreground mt-1 text-sm">{description}</p>
     </div>

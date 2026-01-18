@@ -56,7 +56,10 @@ interface TILCardListSkeletonProps {
   className?: string
 }
 
-export function TILCardListSkeleton({ count = 6, className }: TILCardListSkeletonProps) {
+export function TILCardListSkeleton({
+  count = 6,
+  className,
+}: TILCardListSkeletonProps) {
   return (
     <div
       className={cn(
@@ -81,7 +84,11 @@ export function TILCardListSkeleton({ count = 6, className }: TILCardListSkeleto
  */
 export function TILDetailSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('animate-pulse space-y-8', className)} aria-label="로딩 중" aria-busy="true">
+    <div
+      className={cn('animate-pulse space-y-8', className)}
+      aria-label="로딩 중"
+      aria-busy="true"
+    >
       {/* 헤더 영역 */}
       <div className="space-y-4">
         {/* 카테고리 + 날짜 */}
@@ -155,7 +162,10 @@ export function CategoryFilterSkeleton({ className }: { className?: string }) {
  */
 export function PaginationSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex items-center justify-center gap-1', className)} aria-label="로딩 중">
+    <div
+      className={cn('flex items-center justify-center gap-1', className)}
+      aria-label="로딩 중"
+    >
       <Skeleton className="h-9 w-9" />
       <Skeleton className="h-9 w-9" />
       <Skeleton className="h-9 w-9" />

@@ -150,7 +150,8 @@ export const MOCK_TIL_LIST: TIL[] = [
     date: '2024-01-07T10:10:00.000Z',
     category: 'DevOps',
     tags: ['Kubernetes', 'HPA', 'Autoscaling'],
-    reference: 'https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/',
+    reference:
+      'https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/',
     slug: 'kubernetes-pod-autoscaling',
     status: 'Published',
   },
@@ -387,9 +388,7 @@ export function getMockTILDetail(slug: string): TILDetail | null {
 /**
  * 카테고리별 필터링된 더미 데이터
  */
-export function getMockTILsByCategory(
-  categorySlug: string
-): TIL[] {
+export function getMockTILsByCategory(categorySlug: string): TIL[] {
   // 슬러그를 카테고리 ID로 매핑
   const categoryMap: Record<string, string> = {
     aws: 'AWS',

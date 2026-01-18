@@ -20,14 +20,18 @@ interface CodeBlockRendererProps {
 /**
  * 코드 블록 렌더러
  */
-export function CodeBlockRenderer({ block, className }: CodeBlockRendererProps) {
+export function CodeBlockRenderer({
+  block,
+  className,
+}: CodeBlockRendererProps) {
   const [copied, setCopied] = useState(false)
 
   const code = getPlainTextFromRichText(block.code.rich_text)
   const language = block.code.language
-  const caption = block.code.caption.length > 0
-    ? getPlainTextFromRichText(block.code.caption)
-    : null
+  const caption =
+    block.code.caption.length > 0
+      ? getPlainTextFromRichText(block.code.caption)
+      : null
 
   // 클립보드에 복사
   const handleCopy = async () => {

@@ -67,7 +67,11 @@ function RichTextRenderer({ richText }: { richText: NotionRichText[] }) {
 /**
  * Paragraph 블록 렌더러
  */
-function ParagraphRenderer({ block }: { block: Extract<NotionBlock, { type: 'paragraph' }> }) {
+function ParagraphRenderer({
+  block,
+}: {
+  block: Extract<NotionBlock, { type: 'paragraph' }>
+}) {
   const text = block.paragraph.rich_text
 
   if (text.length === 0) {
@@ -84,7 +88,11 @@ function ParagraphRenderer({ block }: { block: Extract<NotionBlock, { type: 'par
 /**
  * Heading 1 블록 렌더러
  */
-function Heading1Renderer({ block }: { block: Extract<NotionBlock, { type: 'heading_1' }> }) {
+function Heading1Renderer({
+  block,
+}: {
+  block: Extract<NotionBlock, { type: 'heading_1' }>
+}) {
   const text = block.heading_1.rich_text
 
   return (
@@ -97,7 +105,11 @@ function Heading1Renderer({ block }: { block: Extract<NotionBlock, { type: 'head
 /**
  * Heading 2 블록 렌더러
  */
-function Heading2Renderer({ block }: { block: Extract<NotionBlock, { type: 'heading_2' }> }) {
+function Heading2Renderer({
+  block,
+}: {
+  block: Extract<NotionBlock, { type: 'heading_2' }>
+}) {
   const text = block.heading_2.rich_text
 
   return (
@@ -110,7 +122,11 @@ function Heading2Renderer({ block }: { block: Extract<NotionBlock, { type: 'head
 /**
  * Heading 3 블록 렌더러
  */
-function Heading3Renderer({ block }: { block: Extract<NotionBlock, { type: 'heading_3' }> }) {
+function Heading3Renderer({
+  block,
+}: {
+  block: Extract<NotionBlock, { type: 'heading_3' }>
+}) {
   const text = block.heading_3.rich_text
 
   return (
@@ -157,7 +173,11 @@ function NumberedListItemRenderer({
 /**
  * Quote 블록 렌더러
  */
-function QuoteRenderer({ block }: { block: Extract<NotionBlock, { type: 'quote' }> }) {
+function QuoteRenderer({
+  block,
+}: {
+  block: Extract<NotionBlock, { type: 'quote' }>
+}) {
   const text = block.quote.rich_text
 
   return (
@@ -177,7 +197,11 @@ function DividerRenderer() {
 /**
  * To-do 블록 렌더러
  */
-function ToDoRenderer({ block }: { block: Extract<NotionBlock, { type: 'to_do' }> }) {
+function ToDoRenderer({
+  block,
+}: {
+  block: Extract<NotionBlock, { type: 'to_do' }>
+}) {
   const text = block.to_do.rich_text
   const checked = block.to_do.checked
 
@@ -200,7 +224,11 @@ function ToDoRenderer({ block }: { block: Extract<NotionBlock, { type: 'to_do' }
 /**
  * Callout 블록 렌더러
  */
-function CalloutRenderer({ block }: { block: Extract<NotionBlock, { type: 'callout' }> }) {
+function CalloutRenderer({
+  block,
+}: {
+  block: Extract<NotionBlock, { type: 'callout' }>
+}) {
   const text = block.callout.rich_text
   const icon = block.callout.icon
 
@@ -221,7 +249,11 @@ function CalloutRenderer({ block }: { block: Extract<NotionBlock, { type: 'callo
 /**
  * Unsupported 블록 렌더러
  */
-function UnsupportedRenderer({ block }: { block: Extract<NotionBlock, { type: 'unsupported' }> }) {
+function UnsupportedRenderer({
+  block,
+}: {
+  block: Extract<NotionBlock, { type: 'unsupported' }>
+}) {
   return (
     <div className="bg-muted text-muted-foreground my-4 rounded-lg p-4 text-sm">
       지원하지 않는 블록 타입입니다: {block.type}
@@ -286,7 +318,12 @@ export function NotionBlockRenderer({ blocks }: { blocks: NotionBlock[] }) {
                 {blockOrBlocks.map(block => (
                   <BulletedListItemRenderer
                     key={block.id}
-                    block={block as Extract<NotionBlock, { type: 'bulleted_list_item' }>}
+                    block={
+                      block as Extract<
+                        NotionBlock,
+                        { type: 'bulleted_list_item' }
+                      >
+                    }
                   />
                 ))}
               </ul>
@@ -298,7 +335,12 @@ export function NotionBlockRenderer({ blocks }: { blocks: NotionBlock[] }) {
                 {blockOrBlocks.map(block => (
                   <NumberedListItemRenderer
                     key={block.id}
-                    block={block as Extract<NotionBlock, { type: 'numbered_list_item' }>}
+                    block={
+                      block as Extract<
+                        NotionBlock,
+                        { type: 'numbered_list_item' }
+                      >
+                    }
                   />
                 ))}
               </ol>

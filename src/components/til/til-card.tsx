@@ -6,7 +6,13 @@
 import Link from 'next/link'
 import { Calendar, Tag } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import type { TILCardData } from '@/types'
 import { getCategoryById } from '@/types'
@@ -40,7 +46,7 @@ export function TILCard({ til, className }: TILCardProps) {
     <Card
       className={cn(
         'group transition-all duration-300',
-        'hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5',
+        'hover:shadow-primary/5 hover:-translate-y-1 hover:shadow-lg',
         'border-border hover:border-primary/50',
         className
       )}
@@ -74,7 +80,10 @@ export function TILCard({ til, className }: TILCardProps) {
         {til.tags.length > 0 && (
           <CardContent>
             <div className="flex flex-wrap items-center gap-1.5">
-              <Tag className="text-muted-foreground h-3.5 w-3.5" aria-hidden="true" />
+              <Tag
+                className="text-muted-foreground h-3.5 w-3.5"
+                aria-hidden="true"
+              />
               {til.tags.map(tag => (
                 <Badge
                   key={tag}
@@ -118,12 +127,7 @@ export function TILCardList({ tils, className }: TILCardListProps) {
 
   return (
     <div
-      className={cn(
-        'grid gap-6',
-        'grid-cols-1',
-        'md:grid-cols-2',
-        className
-      )}
+      className={cn('grid gap-6', 'grid-cols-1', 'md:grid-cols-2', className)}
     >
       {tils.map(til => (
         <TILCard key={til.id} til={til} />

@@ -136,7 +136,9 @@ function getErrorMessage(code: APIErrorCode, originalMessage: string): string {
  */
 export async function safeNotionCall<T>(
   apiCall: () => Promise<T>
-): Promise<{ success: true; data: T } | { success: false; error: APIErrorResponse }> {
+): Promise<
+  { success: true; data: T } | { success: false; error: APIErrorResponse }
+> {
   try {
     const data = await apiCall()
     return { success: true, data }
@@ -307,9 +309,10 @@ function transformBlock(block: unknown): NotionBlock | null {
           type: 'paragraph',
           paragraph: {
             rich_text: content.rich_text || [],
-            color: (content.color as NotionBlock['type'] extends 'paragraph'
-              ? never
-              : 'default') || 'default',
+            color:
+              (content.color as NotionBlock['type'] extends 'paragraph'
+                ? never
+                : 'default') || 'default',
           },
         } as NotionBlock
       }

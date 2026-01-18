@@ -75,7 +75,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               <TILCardList tils={cardData} />
             ) : (
               <div className="py-12 text-center">
-                <p className="text-muted-foreground">아직 게시된 TIL이 없습니다.</p>
+                <p className="text-muted-foreground">
+                  아직 게시된 TIL이 없습니다.
+                </p>
               </div>
             )}
           </Suspense>

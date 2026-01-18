@@ -16,16 +16,21 @@ export function Header() {
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   return (
-    <header className="bg-background/80 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b border-border/40 backdrop-blur-xl">
+    <header className="bg-background/80 supports-[backdrop-filter]:bg-background/60 border-border/40 sticky top-0 z-50 w-full border-b backdrop-blur-xl">
       <Container>
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-8">
-            <Link href="/" className="group flex items-center gap-2.5 transition-all duration-300 hover:opacity-90">
+            <Link
+              href="/"
+              className="group flex items-center gap-2.5 transition-all duration-300 hover:opacity-90"
+            >
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-emerald-500/25">
                 <Leaf className="h-5 w-5 text-white" />
               </div>
-              <span className="text-lg font-semibold tracking-tight transition-colors group-hover:text-primary">TIL Garden</span>
+              <span className="group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
+                TIL Garden
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
