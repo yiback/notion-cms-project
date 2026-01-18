@@ -39,11 +39,11 @@ color: red
 
 모든 UI 작업에서 MCP 도구 사용은 **선택이 아닌 필수**입니다:
 
-| 상황 | 필수 MCP 도구 | 사용 시점 |
-|------|--------------|----------|
-| Shadcn 컴포넌트 사용 | `mcp__shadcn__*` | 코드 작성 **전** |
+| 상황                 | 필수 MCP 도구                 | 사용 시점        |
+| -------------------- | ----------------------------- | ---------------- |
+| Shadcn 컴포넌트 사용 | `mcp__shadcn__*`              | 코드 작성 **전** |
 | 복잡한 레이아웃 설계 | `mcp__sequential-thinking__*` | 분석 **시작 시** |
-| API/패턴 불확실 | `mcp__context7__*` | 구현 **전** |
+| API/패턴 불확실      | `mcp__context7__*`            | 구현 **전**      |
 
 **🚨 경고**: MCP 도구 없이 추측으로 코드를 작성하면 안 됩니다!
 
@@ -71,38 +71,38 @@ color: red
 
 #### 도구 목록 및 용도:
 
-| 도구 | 용도 | 사용 시기 |
-|------|------|----------|
-| `mcp__shadcn__get_project_registries` | 프로젝트 레지스트리 확인 | 작업 시작 시 |
-| `mcp__shadcn__search_items_in_registries` | 컴포넌트 검색 | 필요한 컴포넌트 찾을 때 |
-| `mcp__shadcn__view_items_in_registries` | 컴포넌트 상세 정보 | props, 구조 확인 시 |
-| `mcp__shadcn__get_item_examples_from_registries` | 사용 예제 검색 | 구현 방법 참조 시 |
-| `mcp__shadcn__get_add_command_for_items` | 설치 명령어 | 새 컴포넌트 추가 시 |
-| `mcp__shadcn__get_audit_checklist` | 품질 검증 | 작업 완료 후 |
+| 도구                                             | 용도                     | 사용 시기               |
+| ------------------------------------------------ | ------------------------ | ----------------------- |
+| `mcp__shadcn__get_project_registries`            | 프로젝트 레지스트리 확인 | 작업 시작 시            |
+| `mcp__shadcn__search_items_in_registries`        | 컴포넌트 검색            | 필요한 컴포넌트 찾을 때 |
+| `mcp__shadcn__view_items_in_registries`          | 컴포넌트 상세 정보       | props, 구조 확인 시     |
+| `mcp__shadcn__get_item_examples_from_registries` | 사용 예제 검색           | 구현 방법 참조 시       |
+| `mcp__shadcn__get_add_command_for_items`         | 설치 명령어              | 새 컴포넌트 추가 시     |
+| `mcp__shadcn__get_audit_checklist`               | 품질 검증                | 작업 완료 후            |
 
 #### 실제 사용 예시:
 
 ```typescript
 // 1. 컴포넌트 검색
 mcp__shadcn__search_items_in_registries({
-  registries: ["@shadcn"],
-  query: "card"  // button, dialog, form, table 등
+  registries: ['@shadcn'],
+  query: 'card', // button, dialog, form, table 등
 })
 
 // 2. 상세 정보 확인
 mcp__shadcn__view_items_in_registries({
-  items: ["@shadcn/card", "@shadcn/button"]
+  items: ['@shadcn/card', '@shadcn/button'],
 })
 
 // 3. 사용 예제 가져오기 (가장 중요!)
 mcp__shadcn__get_item_examples_from_registries({
-  registries: ["@shadcn"],
-  query: "card-demo"  // {component}-demo 패턴
+  registries: ['@shadcn'],
+  query: 'card-demo', // {component}-demo 패턴
 })
 
 // 4. 설치 명령어 확인
 mcp__shadcn__get_add_command_for_items({
-  items: ["@shadcn/card"]
+  items: ['@shadcn/card'],
 })
 ```
 
@@ -130,12 +130,13 @@ example-{feature}    → "example-booking-form", "example-hero"
 #### 도구 파라미터:
 
 ```typescript
-mcp__sequential-thinking__sequentialthinking({
-  thought: "현재 사고 단계의 내용",
-  thoughtNumber: 1,        // 현재 단계 번호
-  totalThoughts: 5,        // 예상 총 단계 (조정 가능)
-  nextThoughtNeeded: true  // 다음 단계 필요 여부
-})
+mcp__sequential -
+  thinking__sequentialthinking({
+    thought: '현재 사고 단계의 내용',
+    thoughtNumber: 1, // 현재 단계 번호
+    totalThoughts: 5, // 예상 총 단계 (조정 가능)
+    nextThoughtNeeded: true, // 다음 단계 필요 여부
+  })
 ```
 
 #### 권장 사고 단계:
@@ -171,8 +172,9 @@ Stage 5: 계획 (Planning)
 
 ```typescript
 // Step 1: 요구사항 분석
-mcp__sequential-thinking__sequentialthinking({
-  thought: `
+mcp__sequential -
+  thinking__sequentialthinking({
+    thought: `
     요구사항: 대시보드용 통계 카드 그리드
     - 4개의 통계 카드 (사용자, 매출, 주문, 리뷰)
     - 각 카드: 아이콘 + 제목 + 값 + 트렌드
@@ -180,23 +182,24 @@ mcp__sequential-thinking__sequentialthinking({
     필요한 컴포넌트: Card, CardHeader, CardContent
     아이콘: Lucide (Users, DollarSign, ShoppingCart, Star)
   `,
-  thoughtNumber: 1,
-  totalThoughts: 4,
-  nextThoughtNeeded: true
-})
+    thoughtNumber: 1,
+    totalThoughts: 4,
+    nextThoughtNeeded: true,
+  })
 
 // Step 2: 컴포넌트 조사
-mcp__sequential-thinking__sequentialthinking({
-  thought: `
+mcp__sequential -
+  thinking__sequentialthinking({
+    thought: `
     Shadcn MCP 조사 결과:
     - Card 컴포넌트 확인됨 (CardHeader, CardTitle, CardContent)
     - 반응형 그리드: grid-cols-1 sm:grid-cols-2 lg:grid-cols-4
     - gap-4 또는 gap-6 권장
   `,
-  thoughtNumber: 2,
-  totalThoughts: 4,
-  nextThoughtNeeded: true
-})
+    thoughtNumber: 2,
+    totalThoughts: 4,
+    nextThoughtNeeded: true,
+  })
 ```
 
 ---
@@ -207,10 +210,10 @@ mcp__sequential-thinking__sequentialthinking({
 
 #### 도구 목록:
 
-| 도구 | 용도 |
-|------|------|
+| 도구                                | 용도               |
+| ----------------------------------- | ------------------ |
 | `mcp__context7__resolve-library-id` | 라이브러리 ID 확인 |
-| `mcp__context7__query-docs` | 문서 조회 |
+| `mcp__context7__query-docs`         | 문서 조회          |
 
 #### 주요 라이브러리 ID:
 
@@ -225,28 +228,33 @@ mcp__sequential-thinking__sequentialthinking({
 
 ```typescript
 // 1. 라이브러리 ID 확인
-mcp__context7__resolve-library-id({
-  libraryName: "tailwindcss",
-  query: "responsive design grid layout"
-})
+mcp__context7__resolve -
+  library -
+  id({
+    libraryName: 'tailwindcss',
+    query: 'responsive design grid layout',
+  })
 
 // 2. 문서 조회
-mcp__context7__query-docs({
-  libraryId: "/tailwindlabs/tailwindcss",
-  query: "grid responsive breakpoints"
-})
+mcp__context7__query -
+  docs({
+    libraryId: '/tailwindlabs/tailwindcss',
+    query: 'grid responsive breakpoints',
+  })
 
 // Next.js App Router 패턴 조회
-mcp__context7__query-docs({
-  libraryId: "/vercel/next.js",
-  query: "layout components app router"
-})
+mcp__context7__query -
+  docs({
+    libraryId: '/vercel/next.js',
+    query: 'layout components app router',
+  })
 
 // Radix UI 접근성 패턴
-mcp__context7__query-docs({
-  libraryId: "/radix-ui/primitives",
-  query: "dialog accessibility aria"
-})
+mcp__context7__query -
+  docs({
+    libraryId: '/radix-ui/primitives',
+    query: 'dialog accessibility aria',
+  })
 ```
 
 #### 자주 조회하는 주제:
@@ -314,23 +322,24 @@ Radix UI:
 
 ```typescript
 // Step 1: Sequential Thinking으로 분석
-mcp__sequential-thinking__sequentialthinking({
-  thought: "통계 카드 컴포넌트 분석: 제목, 값, 아이콘, 트렌드 표시 필요",
-  thoughtNumber: 1,
-  totalThoughts: 3,
-  nextThoughtNeeded: true
-})
+mcp__sequential -
+  thinking__sequentialthinking({
+    thought: '통계 카드 컴포넌트 분석: 제목, 값, 아이콘, 트렌드 표시 필요',
+    thoughtNumber: 1,
+    totalThoughts: 3,
+    nextThoughtNeeded: true,
+  })
 
 // Step 2: Shadcn 컴포넌트 검색
 mcp__shadcn__search_items_in_registries({
-  registries: ["@shadcn"],
-  query: "card"
+  registries: ['@shadcn'],
+  query: 'card',
 })
 
 // Step 3: 예제 확인 (중요!)
 mcp__shadcn__get_item_examples_from_registries({
-  registries: ["@shadcn"],
-  query: "card-demo"
+  registries: ['@shadcn'],
+  query: 'card-demo',
 })
 
 // Step 4: 구현
@@ -341,54 +350,60 @@ mcp__shadcn__get_item_examples_from_registries({
 
 ```typescript
 // Step 1: Sequential Thinking으로 구조화
-mcp__sequential-thinking__sequentialthinking({
-  thought: `
+mcp__sequential -
+  thinking__sequentialthinking({
+    thought: `
     대시보드 레이아웃 분석:
     - 사이드바 (고정 너비)
     - 메인 콘텐츠 (유동적)
     - 상단 헤더
     - 반응형: 모바일에서 사이드바 숨김
   `,
-  thoughtNumber: 1,
-  totalThoughts: 4,
-  nextThoughtNeeded: true
-})
+    thoughtNumber: 1,
+    totalThoughts: 4,
+    nextThoughtNeeded: true,
+  })
 
 // Step 2: Context7로 레이아웃 패턴 확인
-mcp__context7__query-docs({
-  libraryId: "/vercel/next.js",
-  query: "dashboard layout sidebar app router"
-})
+mcp__context7__query -
+  docs({
+    libraryId: '/vercel/next.js',
+    query: 'dashboard layout sidebar app router',
+  })
 
 // Step 3: Tailwind 그리드/플렉스 패턴 확인
-mcp__context7__query-docs({
-  libraryId: "/tailwindlabs/tailwindcss",
-  query: "sidebar layout fixed width responsive"
-})
+mcp__context7__query -
+  docs({
+    libraryId: '/tailwindlabs/tailwindcss',
+    query: 'sidebar layout fixed width responsive',
+  })
 ```
 
 ### 3️⃣ 기존 컴포넌트 개선
 
 ```typescript
 // Step 1: 현재 상태 분석
-mcp__sequential-thinking__sequentialthinking({
-  thought: "테이블 컴포넌트 반응형 개선 필요: 모바일에서 가로 스크롤 또는 카드 뷰",
-  thoughtNumber: 1,
-  totalThoughts: 3,
-  nextThoughtNeeded: true
-})
+mcp__sequential -
+  thinking__sequentialthinking({
+    thought:
+      '테이블 컴포넌트 반응형 개선 필요: 모바일에서 가로 스크롤 또는 카드 뷰',
+    thoughtNumber: 1,
+    totalThoughts: 3,
+    nextThoughtNeeded: true,
+  })
 
 // Step 2: Shadcn Table 예제 확인
 mcp__shadcn__get_item_examples_from_registries({
-  registries: ["@shadcn"],
-  query: "table responsive"
+  registries: ['@shadcn'],
+  query: 'table responsive',
 })
 
 // Step 3: 반응형 패턴 참조
-mcp__context7__query-docs({
-  libraryId: "/tailwindlabs/tailwindcss",
-  query: "responsive table overflow scroll"
-})
+mcp__context7__query -
+  docs({
+    libraryId: '/tailwindlabs/tailwindcss',
+    query: 'responsive table overflow scroll',
+  })
 ```
 
 ### 4️⃣ 폼 마크업 생성
@@ -396,21 +411,22 @@ mcp__context7__query-docs({
 ```typescript
 // Step 1: Shadcn Form 컴포넌트 검색
 mcp__shadcn__search_items_in_registries({
-  registries: ["@shadcn"],
-  query: "form input"
+  registries: ['@shadcn'],
+  query: 'form input',
 })
 
 // Step 2: Form 예제 확인
 mcp__shadcn__get_item_examples_from_registries({
-  registries: ["@shadcn"],
-  query: "form-demo"
+  registries: ['@shadcn'],
+  query: 'form-demo',
 })
 
 // Step 3: 접근성 패턴 확인
-mcp__context7__query-docs({
-  libraryId: "/radix-ui/primitives",
-  query: "form accessibility label"
-})
+mcp__context7__query -
+  docs({
+    libraryId: '/radix-ui/primitives',
+    query: 'form accessibility label',
+  })
 ```
 
 ---
@@ -490,7 +506,7 @@ export function ComponentName({ title, className }: ComponentNameProps) {
 - [ ] 시맨틱 HTML 구조가 올바름
 - [ ] Tailwind 클래스가 적절히 적용됨
 - [ ] 컴포넌트가 완전히 반응형임
-- [ ] 접근성 속성이 포함됨 (aria-*, role 등)
+- [ ] 접근성 속성이 포함됨 (aria-\*, role 등)
 - [ ] 한국어 주석이 마크업 구조를 설명함
 - [ ] 기능적 로직이 구현되지 않음
 - [ ] Shadcn UI 컴포넌트가 적절히 통합됨
@@ -511,8 +527,9 @@ mcp__shadcn__get_audit_checklist()
 #### Step 1: Sequential Thinking으로 분석
 
 ```typescript
-mcp__sequential-thinking__sequentialthinking({
-  thought: `
+mcp__sequential -
+  thinking__sequentialthinking({
+    thought: `
     [요구사항 분석]
     - 대시보드 통계 카드 그리드
     - 예상 카드 구성: 아이콘, 제목, 숫자 값, 변화율(선택)
@@ -523,18 +540,18 @@ mcp__sequential-thinking__sequentialthinking({
     - 아이콘 (Lucide React)
     - 반응형 그리드 (Tailwind)
   `,
-  thoughtNumber: 1,
-  totalThoughts: 4,
-  nextThoughtNeeded: true
-})
+    thoughtNumber: 1,
+    totalThoughts: 4,
+    nextThoughtNeeded: true,
+  })
 ```
 
 #### Step 2: Shadcn Card 검색
 
 ```typescript
 mcp__shadcn__search_items_in_registries({
-  registries: ["@shadcn"],
-  query: "card"
+  registries: ['@shadcn'],
+  query: 'card',
 })
 ```
 
@@ -542,18 +559,19 @@ mcp__shadcn__search_items_in_registries({
 
 ```typescript
 mcp__shadcn__get_item_examples_from_registries({
-  registries: ["@shadcn"],
-  query: "card-demo"
+  registries: ['@shadcn'],
+  query: 'card-demo',
 })
 ```
 
 #### Step 4: 반응형 그리드 패턴 확인
 
 ```typescript
-mcp__context7__query-docs({
-  libraryId: "/tailwindlabs/tailwindcss",
-  query: "responsive grid columns gap"
-})
+mcp__context7__query -
+  docs({
+    libraryId: '/tailwindlabs/tailwindcss',
+    query: 'responsive grid columns gap',
+  })
 ```
 
 #### Step 5: 최종 구현
@@ -576,27 +594,28 @@ export function StatsCard({
   value,
   icon,
   trend,
-  className
+  className,
 }: StatsCardProps) {
   return (
-    <Card className={cn("", className)}>
+    <Card className={cn('', className)}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
+        <CardTitle className="text-muted-foreground text-sm font-medium">
           {title}
         </CardTitle>
-        <div className="h-4 w-4 text-muted-foreground">
-          {icon}
-        </div>
+        <div className="text-muted-foreground h-4 w-4">{icon}</div>
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
         {trend && (
-          <p className={cn(
-            "text-xs",
-            trend.isPositive ? "text-green-600" : "text-red-600"
-          )}>
+          <p
+            className={cn(
+              'text-xs',
+              trend.isPositive ? 'text-green-600' : 'text-red-600'
+            )}
+          >
             {/* TODO: 트렌드 아이콘 및 로직 구현 */}
-            {trend.isPositive ? "+" : ""}{trend.value}%
+            {trend.isPositive ? '+' : ''}
+            {trend.value}%
           </p>
         )}
       </CardContent>
@@ -607,7 +626,7 @@ export function StatsCard({
 // 통계 카드 그리드 레이아웃
 export function StatsGrid({ children }: { children: React.ReactNode }) {
   return (
-    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {children}
     </div>
   )
@@ -624,12 +643,12 @@ mcp__shadcn__get_audit_checklist()
 
 ## 🎯 핵심 원칙 요약
 
-| 원칙 | 설명 |
-|------|------|
-| **MCP First** | 코드 작성 전 반드시 MCP 도구로 조사 |
-| **No Guessing** | 추측 금지, 불확실하면 Context7 확인 |
-| **Example Driven** | Shadcn 예제를 참조하여 구현 |
-| **Step by Step** | 복잡한 UI는 Sequential Thinking 필수 |
-| **Audit Always** | 작업 완료 후 get_audit_checklist 실행 |
+| 원칙               | 설명                                  |
+| ------------------ | ------------------------------------- |
+| **MCP First**      | 코드 작성 전 반드시 MCP 도구로 조사   |
+| **No Guessing**    | 추측 금지, 불확실하면 Context7 확인   |
+| **Example Driven** | Shadcn 예제를 참조하여 구현           |
+| **Step by Step**   | 복잡한 UI는 Sequential Thinking 필수  |
+| **Audit Always**   | 작업 완료 후 get_audit_checklist 실행 |
 
 **MCP 도구는 정확성을 높이고 시간을 절약하는 핵심 도구입니다. 적극 활용하세요!**
