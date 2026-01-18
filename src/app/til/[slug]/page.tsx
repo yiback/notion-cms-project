@@ -17,8 +17,29 @@ import { Separator } from '@/components/ui/separator'
 import { BackButton } from '@/components/ui/back-button'
 import { NotionBlockRenderer } from '@/components/notion/notion-block-renderer'
 import { TILDetailSkeleton } from '@/components/til/til-card-skeleton'
-import { getMockTILDetail } from '@/lib/mock-data'
+import { getTILBySlug, getTILList } from '@/lib/notion'
 import { getCategoryById } from '@/types'
+
+/**
+ * ISR 재검증 시간 (초)
+ */
+export const revalidate = 60
+
+/**
+ * 정적 생성할 TIL 슬러그 목록
+ * 빌드 시점에 모든 Published TIL의 슬러그를 조회
+ */
+export async function generateStaticParams() {
+  try {
+    const { items } = await getTILList({ pageSize: 100 })
+    return items.map(til => ({
+      slug: til.slug,
+    }))
+  } catch {
+    // 빌드 시 API 에러 발생 시 빈 배열 반환
+    return []
+  }
+}
 
 interface TILDetailPageProps {
   params: Promise<{
@@ -45,8 +66,8 @@ export async function generateMetadata({
 }: TILDetailPageProps): Promise<Metadata> {
   const { slug } = await params
 
-  // 더미 데이터로 TIL 조회 (추후 Notion API로 교체)
-  const til = getMockTILDetail(slug)
+  // Notion API로 TIL 조회
+  const til = await getTILBySlug(slug)
 
   if (!til) {
     return {
@@ -68,8 +89,8 @@ export async function generateMetadata({
 export default async function TILDetailPage({ params }: TILDetailPageProps) {
   const { slug } = await params
 
-  // 더미 데이터로 TIL 조회 (추후 Notion API로 교체)
-  const til = getMockTILDetail(slug)
+  // Notion API로 TIL 조회
+  const til = await getTILBySlug(slug)
 
   // 존재하지 않는 TIL은 404 처리
   if (!til) {

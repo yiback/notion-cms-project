@@ -13,23 +13,36 @@ import { Header } from '@/components/layout/header'
 import { Container } from '@/components/layout/container'
 import { CategoryFilter } from '@/components/til/category-filter'
 import { TILCardList } from '@/components/til/til-card'
-import { Pagination } from '@/components/til/pagination'
 import { Button } from '@/components/ui/button'
 import {
   TILCardListSkeleton,
   CategoryFilterSkeleton,
-  PaginationSkeleton,
 } from '@/components/til/til-card-skeleton'
-import { getMockTILsByCategory } from '@/lib/mock-data'
-import { isValidCategorySlug, getCategoryBySlug } from '@/types'
+import { getTILList } from '@/lib/notion'
+import { toTILCardData } from '@/types/til'
+import { isValidCategorySlug, getCategoryBySlug, slugToCategoryId, CATEGORIES } from '@/types'
 import type { TILCategorySlug } from '@/types'
+
+/**
+ * ISR 재검증 시간 (초)
+ */
+export const revalidate = 60
+
+/**
+ * 정적 생성할 카테고리 경로
+ */
+export async function generateStaticParams() {
+  return CATEGORIES.map(category => ({
+    name: category.slug,
+  }))
+}
 
 interface CategoryPageProps {
   params: Promise<{
     name: string
   }>
   searchParams: Promise<{
-    page?: string
+    cursor?: string
   }>
 }
 
@@ -77,29 +90,20 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     notFound()
   }
 
-  // 검색 파라미터에서 페이지 번호 추출
-  const currentPage = Number(search.page) || 1
+  // 검색 파라미터에서 커서 추출
+  const cursor = search.cursor || undefined
   const pageSize = 10
 
-  // 더미 데이터 로딩 (추후 Notion API로 교체)
-  const allTILs = getMockTILsByCategory(name as TILCategorySlug)
-  const total = allTILs.length
-  const totalPages = Math.ceil(total / pageSize)
-
-  // 페이지네이션 적용
-  const startIndex = (currentPage - 1) * pageSize
-  const endIndex = startIndex + pageSize
-  const paginatedTILs = allTILs.slice(startIndex, endIndex)
+  // Notion API로 카테고리별 TIL 목록 조회
+  const categoryId = slugToCategoryId(name as TILCategorySlug)
+  const { items, pagination } = await getTILList({
+    category: categoryId,
+    pageSize,
+    cursor,
+  })
 
   // TIL 카드 데이터로 변환
-  const cardData = paginatedTILs.map(til => ({
-    id: til.id,
-    title: til.title,
-    date: til.date,
-    category: til.category,
-    tags: til.tags,
-    slug: til.slug,
-  }))
+  const cardData = items.map(toTILCardData)
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -135,22 +139,30 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
           {/* TIL 카드 리스트 */}
           <Suspense fallback={<TILCardListSkeleton count={pageSize} />}>
-            <TILCardList tils={cardData} />
+            {items.length > 0 ? (
+              <TILCardList tils={cardData} />
+            ) : (
+              <div className="py-12 text-center">
+                <p className="text-muted-foreground">이 카테고리에 게시된 TIL이 없습니다.</p>
+              </div>
+            )}
           </Suspense>
 
-          {/* 페이지네이션 */}
-          {totalPages > 1 && (
-            <div className="mt-14">
-              <Suspense fallback={<PaginationSkeleton />}>
-                <Pagination currentPage={currentPage} totalPages={totalPages} />
-              </Suspense>
+          {/* 더 보기 (커서 기반 페이지네이션) */}
+          {pagination.hasMore && pagination.nextCursor && (
+            <div className="mt-14 text-center">
+              <a
+                href={`/category/${name}?cursor=${pagination.nextCursor}`}
+                className="text-primary hover:underline"
+              >
+                더 보기 →
+              </a>
             </div>
           )}
 
-          {/* 데이터 정보 (개발 모드용) */}
+          {/* 데이터 정보 */}
           <div className="text-muted-foreground mt-10 text-center text-sm">
-            {category.label} 카테고리 {total}개의 TIL
-            {totalPages > 1 && ` • 현재 ${currentPage} / ${totalPages} 페이지`}
+            {category.label} 카테고리 {items.length}개의 TIL 표시
           </div>
         </Container>
       </main>

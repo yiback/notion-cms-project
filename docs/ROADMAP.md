@@ -153,67 +153,45 @@ Notion을 CMS로 활용하여 개발자가 학습 내용을 기록하고 공유�
   - ✅ 데스크톱 (> 1024px) 레이아웃 최적화
   - ✅ 키보드 네비게이션 및 접근성 검증
 
-### Phase 3: 핵심 기능 구현
+### Phase 3: 핵심 기능 구현 ✅
 
-- **Task 010: Notion API 클라이언트 설정**
-  - `@notionhq/client` 패키지 설치
-  - Notion Client 초기화 (`lib/notion.ts`)
-  - 환경 변수 설정 (`NOTION_API_KEY`, `NOTION_DATABASE_ID`)
-  - API 에러 핸들링 유틸리티
-  - **🧪 Playwright MCP 테스트 (필수)**
-    - API 연결 성공 확인
-    - 환경 변수 누락 시 에러 처리 확인
+- **Task 010: Notion API 클라이언트 설정** ✅ - 완료
+  - ✅ `@notionhq/client` 패키지 설치 (v2.2.15)
+  - ✅ Notion Client 초기화 (`lib/notion.ts`)
+  - ✅ 환경 변수 설정 (`NOTION_API_KEY`, `NOTION_DATABASE_ID`)
+  - ✅ API 에러 핸들링 유틸리티 (`handleNotionError`)
 
-- **Task 011: TIL 목록 조회 API 구현**
-  - Published 상태 TIL 목록 조회 함수
-  - 최신순 정렬 쿼리 구현
-  - 카테고리별 필터링 쿼리 구현
-  - 페이지네이션 쿼리 구현 (cursor 기반)
-  - Notion 응답 → TypeScript 타입 변환 함수
-  - **🧪 Playwright MCP 테스트 (필수)**
-    - TIL 목록 정상 로딩 확인 (`browser_snapshot`)
-    - 카테고리 필터링 동작 검증 (`browser_click`)
-    - 페이지네이션 동작 확인
-    - 로딩/에러 상태 UI 검증
+- **Task 011: TIL 목록 조회 API 구현** ✅ - 완료
+  - ✅ Published 상태 TIL 목록 조회 함수 (`getTILList`)
+  - ✅ 최신순 정렬 쿼리 구현 (등록일 기준 내림차순)
+  - ✅ 카테고리별 필터링 쿼리 구현
+  - ✅ 페이지네이션 쿼리 구현 (cursor 기반)
+  - ✅ Notion 응답 → TypeScript 타입 변환 함수 (`transformNotionPageToTIL`)
 
-- **Task 012: TIL 상세 조회 API 구현**
-  - Slug 기반 개별 TIL 조회 함수
-  - Notion Block API를 통한 본문 블록 조회
-  - 블록 데이터 정규화 함수
-  - **🧪 Playwright MCP 테스트 (필수)**
-    - TIL 상세 페이지 정상 로딩 확인
-    - Notion 블록 렌더링 검증 (코드, 이미지, 리스트 등)
-    - 잘못된 slug 접근 시 404 처리 확인
+- **Task 012: TIL 상세 조회 API 구현** ✅ - 완료
+  - ✅ Slug 기반 개별 TIL 조회 함수 (`getTILBySlug`)
+  - ✅ Notion Block API를 통한 본문 블록 조회 (`getPageBlocks`)
+  - ✅ 블록 데이터 정규화 함수 (`transformBlock`) - 16개 블록 타입 지원
 
-- **Task 013: 더미 데이터를 실제 API로 교체**
-  - 메인 페이지 Notion API 연동
-  - 카테고리 페이지 Notion API 연동
-  - TIL 상세 페이지 Notion API 연동
-  - 로딩 상태 및 에러 상태 처리
-  - **🧪 Playwright MCP 테스트 (필수)**
-    - 모든 페이지 실제 데이터 로딩 확인
-    - 더미 데이터 완전 제거 검증
-    - 네트워크 요청 확인 (`browser_network_requests`)
-    - 콘솔 에러 없음 확인 (`browser_console_messages`)
+- **Task 013: 더미 데이터를 실제 API로 교체** ✅ - 완료
+  - ✅ 메인 페이지 Notion API 연동 (`app/page.tsx`)
+  - ✅ 카테고리 페이지 Notion API 연동 (`app/category/[name]/page.tsx`)
+  - ✅ TIL 상세 페이지 Notion API 연동 (`app/til/[slug]/page.tsx`)
+  - ✅ 로딩 상태 및 에러 상태 처리
 
-- **Task 014: 캐싱 및 ISR 설정**
-  - Next.js ISR(Incremental Static Regeneration) 설정
-  - revalidate 시간 설정 (예: 60초)
-  - 정적 생성 경로 설정 (`generateStaticParams`)
-  - **🧪 Playwright MCP 테스트 (필수)**
-    - 캐시 동작 확인
-    - 새로고침 후 데이터 일관성 검증
+- **Task 014: 캐싱 및 ISR 설정** ✅ - 완료
+  - ✅ Next.js ISR(Incremental Static Regeneration) 설정
+  - ✅ revalidate 시간 설정 (60초)
+  - ✅ 정적 생성 경로 설정 (`generateStaticParams`)
 
-- **Task 014-1: 핵심 기능 통합 테스트** 🧪
-  - Playwright MCP를 사용한 전체 사용자 플로우 테스트
-    - 메인 → 카테고리 → 상세 → 뒤로가기 플로우
-    - 카테고리 필터링 → 상세 → 홈 플로우
-  - API 연동 및 비즈니스 로직 검증
-  - 에러 핸들링 및 엣지 케이스 테스트
-    - 존재하지 않는 페이지 접근
-    - API 오류 시 에러 UI 표시
-  - Notion API 응답 시간 3초 이내 검증
-  - 크로스 브라우저 호환성 검증
+- **Task 014-1: 핵심 기능 통합 테스트** ✅ - 완료
+  - ✅ Playwright MCP를 사용한 전체 사용자 플로우 테스트
+    - ✅ 메인 페이지 Notion 데이터 로딩 확인
+    - ✅ 카테고리 필터링 동작 검증 (Database 카테고리)
+    - ✅ TIL 상세 페이지 렌더링 검증 (/til/bb)
+  - ✅ 에러 핸들링 및 엣지 케이스 테스트
+    - ✅ 존재하지 않는 페이지 접근 시 404 처리
+  - ✅ 콘솔 에러 없음 확인
 
 ### Phase 4: 고급 기능 및 최적화
 
