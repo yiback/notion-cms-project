@@ -1,176 +1,190 @@
 {
   "tasks": [
     {
-      "id": "8b676e93-3a73-4d7f-8768-bd2935512c0b",
-      "name": "프로젝트 구조 및 라우팅 설정",
-      "description": "Next.js App Router 기반 전체 라우트 구조 생성. 메인 페이지(/), 카테고리 페이지(/category/[name]), TIL 상세 페이지(/til/[slug]), About 페이지(/about) 빈 껍데기 생성. 404 에러 페이지(not-found.tsx) 생성. 공통 레이아웃 컴포넌트(Header, Footer) 재사용 확인.",
-      "notes": "Next.js 15.5.3 필수 패턴: params는 Promise 타입, await로 접근. 모든 페이지는 Server Component로 시작.",
+      "id": "bc804424-da1c-4c5d-bbdf-a7a3d31f21a1",
+      "name": "Task 004-1: 더미 데이터 유틸리티 구현",
+      "description": "Phase 3 API 연동 전까지 UI 개발에 사용할 더미 데이터 생성 유틸리티를 구현합니다. TIL, TILDetail, NotionBlock 타입에 맞는 샘플 데이터를 생성합니다.",
+      "notes": "types/til.ts와 types/notion.ts의 타입을 정확히 따라야 합니다. 카테고리는 CATEGORIES 상수를 활용하세요.",
       "status": "pending",
       "dependencies": [],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
       "relatedFiles": [
         {
-          "path": "src/app/page.tsx",
+          "path": "src/lib/mock-data.ts",
+          "type": "CREATE",
+          "description": "더미 데이터 생성 유틸리티"
+        },
+        {
+          "path": "src/types/til.ts",
           "type": "REFERENCE",
-          "description": "기존 메인 페이지 구조 참조"
+          "description": "TIL, TILDetail 타입 참조"
         },
         {
-          "path": "src/components/layout/header.tsx",
+          "path": "src/types/notion.ts",
           "type": "REFERENCE",
-          "description": "재사용할 Header 컴포넌트"
+          "description": "NotionBlock 타입 참조"
         },
         {
-          "path": "src/components/layout/footer.tsx",
+          "path": "src/types/category.ts",
           "type": "REFERENCE",
-          "description": "재사용할 Footer 컴포넌트"
-        },
-        {
-          "path": "src/app/about/page.tsx",
-          "type": "CREATE",
-          "description": "About 페이지 생성"
-        },
-        {
-          "path": "src/app/category/[name]/page.tsx",
-          "type": "CREATE",
-          "description": "카테고리 페이지 생성"
-        },
-        {
-          "path": "src/app/til/[slug]/page.tsx",
-          "type": "CREATE",
-          "description": "TIL 상세 페이지 생성"
-        },
-        {
-          "path": "src/app/not-found.tsx",
-          "type": "CREATE",
-          "description": "404 에러 페이지 생성"
+          "description": "CATEGORIES 상수 참조"
         }
       ],
-      "implementationGuide": "1. src/app/about/page.tsx 생성 - Server Component, 기존 Header/Footer/Container 재사용\\n2. src/app/category/[name]/page.tsx 생성 - Next.js 15 async params 패턴: params: Promise<{ name: string }>, await params\\n3. src/app/til/[slug]/page.tsx 생성 - Next.js 15 async params 패턴 적용\\n4. src/app/not-found.tsx 생성 - 404 에러 페이지, 홈으로 이동 버튼\\n5. 네비게이션 업데이트 검토 (카테고리 드롭다운은 Task 004에서 구현)",
-      "verificationCriteria": "1. npm run build 성공\\n2. 모든 라우트 접근 가능: /, /about, /category/test, /til/test-slug\\n3. 존재하지 않는 경로 접근 시 404 페이지 표시\\n4. npm run check-all 통과",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
+      "implementationGuide": "1. src/lib/mock-data.ts 파일 생성\\n2. generateMockTIL(overrides?) 함수 구현 - TIL 객체 생성\\n3. generateMockTILList(count, category?) 함수 구현 - 목록 생성\\n4. MOCK_NOTION_BLOCKS 상수 정의 - 다양한 블록 타입 샘플\\n5. getMockTILDetail(slug) 함수 구현 - 상세 데이터 조회\\n\\n인터페이스:\\n- generateMockTIL(overrides?: Partial<TIL>): TIL\\n- generateMockTILList(count: number, category?: TILCategory): TIL[]\\n- getMockTILDetail(slug: string): TILDetail | null",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. generateMockTILList(10) 호출 시 10개의 유효한 TIL 객체 반환\\n3. 모든 카테고리가 골고루 분포\\n4. 날짜가 ISO 8601 형식\\n5. slug가 URL 친화적 문자열",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
     },
     {
-      "id": "552fc766-5372-4e29-8fbe-fa21f9518f4b",
-      "name": "타입 정의 및 인터페이스 설계",
-      "description": "TIL 데이터 TypeScript 인터페이스 정의(types/til.ts), Notion 블록 타입 정의(types/notion.ts), API 응답 타입 정의(types/api.ts), 카테고리 상수 및 타입 정의. PRD.md의 데이터 모델 참조하여 정확한 타입 설계.",
-      "notes": "PRD.md 데이터 모델 섹션 참조. Notion API 응답 구조와 호환되도록 설계.",
+      "id": "e8e85475-85c1-439e-848b-357201792d53",
+      "name": "Task 004-2: TIL 카드 컴포넌트 구현",
+      "description": "TIL 목록에서 사용할 카드 컴포넌트를 구현합니다. shadcn/ui Card와 Badge를 활용하여 제목, 날짜, 카테고리, 태그를 표시합니다.",
+      "notes": "호버 효과 추가. 카테고리 뱃지 클릭 시 해당 카테고리 페이지로 이동 가능하도록 Link 적용.",
       "status": "pending",
       "dependencies": [
         {
-          "taskId": "8b676e93-3a73-4d7f-8768-bd2935512c0b"
+          "taskId": "bc804424-da1c-4c5d-bbdf-a7a3d31f21a1"
         }
       ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
       "relatedFiles": [
         {
-          "path": "docs/PRD.md",
-          "type": "REFERENCE",
-          "description": "데이터 모델 정의 참조"
-        },
-        {
-          "path": "src/lib/types/til.ts",
-          "type": "CREATE",
-          "description": "TIL 타입 정의"
-        },
-        {
-          "path": "src/lib/types/notion.ts",
-          "type": "CREATE",
-          "description": "Notion 블록 타입"
-        },
-        {
-          "path": "src/lib/types/api.ts",
-          "type": "CREATE",
-          "description": "API 응답 타입"
-        },
-        {
-          "path": "src/lib/types/category.ts",
-          "type": "CREATE",
-          "description": "카테고리 상수 및 타입"
-        },
-        {
-          "path": "src/lib/types/index.ts",
-          "type": "CREATE",
-          "description": "타입 통합 export"
-        }
-      ],
-      "implementationGuide": "1. src/lib/types/til.ts 생성:\\n   - TIL 인터페이스: id, title, date, category, tags[], reference?, slug\\n   - TILListItem (목록용 간략 타입)\\n   - TILDetail (상세용 블록 포함 타입)\\n2. src/lib/types/notion.ts 생성:\\n   - NotionBlock 유니온 타입 (heading, paragraph, code, list, quote, image, divider)\\n   - NotionRichText 타입\\n3. src/lib/types/api.ts 생성:\\n   - PaginatedResponse<T> 제네릭 타입\\n   - APIError 타입\\n4. src/lib/types/category.ts 생성:\\n   - CATEGORIES 상수: AWS, Database, DevOps, AI, Frontend, Backend\\n   - Category 타입\\n5. src/lib/types/index.ts - 모든 타입 통합 export",
-      "verificationCriteria": "1. npm run typecheck 통과\\n2. 모든 타입이 정상적으로 import 가능\\n3. PRD.md 데이터 모델과 일치 확인",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "8bcd681d-e554-439e-9320-d42d41d9d260",
-      "name": "공통 컴포넌트 라이브러리 구현",
-      "description": "shadcn/ui 기반 공통 컴포넌트 확인 및 TIL 전용 컴포넌트 구현. TIL 카드 컴포넌트(제목, 날짜, 카테고리, 태그 표시), 카테고리 필터 버튼, 페이지네이션, 로딩 스켈레톤 컴포넌트 구현. 더미 데이터 생성 유틸리티 작성.",
-      "notes": "cn() 함수 사용, 시맨틱 색상 변수 사용. Server Component로 구현 가능한 것은 Server Component로.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "552fc766-5372-4e29-8fbe-fa21f9518f4b"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "src/lib/types/index.ts",
-          "type": "REFERENCE",
-          "description": "타입 정의 참조"
-        },
-        {
-          "path": "src/components/ui/card.tsx",
-          "type": "REFERENCE",
-          "description": "기존 Card 컴포넌트"
-        },
-        {
-          "path": "src/components/ui/badge.tsx",
-          "type": "REFERENCE",
-          "description": "기존 Badge 컴포넌트"
-        },
-        {
-          "path": "src/components/sections/til-card.tsx",
+          "path": "src/components/til/til-card.tsx",
           "type": "CREATE",
           "description": "TIL 카드 컴포넌트"
         },
         {
-          "path": "src/components/navigation/category-filter.tsx",
-          "type": "CREATE",
-          "description": "카테고리 필터"
+          "path": "src/components/ui/card.tsx",
+          "type": "REFERENCE",
+          "description": "shadcn Card 컴포넌트"
         },
         {
-          "path": "src/components/navigation/pagination.tsx",
-          "type": "CREATE",
-          "description": "페이지네이션"
+          "path": "src/components/ui/badge.tsx",
+          "type": "REFERENCE",
+          "description": "shadcn Badge 컴포넌트"
         },
         {
-          "path": "src/components/sections/til-card-skeleton.tsx",
-          "type": "CREATE",
-          "description": "스켈레톤 컴포넌트"
-        },
-        {
-          "path": "src/lib/mock-data.ts",
-          "type": "CREATE",
-          "description": "더미 데이터 유틸리티"
+          "path": "src/types/til.ts",
+          "type": "REFERENCE",
+          "description": "TILCardData 타입"
         }
       ],
-      "implementationGuide": "1. 기존 shadcn/ui 컴포넌트 확인 (Card, Badge, Button, Skeleton 존재)\\n2. src/components/sections/til-card.tsx 생성:\\n   - Card 기반, title, date, category(Badge), tags(Badge[]) 표시\\n   - Link로 /til/[slug] 연결\\n3. src/components/navigation/category-filter.tsx 생성:\\n   - CATEGORIES 상수 활용\\n   - 버튼 그룹으로 카테고리 선택\\n4. src/components/navigation/pagination.tsx 생성:\\n   - 이전/다음 버튼, 페이지 번호 표시\\n5. src/components/sections/til-card-skeleton.tsx 생성:\\n   - Skeleton 기반 로딩 상태\\n6. src/lib/mock-data.ts 생성:\\n   - generateMockTILs() 함수\\n   - 10개 이상의 더미 TIL 데이터",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 모든 컴포넌트 정상 렌더링 확인\\n3. 더미 데이터 생성 함수 정상 동작",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
+      "implementationGuide": "1. src/components/til/til-card.tsx 생성\\n2. Props: TILCardData (id, title, date, category, tags, slug)\\n3. Card, CardHeader, CardContent 사용\\n4. Badge로 카테고리 표시 (variant=secondary)\\n5. 태그는 작은 Badge로 표시 (variant=outline)\\n6. Link로 /til/[slug] 연결\\n7. 날짜 포맷: YYYY년 M월 D일\\n\\n인터페이스:\\ninterface TILCardProps { til: TILCardData }\\nexport function TILCard({ til }: TILCardProps): JSX.Element",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. 카드에 제목, 날짜, 카테고리, 태그 모두 표시\\n3. 카드 클릭 시 /til/[slug]로 이동\\n4. 카테고리 뱃지 클릭 시 /category/[slug]로 이동\\n5. 호버 시 시각적 피드백",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
     },
     {
-      "id": "bc34d2d9-26aa-4077-b810-c743987abc0b",
-      "name": "메인 페이지 UI 구현",
-      "description": "메인 페이지(/) UI 완성. 페이지 타이틀/헤더 영역, TIL 카드 그리드/리스트 레이아웃, 카테고리 필터 UI 배치, 페이지네이션 UI 배치. 더미 데이터로 전체 UI 검증.",
-      "notes": "Server Component로 구현. 카테고리 필터링은 URL 쿼리 파라미터 또는 클라이언트 상태로 처리.",
+      "id": "5dbbdd39-6bf3-44cf-8355-9667e838d40f",
+      "name": "Task 004-3: 카테고리 필터 컴포넌트 구현",
+      "description": "메인 페이지와 카테고리 페이지에서 사용할 카테고리 필터 버튼 그룹을 구현합니다.",
+      "notes": "접근성을 위해 aria-pressed 속성 추가. 버튼 그룹에 role=group 적용.",
+      "status": "pending",
+      "dependencies": [],
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/til/category-filter.tsx",
+          "type": "CREATE",
+          "description": "카테고리 필터 컴포넌트"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "REFERENCE",
+          "description": "shadcn Button 컴포넌트"
+        },
+        {
+          "path": "src/types/category.ts",
+          "type": "REFERENCE",
+          "description": "CATEGORIES 상수 및 타입"
+        }
+      ],
+      "implementationGuide": "1. src/components/til/category-filter.tsx 생성 ('use client' 필요)\\n2. Props: currentCategory?: TILCategorySlug, onCategoryChange: (slug: TILCategorySlug | null) => void\\n3. CATEGORIES 상수로 버튼 동적 생성\\n4. '전체' 버튼 + 6개 카테고리 버튼\\n5. 현재 선택된 카테고리는 variant=default, 나머지는 variant=outline\\n6. 반응형: 모바일에서는 가로 스크롤, 데스크톱에서는 wrap\\n\\n인터페이스:\\ninterface CategoryFilterProps {\\n  currentCategory?: TILCategorySlug | null\\n  onCategoryChange: (slug: TILCategorySlug | null) => void\\n}",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. 전체 + 6개 카테고리 버튼 렌더링\\n3. 클릭 시 onCategoryChange 콜백 호출\\n4. 현재 선택 카테고리 시각적 구분\\n5. 모바일에서 가로 스크롤 동작",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+    },
+    {
+      "id": "7c8cdd68-9190-4ea8-8813-690044ad25ad",
+      "name": "Task 004-4: 페이지네이션 컴포넌트 구현",
+      "description": "TIL 목록 하단에 사용할 페이지네이션 컴포넌트를 구현합니다.",
+      "notes": "totalPages가 1이면 컴포넌트를 렌더링하지 않음. 접근성을 위해 aria-label 적용.",
+      "status": "pending",
+      "dependencies": [],
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/til/pagination.tsx",
+          "type": "CREATE",
+          "description": "페이지네이션 컴포넌트"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "REFERENCE",
+          "description": "shadcn Button 컴포넌트"
+        }
+      ],
+      "implementationGuide": "1. src/components/til/pagination.tsx 생성 ('use client' 필요)\\n2. Props: currentPage: number, totalPages: number, onPageChange: (page: number) => void\\n3. 이전/다음 버튼 + 페이지 번호 버튼\\n4. 페이지 수가 많으면 말줄임(...) 표시\\n5. 첫 페이지/마지막 페이지에서 해당 버튼 비활성화\\n6. ChevronLeft, ChevronRight 아이콘 사용\\n\\n인터페이스:\\ninterface PaginationProps {\\n  currentPage: number\\n  totalPages: number\\n  onPageChange: (page: number) => void\\n}",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. 현재 페이지 시각적 구분\\n3. 이전/다음 버튼 올바른 동작\\n4. 첫/마지막 페이지에서 버튼 비활성화\\n5. totalPages=1일 때 렌더링 안함",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+    },
+    {
+      "id": "629590c8-89c1-475c-bbb6-08f60ba5269b",
+      "name": "Task 004-5: 로딩 스켈레톤 컴포넌트 구현",
+      "description": "TIL 카드 로딩 상태를 표시할 스켈레톤 컴포넌트를 구현합니다.",
+      "notes": "실제 카드와 동일한 높이를 유지하여 레이아웃 시프트 방지.",
       "status": "pending",
       "dependencies": [
         {
-          "taskId": "8bcd681d-e554-439e-9320-d42d41d9d260"
+          "taskId": "e8e85475-85c1-439e-848b-357201792d53"
         }
       ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/til/til-card-skeleton.tsx",
+          "type": "CREATE",
+          "description": "TIL 카드 스켈레톤"
+        },
+        {
+          "path": "src/components/ui/skeleton.tsx",
+          "type": "REFERENCE",
+          "description": "shadcn Skeleton 컴포넌트"
+        },
+        {
+          "path": "src/components/til/til-card.tsx",
+          "type": "REFERENCE",
+          "description": "실제 카드 레이아웃 참조"
+        }
+      ],
+      "implementationGuide": "1. src/components/til/til-card-skeleton.tsx 생성\\n2. TIL 카드와 동일한 레이아웃의 스켈레톤\\n3. shadcn/ui Skeleton 컴포넌트 활용\\n4. 제목, 날짜, 카테고리, 태그 영역에 Skeleton 배치\\n5. TILCardListSkeleton(count: number) 함수도 제공\\n\\n인터페이스:\\nexport function TILCardSkeleton(): JSX.Element\\nexport function TILCardListSkeleton({ count }: { count: number }): JSX.Element",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. 카드와 동일한 크기/레이아웃\\n3. 애니메이션 효과 동작\\n4. TILCardListSkeleton이 여러 스켈레톤 렌더링",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+    },
+    {
+      "id": "75d422b5-be8f-4ffd-9e44-7a59ecc8439e",
+      "name": "Task 005: 메인 페이지 UI 구현",
+      "description": "TIL 목록을 표시하는 메인 페이지 UI를 구현합니다. 카테고리 필터, TIL 카드 그리드, 페이지네이션을 통합합니다.",
+      "notes": "Phase 3에서 API 연동 시 쉽게 교체할 수 있도록 데이터 로딩 로직을 분리하세요.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "bc804424-da1c-4c5d-bbdf-a7a3d31f21a1"
+        },
+        {
+          "taskId": "e8e85475-85c1-439e-848b-357201792d53"
+        },
+        {
+          "taskId": "5dbbdd39-6bf3-44cf-8355-9667e838d40f"
+        },
+        {
+          "taskId": "7c8cdd68-9190-4ea8-8813-690044ad25ad"
+        }
+      ],
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
       "relatedFiles": [
         {
           "path": "src/app/page.tsx",
@@ -178,17 +192,17 @@
           "description": "메인 페이지 수정"
         },
         {
-          "path": "src/components/sections/til-card.tsx",
+          "path": "src/components/til/til-card.tsx",
           "type": "REFERENCE",
           "description": "TIL 카드 컴포넌트"
         },
         {
-          "path": "src/components/navigation/category-filter.tsx",
+          "path": "src/components/til/category-filter.tsx",
           "type": "REFERENCE",
           "description": "카테고리 필터"
         },
         {
-          "path": "src/components/navigation/pagination.tsx",
+          "path": "src/components/til/pagination.tsx",
           "type": "REFERENCE",
           "description": "페이지네이션"
         },
@@ -198,23 +212,23 @@
           "description": "더미 데이터"
         }
       ],
-      "implementationGuide": "1. src/app/page.tsx 수정:\\n   - 페이지 타이틀/설명 영역\\n   - CategoryFilter 컴포넌트 배치\\n   - TIL 카드 그리드 레이아웃 (grid-cols-1 md:grid-cols-2 lg:grid-cols-3)\\n   - Pagination 컴포넌트 배치\\n2. 더미 데이터 연동:\\n   - generateMockTILs() 호출\\n   - 10개씩 페이지네이션 적용\\n3. 레이아웃 최적화:\\n   - Container 활용\\n   - 적절한 간격 (gap, py, px)",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 메인 페이지에서 TIL 카드 목록 표시\\n3. 카테고리 필터 UI 정상 표시\\n4. 페이지네이션 UI 정상 표시\\n5. Playwright 테스트: browser_navigate → browser_snapshot 확인",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
+      "implementationGuide": "1. src/app/page.tsx 수정\\n2. 클라이언트 상태: currentCategory, currentPage\\n3. generateMockTILList로 더미 데이터 로드\\n4. 레이아웃 구조:\\n   - 페이지 타이틀/설명\\n   - CategoryFilter 컴포넌트\\n   - TIL 카드 그리드 (grid-cols-1 sm:grid-cols-2 lg:grid-cols-3)\\n   - Pagination 컴포넌트\\n5. 카테고리 필터링 로직 구현\\n6. 페이지네이션 로직 (10개씩)\\n\\n주의: 서버/클라이언트 컴포넌트 분리 고려",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. Playwright MCP 테스트:\\n   - browser_navigate로 / 접근\\n   - TIL 카드 그리드 표시 확인\\n   - 카테고리 필터 클릭 시 목록 변경\\n   - 페이지네이션 동작 확인\\n3. 반응형 그리드 레이아웃 동작",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
     },
     {
-      "id": "2abc0307-8f9d-4472-bd19-6616c192038b",
-      "name": "카테고리 페이지 UI 구현",
-      "description": "카테고리 페이지(/category/[name]) UI 구현. 카테고리 헤더(현재 카테고리 표시), TIL 카드 리스트(메인과 동일 형식), 페이지네이션 UI. 더미 데이터로 필터링 UI 검증.",
-      "notes": "CATEGORIES 상수로 유효성 검증. 대소문자 처리 고려.",
+      "id": "967858ad-4310-4363-93bc-9c13cdfedde1",
+      "name": "Task 006: 카테고리 페이지 UI 구현",
+      "description": "특정 카테고리의 TIL 목록을 표시하는 페이지를 구현합니다. 메인 페이지와 유사한 구조로 해당 카테고리만 필터링하여 표시합니다.",
+      "notes": "메인 페이지의 컴포넌트를 최대한 재사용하세요. 중복 코드를 피하기 위해 공통 로직은 훅이나 유틸리티로 분리할 수 있습니다.",
       "status": "pending",
       "dependencies": [
         {
-          "taskId": "bc34d2d9-26aa-4077-b810-c743987abc0b"
+          "taskId": "75d422b5-be8f-4ffd-9e44-7a59ecc8439e"
         }
       ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
       "relatedFiles": [
         {
           "path": "src/app/category/[name]/page.tsx",
@@ -222,33 +236,101 @@
           "description": "카테고리 페이지 수정"
         },
         {
-          "path": "src/lib/types/category.ts",
+          "path": "src/components/til/til-card.tsx",
           "type": "REFERENCE",
-          "description": "카테고리 상수"
+          "description": "TIL 카드 재사용"
+        },
+        {
+          "path": "src/components/til/pagination.tsx",
+          "type": "REFERENCE",
+          "description": "페이지네이션 재사용"
+        },
+        {
+          "path": "src/types/category.ts",
+          "type": "REFERENCE",
+          "description": "카테고리 유틸리티"
+        }
+      ],
+      "implementationGuide": "1. src/app/category/[name]/page.tsx 수정\\n2. types/category.ts의 isValidCategorySlug, getCategoryBySlug 활용\\n3. 메인 페이지와 동일한 TIL 카드 그리드/페이지네이션 사용\\n4. 카테고리 헤더에 현재 카테고리 표시 (아이콘 + 이름 + 설명)\\n5. 다른 카테고리로 이동 가능한 CategoryFilter 포함\\n6. 해당 카테고리 TIL만 필터링하여 표시\\n\\n메타데이터: generateMetadata로 카테고리별 title/description 동적 생성",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. Playwright MCP 테스트:\\n   - /category/aws 접근 시 AWS 카테고리만 표시\\n   - 잘못된 카테고리 접근 시 404\\n   - 카테고리 헤더에 올바른 정보 표시\\n3. 메인 페이지와 일관된 UI",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+    },
+    {
+      "id": "d6b486fd-24f6-4e20-84ff-b6d5663a46ac",
+      "name": "Task 007-1: Notion 블록 렌더러 기본 구현",
+      "description": "Notion 블록을 HTML로 렌더링하는 기본 컴포넌트를 구현합니다. paragraph, heading, list, quote, divider 블록을 지원합니다.",
+      "notes": "prose 클래스를 사용하여 타이포그래피 일관성 유지. NotionRichText의 annotations 처리 필수.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "bc804424-da1c-4c5d-bbdf-a7a3d31f21a1"
+        }
+      ],
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/notion/notion-block-renderer.tsx",
+          "type": "CREATE",
+          "description": "Notion 블록 렌더러"
+        },
+        {
+          "path": "src/types/notion.ts",
+          "type": "REFERENCE",
+          "description": "NotionBlock 타입"
         },
         {
           "path": "src/lib/mock-data.ts",
           "type": "REFERENCE",
-          "description": "더미 데이터 필터링"
+          "description": "테스트용 더미 블록"
         }
       ],
-      "implementationGuide": "1. src/app/category/[name]/page.tsx 수정:\\n   - Next.js 15 async params 패턴 적용\\n   - params.name으로 카테고리 추출\\n   - 유효하지 않은 카테고리면 notFound() 호출\\n2. 카테고리 헤더 섹션:\\n   - 현재 카테고리 이름 표시\\n   - 전체 보기 링크 (/)\\n3. TIL 카드 리스트:\\n   - 더미 데이터에서 해당 카테고리만 필터링\\n   - 메인 페이지와 동일한 그리드 레이아웃\\n4. 페이지네이션 배치",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. /category/AWS 등 유효한 카테고리 접근 시 필터링된 목록 표시\\n3. 잘못된 카테고리 접근 시 404\\n4. Playwright 테스트: 카테고리별 필터링 검증",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
+      "implementationGuide": "1. src/components/notion/notion-block-renderer.tsx 생성\\n2. NotionBlockRenderer({ blocks: NotionBlock[] }) 컴포넌트\\n3. 블록 타입별 렌더링 함수:\\n   - renderParagraph: <p> with RichText\\n   - renderHeading1/2/3: <h1/h2/h3>\\n   - renderBulletedList: <ul><li>\\n   - renderNumberedList: <ol><li>\\n   - renderQuote: <blockquote>\\n   - renderDivider: <hr>\\n4. RichText 렌더링: bold, italic, code, link 스타일 적용\\n5. 연속된 리스트 아이템 그룹화 로직\\n\\n인터페이스:\\ninterface NotionBlockRendererProps { blocks: NotionBlock[] }",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. paragraph, heading, list, quote, divider 블록 올바르게 렌더링\\n3. RichText 스타일(bold, italic, code, link) 적용\\n4. 연속 리스트 아이템 올바르게 그룹화",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
     },
     {
-      "id": "b71743d5-2f0a-4350-aa78-80afc569276e",
-      "name": "TIL 상세 페이지 UI 구현",
-      "description": "TIL 상세 페이지(/til/[slug]) UI 구현. 메타 정보 헤더(제목, 작성일, 카테고리, 태그), Notion 블록 렌더러 컴포넌트(더미 데이터용), 참고 링크 섹션, 네비게이션(뒤로가기, 홈, 카테고리 이동).",
-      "notes": "NotionRenderer는 Server Component로 구현. 존재하지 않는 slug는 notFound() 호출.",
+      "id": "69d24bd9-6a4e-4aa5-b2a7-04d20ad1352c",
+      "name": "Task 007-2: Notion 코드/이미지 블록 렌더러 구현",
+      "description": "코드 블록과 이미지 블록 렌더링을 구현합니다. 코드 블록은 구문 강조를, 이미지는 캡션을 지원합니다.",
+      "notes": "코드 블록의 language 속성을 활용하여 언어 표시. 이미지는 외부 URL과 Notion 파일 URL 모두 지원해야 합니다.",
       "status": "pending",
       "dependencies": [
         {
-          "taskId": "2abc0307-8f9d-4472-bd19-6616c192038b"
+          "taskId": "d6b486fd-24f6-4e20-84ff-b6d5663a46ac"
         }
       ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/notion/notion-block-renderer.tsx",
+          "type": "TO_MODIFY",
+          "description": "코드/이미지 블록 추가"
+        },
+        {
+          "path": "src/types/notion.ts",
+          "type": "REFERENCE",
+          "description": "CodeBlock, ImageBlock 타입"
+        }
+      ],
+      "implementationGuide": "1. src/components/notion/notion-block-renderer.tsx에 추가\\n2. renderCode 함수:\\n   - <pre><code> 구조\\n   - language 표시 (우측 상단)\\n   - 복사 버튼 (선택)\\n   - 기본 스타일링 (배경, 패딩, 라운드)\\n3. renderImage 함수:\\n   - <figure><img><figcaption> 구조\\n   - next/image 사용 (Phase 4 최적화 대비)\\n   - caption 렌더링\\n   - 반응형 이미지 크기\\n\\n코드 하이라이팅은 Phase 4에서 추가 예정, 현재는 기본 스타일만 적용",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. 코드 블록에 언어 표시\\n3. 코드 블록 스타일링 (배경, 폰트)\\n4. 이미지 렌더링 및 캡션 표시\\n5. 반응형 이미지 크기",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
+    },
+    {
+      "id": "9b3213c4-23b7-47b4-a94b-8bf6aa0894b3",
+      "name": "Task 007-3: TIL 상세 페이지 UI 통합",
+      "description": "TIL 상세 페이지에 NotionBlockRenderer를 통합하고 전체 UI를 완성합니다.",
+      "notes": "prose 클래스로 본문 타이포그래피 통일. javascript:history.back() 대신 useRouter 사용 권장.",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "69d24bd9-6a4e-4aa5-b2a7-04d20ad1352c"
+        }
+      ],
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
       "relatedFiles": [
         {
           "path": "src/app/til/[slug]/page.tsx",
@@ -256,442 +338,97 @@
           "description": "TIL 상세 페이지 수정"
         },
         {
-          "path": "src/components/sections/notion-renderer.tsx",
-          "type": "CREATE",
-          "description": "Notion 블록 렌더러"
-        },
-        {
-          "path": "src/lib/types/notion.ts",
+          "path": "src/components/notion/notion-block-renderer.tsx",
           "type": "REFERENCE",
-          "description": "Notion 블록 타입"
+          "description": "블록 렌더러"
         },
         {
           "path": "src/lib/mock-data.ts",
-          "type": "TO_MODIFY",
-          "description": "더미 블록 데이터 추가"
+          "type": "REFERENCE",
+          "description": "getMockTILDetail 함수"
         }
       ],
-      "implementationGuide": "1. src/components/sections/notion-renderer.tsx 생성:\\n   - NotionBlock 타입별 렌더링\\n   - heading_1/2/3: h1/h2/h3 태그\\n   - paragraph: p 태그\\n   - code: pre/code 태그 (구문 강조는 Phase 3에서)\\n   - bulleted_list_item, numbered_list_item: ul/ol/li\\n   - quote: blockquote\\n   - image: next/image\\n   - divider: hr\\n2. src/app/til/[slug]/page.tsx 수정:\\n   - async params 패턴\\n   - 메타 정보 헤더 (제목, 작성일, 카테고리 Badge, 태그 Badge[])\\n   - NotionRenderer로 본문 렌더링\\n   - 참고 링크 섹션\\n   - 네비게이션: 뒤로가기, 홈, 카테고리 이동 버튼\\n3. 더미 Notion 블록 데이터 생성",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. /til/test-slug 접근 시 상세 페이지 표시\\n3. 모든 Notion 블록 타입 정상 렌더링\\n4. 네비게이션 버튼 정상 동작\\n5. Playwright 테스트: 상세 페이지 렌더링 검증",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
+      "implementationGuide": "1. src/app/til/[slug]/page.tsx 수정\\n2. getMockTILDetail(slug)로 더미 데이터 로드\\n3. 존재하지 않는 slug는 notFound() 호출\\n4. UI 구조:\\n   - 네비게이션 (홈, 뒤로가기)\\n   - 메타 정보 헤더 (제목, 날짜, 카테고리 Badge, 태그 목록)\\n   - NotionBlockRenderer로 본문 렌더링\\n   - 참고 링크 섹션 (reference가 있을 경우)\\n5. 카테고리 클릭 시 해당 카테고리 페이지로 이동\\n\\n메타데이터: generateMetadata로 제목 기반 title 설정",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. Playwright MCP 테스트:\\n   - /til/[valid-slug] 접근 시 상세 페이지 표시\\n   - /til/invalid-slug 접근 시 404\\n   - 모든 Notion 블록 타입 렌더링 확인\\n   - 카테고리/태그 클릭 동작\\n3. 참고 링크 외부 링크로 열림",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
     },
     {
-      "id": "0f1537eb-c881-4750-9162-1c2f0424de65",
-      "name": "About 페이지 UI 구현",
-      "description": "About 페이지(/about) UI 구현. 프로젝트 소개 섹션, 기술 스택 소개 섹션, Notion CMS 활용 방법 설명.",
-      "notes": "정적 콘텐츠 페이지. Server Component로 구현.",
+      "id": "e004bf38-1f5a-4056-aeb7-d02b74079250",
+      "name": "Task 008: About 페이지 UI 개선",
+      "description": "About 페이지의 UI를 개선하여 프로젝트 소개, 기술 스택, Notion CMS 활용 방법을 더 세련되게 표시합니다.",
+      "notes": "기존 TechCard 함수를 유지하되 shadcn/ui Card 컴포넌트로 개선. Lucide 아이콘 활용.",
       "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "b71743d5-2f0a-4350-aa78-80afc569276e"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
+      "dependencies": [],
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
       "relatedFiles": [
         {
           "path": "src/app/about/page.tsx",
           "type": "TO_MODIFY",
-          "description": "About 페이지 수정"
+          "description": "About 페이지 개선"
         },
         {
-          "path": "docs/PRD.md",
+          "path": "src/components/ui/card.tsx",
           "type": "REFERENCE",
-          "description": "프로젝트 정보 참조"
-        }
-      ],
-      "implementationGuide": "1. src/app/about/page.tsx 수정:\\n   - 프로젝트 소개 섹션: TIL Garden 목적, 특징 설명\\n   - 기술 스택 섹션: Next.js, React, TypeScript, TailwindCSS, Notion API 등\\n   - Notion CMS 활용 방법 설명: Notion 데이터베이스 구조, 작성 방법\\n2. 레이아웃:\\n   - Container 활용\\n   - 섹션별 구분 (Separator 또는 간격)\\n   - Card 컴포넌트로 기술 스택 표시 가능",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. /about 페이지 정상 표시\\n3. 모든 섹션 콘텐츠 확인\\n4. Playwright 테스트: About 페이지 렌더링 확인",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "f7533369-a664-413e-8d46-7355d1bd06ea",
-      "name": "반응형 디자인 및 접근성 검증",
-      "description": "모바일(< 640px), 태블릿(640px ~ 1024px), 데스크톱(> 1024px) 레이아웃 최적화. 키보드 네비게이션 및 접근성 검증.",
-      "notes": "Playwright browser_resize로 다양한 화면 크기 테스트. ARIA 속성 확인.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "0f1537eb-c881-4750-9162-1c2f0424de65"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "src/components/sections/til-card.tsx",
-          "type": "TO_MODIFY",
-          "description": "반응형 스타일 확인"
+          "description": "Card 컴포넌트"
         },
         {
-          "path": "src/components/layout/header.tsx",
-          "type": "TO_MODIFY",
-          "description": "모바일 네비게이션 확인"
-        },
-        {
-          "path": "src/app/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "그리드 반응형 확인"
-        }
-      ],
-      "implementationGuide": "1. 반응형 검증:\\n   - 모바일: 1열 그리드, 모바일 네비게이션\\n   - 태블릿: 2열 그리드\\n   - 데스크톱: 3열 그리드\\n2. 접근성 검증:\\n   - 모든 이미지에 alt 속성\\n   - 버튼에 aria-label\\n   - 키보드 탐색 가능 (Tab, Enter)\\n   - 색상 대비 확인\\n3. 수정 필요 시 해당 컴포넌트 업데이트",
-      "verificationCriteria": "1. Playwright 테스트: 320px, 768px, 1280px 화면에서 정상 렌더링\\n2. 키보드만으로 전체 사이트 탐색 가능\\n3. 색상 대비 WCAG AA 기준 충족\\n4. npm run check-all 통과",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "d95fc23d-b551-4b64-890d-ef609294bd00",
-      "name": "Notion API 클라이언트 설정",
-      "description": "@notionhq/client 패키지 설치. Notion Client 초기화(lib/notion.ts). 환경 변수 설정(NOTION_API_KEY, NOTION_DATABASE_ID). API 에러 핸들링 유틸리티.",
-      "notes": "환경변수 누락 시 명확한 에러 메시지. 프로덕션에서는 Vercel 환경변수 사용.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "f7533369-a664-413e-8d46-7355d1bd06ea"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "src/lib/env.ts",
-          "type": "TO_MODIFY",
-          "description": "환경변수 검증 추가"
-        },
-        {
-          "path": "src/lib/notion.ts",
-          "type": "CREATE",
-          "description": "Notion 클라이언트"
-        },
-        {
-          "path": "src/lib/notion-error.ts",
-          "type": "CREATE",
-          "description": "에러 핸들링"
-        },
-        {
-          "path": ".env.local",
-          "type": "CREATE",
-          "description": "환경변수 파일"
-        }
-      ],
-      "implementationGuide": "1. npm install @notionhq/client\\n2. .env.local 파일에 환경변수 추가:\\n   - NOTION_API_KEY\\n   - NOTION_DATABASE_ID\\n3. src/lib/env.ts 수정: 환경변수 검증 추가\\n4. src/lib/notion.ts 생성:\\n   - Notion Client 초기화\\n   - 싱글톤 패턴 또는 함수 export\\n5. src/lib/notion-error.ts 생성:\\n   - NotionAPIError 클래스\\n   - 에러 핸들링 유틸리티 함수",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 환경변수 설정 시 Notion 연결 성공\\n3. 환경변수 누락 시 명확한 에러 메시지\\n4. Playwright 테스트: API 연결 상태 확인",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "7465dcd9-d142-49f4-bf82-c17f237fdf58",
-      "name": "TIL 목록 조회 API 구현",
-      "description": "Published 상태 TIL 목록 조회 함수. 최신순 정렬 쿼리 구현. 카테고리별 필터링 쿼리 구현. 페이지네이션 쿼리 구현(cursor 기반). Notion 응답 → TypeScript 타입 변환 함수.",
-      "notes": "Notion API rate limit 고려. 에러 발생 시 적절한 fallback 처리.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "d95fc23d-b551-4b64-890d-ef609294bd00"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "src/lib/notion.ts",
-          "type": "TO_MODIFY",
-          "description": "목록 조회 함수 추가"
-        },
-        {
-          "path": "src/lib/notion-mapper.ts",
-          "type": "CREATE",
-          "description": "타입 변환 함수"
-        },
-        {
-          "path": "src/lib/types/til.ts",
+          "path": "src/components/ui/badge.tsx",
           "type": "REFERENCE",
-          "description": "TIL 타입 참조"
+          "description": "Badge 컴포넌트"
         }
       ],
-      "implementationGuide": "1. src/lib/notion.ts에 함수 추가:\\n   - getTILList(options?: { category?: string, cursor?: string })\\n   - Published 상태 필터 (Status = Published)\\n   - Date 기준 내림차순 정렬\\n   - 카테고리 필터 (선택적)\\n   - page_size: 10, cursor 기반 페이지네이션\\n2. src/lib/notion-mapper.ts 생성:\\n   - mapNotionPageToTIL(): Notion 페이지 → TIL 타입 변환\\n   - 프로퍼티 추출 유틸리티 함수\\n3. 응답 타입:\\n   - PaginatedResponse<TILListItem> 형식",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. getTILList() 호출 시 TIL 목록 반환\\n3. 카테고리 필터링 정상 동작\\n4. 페이지네이션 cursor 정상 동작\\n5. Playwright 테스트: 목록 로딩 검증",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
+      "implementationGuide": "1. src/app/about/page.tsx 수정\\n2. TechCard 컴포넌트를 shadcn/ui Card로 리팩토링\\n3. UI 개선:\\n   - 프로젝트 소개: 아이콘 + 설명\\n   - 기술 스택: Card 그리드 + 아이콘/로고\\n   - Notion CMS: 단계별 설명 또는 다이어그램\\n   - 카테고리: Badge 컴포넌트로 표시\\n4. 시각적 요소 추가 (아이콘, 구분선 등)\\n5. 반응형 레이아웃 확인",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. 기술 스택 Card 그리드 표시\\n3. 시각적으로 개선된 레이아웃\\n4. 반응형 디자인 동작\\n5. Playwright MCP로 /about 페이지 렌더링 확인",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
     },
     {
-      "id": "5f386c68-5de2-49cf-a17d-e7eee722bec1",
-      "name": "TIL 상세 조회 API 구현",
-      "description": "Slug 기반 개별 TIL 조회 함수. Notion Block API를 통한 본문 블록 조회. 블록 데이터 정규화 함수.",
-      "notes": "블록 조회는 100개 제한. 필요시 페이지네이션 처리. 중첩 블록 지원.",
+      "id": "d85e68d9-3072-4fae-b479-bf6cf5bbbc1b",
+      "name": "Task 009: 반응형 디자인 및 접근성 검증",
+      "description": "모든 페이지의 반응형 디자인을 검증하고 키보드 네비게이션 및 접근성을 개선합니다.",
+      "notes": "Playwright MCP의 browser_resize, browser_snapshot, browser_press_key(Tab) 활용. 발견된 문제는 즉시 수정하고 결과를 기록하세요.",
       "status": "pending",
       "dependencies": [
         {
-          "taskId": "7465dcd9-d142-49f4-bf82-c17f237fdf58"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "src/lib/notion.ts",
-          "type": "TO_MODIFY",
-          "description": "상세 조회 함수 추가"
+          "taskId": "75d422b5-be8f-4ffd-9e44-7a59ecc8439e"
         },
         {
-          "path": "src/lib/notion-mapper.ts",
-          "type": "TO_MODIFY",
-          "description": "블록 변환 함수 추가"
+          "taskId": "967858ad-4310-4363-93bc-9c13cdfedde1"
         },
         {
-          "path": "src/lib/types/notion.ts",
-          "type": "REFERENCE",
-          "description": "블록 타입 참조"
-        }
-      ],
-      "implementationGuide": "1. src/lib/notion.ts에 함수 추가:\\n   - getTILBySlug(slug: string): TILDetail | null\\n   - Slug 프로퍼티로 데이터베이스 쿼리\\n   - 페이지 ID로 블록 조회 (blocks.children.list)\\n2. src/lib/notion-mapper.ts에 함수 추가:\\n   - mapNotionBlockToBlock(): Notion 블록 → NotionBlock 타입 변환\\n   - 재귀적 블록 처리 (children 포함)\\n3. 에러 처리:\\n   - 존재하지 않는 slug: null 반환\\n   - API 에러: 예외 throw",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. getTILBySlug() 호출 시 TIL 상세 반환\\n3. 모든 블록 타입 정상 변환\\n4. 존재하지 않는 slug 시 null 반환\\n5. Playwright 테스트: 상세 페이지 로딩 검증",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "9c12a0be-6125-4972-8402-00801fb6635f",
-      "name": "더미 데이터를 실제 API로 교체",
-      "description": "메인 페이지 Notion API 연동. 카테고리 페이지 Notion API 연동. TIL 상세 페이지 Notion API 연동. 로딩 상태 및 에러 상태 처리.",
-      "notes": "Server Components에서 직접 API 호출. 클라이언트 상태 관리 불필요.",
-      "status": "pending",
-      "dependencies": [
+          "taskId": "9b3213c4-23b7-47b4-a94b-8bf6aa0894b3"
+        },
         {
-          "taskId": "5f386c68-5de2-49cf-a17d-e7eee722bec1"
+          "taskId": "e004bf38-1f5a-4056-aeb7-d02b74079250"
         }
       ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
+      "createdAt": "2026-01-18T06:18:31.858Z",
+      "updatedAt": "2026-01-18T06:18:31.858Z",
       "relatedFiles": [
         {
           "path": "src/app/page.tsx",
           "type": "TO_MODIFY",
-          "description": "실제 API 연동"
+          "description": "필요시 반응형 수정"
         },
         {
           "path": "src/app/category/[name]/page.tsx",
           "type": "TO_MODIFY",
-          "description": "실제 API 연동"
+          "description": "필요시 반응형 수정"
         },
         {
           "path": "src/app/til/[slug]/page.tsx",
           "type": "TO_MODIFY",
-          "description": "실제 API 연동"
+          "description": "필요시 반응형 수정"
         },
         {
-          "path": "src/app/loading.tsx",
-          "type": "CREATE",
-          "description": "로딩 UI"
-        }
-      ],
-      "implementationGuide": "1. src/app/page.tsx 수정:\\n   - generateMockTILs() → getTILList() 교체\\n   - 로딩/에러 상태 처리 (Suspense, error.tsx)\\n2. src/app/category/[name]/page.tsx 수정:\\n   - getTILList({ category }) 호출\\n3. src/app/til/[slug]/page.tsx 수정:\\n   - getTILBySlug(slug) 호출\\n   - 없으면 notFound()\\n4. 로딩 UI:\\n   - src/app/loading.tsx 또는 Suspense 활용\\n5. 더미 데이터 파일 정리 (mock-data.ts 제거 또는 테스트용 유지)",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 모든 페이지에서 실제 Notion 데이터 표시\\n3. 로딩 상태 정상 표시\\n4. API 에러 시 에러 UI 표시\\n5. Playwright 테스트: 전체 플로우 검증",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "ceeac389-3e01-4b9c-b6a4-268cc3d4a44d",
-      "name": "캐싱 및 ISR 설정",
-      "description": "Next.js ISR(Incremental Static Regeneration) 설정. revalidate 시간 설정(예: 60초). 정적 생성 경로 설정(generateStaticParams).",
-      "notes": "revalidate 시간은 콘텐츠 업데이트 빈도에 따라 조정. 빌드 시 정적 생성 vs 요청 시 생성 균형.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "9c12a0be-6125-4972-8402-00801fb6635f"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "src/app/page.tsx",
+          "path": "src/components/til/category-filter.tsx",
           "type": "TO_MODIFY",
-          "description": "ISR 설정"
-        },
-        {
-          "path": "src/app/category/[name]/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "ISR + generateStaticParams"
-        },
-        {
-          "path": "src/app/til/[slug]/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "ISR + generateStaticParams"
+          "description": "접근성 개선"
         }
       ],
-      "implementationGuide": "1. src/app/page.tsx:\\n   - export const revalidate = 60\\n2. src/app/category/[name]/page.tsx:\\n   - export const revalidate = 60\\n   - generateStaticParams: CATEGORIES 기반 경로 생성\\n3. src/app/til/[slug]/page.tsx:\\n   - export const revalidate = 60\\n   - generateStaticParams: 전체 TIL slug 목록 생성 (또는 동적 생성)\\n4. 캐시 전략 문서화",
-      "verificationCriteria": "1. npm run build 성공\\n2. 정적 페이지 생성 확인\\n3. revalidate 후 데이터 갱신 확인\\n4. Playwright 테스트: 캐시 동작 검증",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "761f47db-e4ab-4757-a21b-428e4541a47a",
-      "name": "핵심 기능 통합 테스트",
-      "description": "Playwright MCP를 사용한 전체 사용자 플로우 테스트. 메인 → 카테고리 → 상세 → 뒤로가기 플로우. API 연동 및 비즈니스 로직 검증. 에러 핸들링 및 엣지 케이스 테스트. Notion API 응답 시간 3초 이내 검증.",
-      "notes": "개발 서버 실행 상태에서 테스트. 모든 테스트 통과 후 Phase 3 완료.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "ceeac389-3e01-4b9c-b6a4-268cc3d4a44d"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "src/app/page.tsx",
-          "type": "REFERENCE",
-          "description": "메인 페이지 테스트"
-        },
-        {
-          "path": "src/app/category/[name]/page.tsx",
-          "type": "REFERENCE",
-          "description": "카테고리 페이지 테스트"
-        },
-        {
-          "path": "src/app/til/[slug]/page.tsx",
-          "type": "REFERENCE",
-          "description": "상세 페이지 테스트"
-        }
-      ],
-      "implementationGuide": "1. E2E 테스트 시나리오:\\n   - 메인 페이지 로딩 → TIL 목록 표시 확인\\n   - 카테고리 필터 클릭 → 필터링된 목록 확인\\n   - TIL 카드 클릭 → 상세 페이지 이동\\n   - 뒤로가기/홈 버튼 동작 확인\\n2. API 검증:\\n   - 네트워크 요청 확인 (browser_network_requests)\\n   - 콘솔 에러 없음 확인 (browser_console_messages)\\n3. 에러 케이스:\\n   - 존재하지 않는 slug 접근 → 404\\n   - 잘못된 카테고리 접근 → 404\\n4. 성능 검증:\\n   - 페이지 로딩 시간 측정",
-      "verificationCriteria": "1. 모든 E2E 시나리오 통과\\n2. 콘솔 에러 0건\\n3. API 응답 시간 3초 이내\\n4. 404 페이지 정상 동작\\n5. npm run build 성공",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "23b161ab-ae01-4691-9e6d-55a825f865cf",
-      "name": "SEO 및 메타데이터 최적화",
-      "description": "각 페이지별 메타태그 설정(generateMetadata). Open Graph 이미지 설정. 사이트맵 생성(sitemap.ts). robots.txt 설정.",
-      "notes": "Next.js 15 Metadata API 사용. 동적 페이지는 generateMetadata 함수 활용.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "761f47db-e4ab-4757-a21b-428e4541a47a"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "src/app/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "메타데이터 추가"
-        },
-        {
-          "path": "src/app/about/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "메타데이터 추가"
-        },
-        {
-          "path": "src/app/category/[name]/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "동적 메타데이터"
-        },
-        {
-          "path": "src/app/til/[slug]/page.tsx",
-          "type": "TO_MODIFY",
-          "description": "동적 메타데이터"
-        },
-        {
-          "path": "src/app/sitemap.ts",
-          "type": "CREATE",
-          "description": "사이트맵"
-        },
-        {
-          "path": "src/app/robots.ts",
-          "type": "CREATE",
-          "description": "robots.txt"
-        }
-      ],
-      "implementationGuide": "1. 각 페이지에 generateMetadata 추가:\\n   - src/app/page.tsx: 메인 페이지 메타데이터\\n   - src/app/about/page.tsx: About 메타데이터\\n   - src/app/category/[name]/page.tsx: 동적 카테고리 메타데이터\\n   - src/app/til/[slug]/page.tsx: 동적 TIL 메타데이터 (제목, 설명)\\n2. src/app/opengraph-image.tsx 또는 정적 이미지 설정\\n3. src/app/sitemap.ts 생성:\\n   - 정적 페이지 + 동적 TIL 페이지 목록\\n4. src/app/robots.ts 생성:\\n   - 크롤러 허용 규칙",
-      "verificationCriteria": "1. npm run build 성공\\n2. 각 페이지 메타태그 확인 (view-source)\\n3. /sitemap.xml 접근 가능\\n4. /robots.txt 접근 가능",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "320fcf16-26b1-47e9-aa53-be2bc4e3a688",
-      "name": "에러 처리 및 사용자 경험 개선",
-      "description": "글로벌 에러 바운더리(error.tsx). Notion API 연결 실패 시 폴백 UI. 404 페이지 개선. 로딩 UI 개선(loading.tsx).",
-      "notes": "에러 메시지는 사용자 친화적으로. 기술적 세부사항 노출 최소화.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "23b161ab-ae01-4691-9e6d-55a825f865cf"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "src/app/error.tsx",
-          "type": "CREATE",
-          "description": "글로벌 에러 핸들러"
-        },
-        {
-          "path": "src/app/not-found.tsx",
-          "type": "TO_MODIFY",
-          "description": "404 페이지 개선"
-        },
-        {
-          "path": "src/app/loading.tsx",
-          "type": "TO_MODIFY",
-          "description": "로딩 UI 개선"
-        }
-      ],
-      "implementationGuide": "1. src/app/error.tsx 생성:\\n   - 글로벌 에러 핸들링\\n   - 다시 시도 버튼\\n   - 홈으로 이동 버튼\\n2. src/app/not-found.tsx 개선:\\n   - 더 친화적인 404 UI\\n   - 추천 링크 또는 검색 기능\\n3. src/app/loading.tsx 개선:\\n   - 스켈레톤 UI 적용\\n4. 각 라우트별 error.tsx, loading.tsx 추가 (필요시)",
-      "verificationCriteria": "1. npm run check-all 통과\\n2. 에러 발생 시 error.tsx 정상 표시\\n3. 404 페이지 UI 개선 확인\\n4. 로딩 UI 스켈레톤 적용 확인",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "14015f77-6d05-4a9b-9112-3e08499f6673",
-      "name": "성능 최적화",
-      "description": "이미지 최적화(next/image). 폰트 최적화(next/font). 번들 사이즈 분석 및 최적화. Lighthouse 성능 점수 90점 이상 달성.",
-      "notes": "개발 중 @next/bundle-analyzer 활용 가능. Core Web Vitals 최적화.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "320fcf16-26b1-47e9-aa53-be2bc4e3a688"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "src/app/layout.tsx",
-          "type": "TO_MODIFY",
-          "description": "폰트 최적화 확인"
-        },
-        {
-          "path": "src/components/sections/notion-renderer.tsx",
-          "type": "TO_MODIFY",
-          "description": "이미지 최적화"
-        }
-      ],
-      "implementationGuide": "1. 이미지 최적화:\\n   - 모든 이미지 next/image 사용 확인\\n   - 적절한 sizes, priority 설정\\n2. 폰트 최적화:\\n   - next/font 사용 확인\\n   - 서브셋 적용\\n3. 번들 분석:\\n   - npm run build로 번들 사이즈 확인\\n   - 불필요한 의존성 제거\\n4. Lighthouse 테스트:\\n   - Performance 90+ 달성\\n   - Accessibility 90+ 달성\\n   - Best Practices 90+ 달성\\n   - SEO 90+ 달성",
-      "verificationCriteria": "1. npm run build 성공\\n2. Lighthouse Performance 90+ 달성\\n3. 번들 사이즈 적정 수준 유지\\n4. Core Web Vitals 통과",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
-    },
-    {
-      "id": "8c048a43-f5e8-40ab-bc26-dbcbd5edfaab",
-      "name": "배포 및 프로덕션 준비",
-      "description": "Vercel 프로젝트 설정. 환경 변수 설정(Vercel Dashboard). 프로덕션 빌드 테스트. 프로덕션 배포 및 검증. 모니터링 설정(Vercel Analytics).",
-      "notes": "프로덕션 환경에서 최종 테스트 필수. 롤백 계획 수립.",
-      "status": "pending",
-      "dependencies": [
-        {
-          "taskId": "14015f77-6d05-4a9b-9112-3e08499f6673"
-        }
-      ],
-      "createdAt": "2026-01-17T06:01:35.204Z",
-      "updatedAt": "2026-01-17T06:01:35.204Z",
-      "relatedFiles": [
-        {
-          "path": "package.json",
-          "type": "REFERENCE",
-          "description": "빌드 스크립트 확인"
-        },
-        {
-          "path": "next.config.ts",
-          "type": "REFERENCE",
-          "description": "Next.js 설정 확인"
-        }
-      ],
-      "implementationGuide": "1. Vercel 프로젝트 생성:\\n   - GitHub 저장소 연결\\n   - 프레임워크 자동 감지 (Next.js)\\n2. 환경 변수 설정:\\n   - NOTION_API_KEY\\n   - NOTION_DATABASE_ID\\n3. 배포 설정:\\n   - 프로덕션 브랜치 설정 (main)\\n   - 빌드 명령어 확인\\n4. 배포 후 검증:\\n   - 모든 페이지 정상 동작\\n   - API 연동 확인\\n   - 성능 테스트\\n5. 모니터링:\\n   - Vercel Analytics 활성화\\n   - Speed Insights 활성화",
-      "verificationCriteria": "1. Vercel 배포 성공\\n2. 프로덕션 URL에서 모든 기능 정상 동작\\n3. Vercel Analytics 데이터 수집 확인\\n4. 성능 지표 목표 달성",
-      "analysisResult": "TIL Garden - Notion CMS 기반 TIL 마이크로 블로그 개발. Next.js 15.5.3 App Router, React 19.1.0, TypeScript 5, TailwindCSS v4, shadcn/ui 기반. Phase 1~4 순차 진행, Playwright MCP 테스트 필수."
+      "implementationGuide": "1. Playwright MCP로 각 화면 크기 테스트:\\n   - 모바일 (375px): browser_resize(375, 667)\\n   - 태블릿 (768px): browser_resize(768, 1024)\\n   - 데스크톱 (1440px): browser_resize(1440, 900)\\n2. 확인 항목:\\n   - 그리드 레이아웃 반응형 전환\\n   - 카테고리 필터 가로 스크롤/래핑\\n   - 네비게이션 메뉴 반응형\\n   - 이미지/코드 블록 오버플로우 처리\\n3. 접근성 개선:\\n   - 모든 인터랙티브 요소 포커스 스타일 확인\\n   - aria-label, aria-pressed 적용\\n   - 스크린리더 테스트 (시맨틱 마크업)\\n4. 문제 발견 시 해당 컴포넌트 수정",
+      "verificationCriteria": "1. npm run check-all 통과\\n2. Playwright MCP 테스트 결과 문서화\\n3. 모든 화면 크기에서 레이아웃 정상\\n4. Tab 키로 모든 인터랙티브 요소 접근 가능\\n5. 포커스 스타일 명확히 표시",
+      "analysisResult": "Phase 2: TIL Garden UI/UX 완성 단계. 더미 데이터를 활용하여 전체 UI를 구현하고 Phase 3 API 연동을 대비합니다. 기존 shadcn/ui 컴포넌트(Card, Badge, Skeleton, Button)를 재사용하고, 새로운 TIL 도메인 컴포넌트와 Notion 블록 렌더러를 구현합니다."
     }
   ]
 }

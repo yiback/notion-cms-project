@@ -84,9 +84,9 @@ export default async function TILDetailPage({ params }: TILDetailPageProps) {
       <Header />
 
       <main className="flex-1">
-        <Container className="py-8">
+        <Container className="py-12 md:py-16">
           {/* 네비게이션 */}
-          <div className="mb-8 flex items-center gap-2">
+          <div className="mb-10 flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
               <Link href="/" className="gap-1">
                 <Home className="h-4 w-4" />
@@ -97,7 +97,7 @@ export default async function TILDetailPage({ params }: TILDetailPageProps) {
           </div>
 
           {/* TIL 본문 */}
-          <article className="mx-auto max-w-4xl">
+          <article>
             {/* 헤더 */}
             <header className="mb-8 space-y-4">
               {/* 카테고리 */}
@@ -169,7 +169,7 @@ export default async function TILDetailPage({ params }: TILDetailPageProps) {
             )}
 
             {/* 하단 네비게이션 */}
-            <div className="mt-12 flex justify-center gap-4">
+            <div className="mt-14 flex justify-center gap-4">
               <Button variant="outline" asChild>
                 <Link href="/">전체 TIL 보기</Link>
               </Button>

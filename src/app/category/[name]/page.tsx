@@ -106,9 +106,9 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       <Header />
 
       <main className="flex-1">
-        <Container className="py-8">
+        <Container className="py-12 md:py-16">
           {/* 페이지 헤더 */}
-          <div className="mb-8 space-y-4">
+          <div className="mb-10 space-y-6">
             {/* 뒤로가기 버튼 */}
             <Button variant="ghost" size="sm" asChild>
               <Link href="/" className="gap-1">
@@ -118,7 +118,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             </Button>
 
             {/* 카테고리 정보 */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
                 {category.label}
               </h1>
@@ -140,7 +140,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
           {/* 페이지네이션 */}
           {totalPages > 1 && (
-            <div className="mt-12">
+            <div className="mt-14">
               <Suspense fallback={<PaginationSkeleton />}>
                 <Pagination currentPage={currentPage} totalPages={totalPages} />
               </Suspense>
@@ -148,7 +148,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           )}
 
           {/* 데이터 정보 (개발 모드용) */}
-          <div className="text-muted-foreground mt-8 text-center text-sm">
+          <div className="text-muted-foreground mt-10 text-center text-sm">
             {category.label} 카테고리 {total}개의 TIL
             {totalPages > 1 && ` • 현재 ${currentPage} / ${totalPages} 페이지`}
           </div>

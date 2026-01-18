@@ -39,7 +39,8 @@ export function TILCard({ til, className }: TILCardProps) {
   return (
     <Card
       className={cn(
-        'group transition-all hover:shadow-md',
+        'group transition-all duration-300',
+        'hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5',
         'border-border hover:border-primary/50',
         className
       )}
@@ -120,8 +121,7 @@ export function TILCardList({ tils, className }: TILCardListProps) {
       className={cn(
         'grid gap-6',
         'grid-cols-1',
-        'sm:grid-cols-2',
-        'lg:grid-cols-3',
+        'md:grid-cols-2',
         className
       )}
     >
